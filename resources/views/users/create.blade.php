@@ -42,6 +42,22 @@
                             {{ $errors->first('name') }}
                         </div>
                     @endif
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Role') }}</label>
+                        <select name="roleID[]" class="form-select form-select-lg" multiple>
+                            <option disabled>Select Role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->roleID }}" {{ old('roleID') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('roleID'))
+                        <div class="text-danger">
+                            {{ $errors->first('roleID') }}
+                        </div>
+                    @endif
+
                     <div class="col-12">
                         <label class="form-label required">{{ __('Email address') }}</label>
                         <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email')}}" required>

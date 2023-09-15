@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         abort_if(Gate::denies('user_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $users = User::all();
+        $users = User::with('roles')->get();
         return view('users.index',compact('users'));
     }
 
@@ -36,6 +36,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
         $request['userTypeID'] = 2;
+
         $user = User::create($request->except(['roleID','confirmPassword']));
         $user->roles()->attach($request->roleID);
             DB::commit();
