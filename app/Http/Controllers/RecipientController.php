@@ -13,7 +13,7 @@ class RecipientController extends Controller
      */
     public function index()
     {
-        //
+        return view('recipients.index');
     }
 
     /**

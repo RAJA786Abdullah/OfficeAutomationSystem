@@ -13,8 +13,6 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">Index
-                        </li>
                     </ol>
                 </div>
             </div>
@@ -25,13 +23,12 @@
     <!-- Page layout -->
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">What is page layout?</h4>
+            <h4 class="card-title">Page layout!</h4>
         </div>
         <div class="card-body">
             <div class="card-text">
                 <p>
-                    Starter kit includes pages with different layouts, useful for your next project to start development process
-                    from scratch with no time.
+                    Starter View
                 </p>
             </div>
         </div>

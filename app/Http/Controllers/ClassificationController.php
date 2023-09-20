@@ -13,7 +13,7 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        //
+        return view('classifications.index');
     }
 
     /**

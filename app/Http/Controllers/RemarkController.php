@@ -13,7 +13,7 @@ class RemarkController extends Controller
      */
     public function index()
     {
-        //
+        return view('remarks.index');
     }
 
     /**
