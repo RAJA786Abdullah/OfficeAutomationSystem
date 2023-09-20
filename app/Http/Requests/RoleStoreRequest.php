@@ -42,12 +42,12 @@ class RoleStoreRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Validation failed.',
-            'success' => 'false',
-            'errors' => $validator->errors(),
-        ], 422));
-    }
+//    protected function failedValidation(Validator $validator)
+//    {
+//        throw new HttpResponseException(response()->json([
+//            'message' => 'Validation failed.',
+//            'success' => 'false',
+//            'errors' => $validator->errors(),
+//        ], 422));
+//    }
 }

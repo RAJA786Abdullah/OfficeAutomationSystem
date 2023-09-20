@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function users(){
+        return $this->hasMany('App\Models\User','department_id','id');
+    }
+
+    public function documentTypes(){
+        return $this->hasMany('App\Models\DocumentType','department_id','id');
+    }
+
 }
+

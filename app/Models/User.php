@@ -66,4 +66,20 @@ class User extends Authenticatable
     public function userType(){
         return $this->belongsTo('App\Models\UserType', 'userTypeID', 'userTypeID');
     }
+
+    public function branch(){
+        return $this->belongsTo('App\Models\Branch', 'branch_id', 'id');
+    }
+
+    public function department(){
+        return $this->belongsTo('App\Models\Department', 'department_id', 'id');
+    }
+
+    public function recipients(){
+        return $this->hasMany('App\Models\Recipient','user_id','id');
+    }
+
+    public function remarks(){
+        return $this->hasMany('App\Models\Remark', 'user_id', 'id');
+    }
 }

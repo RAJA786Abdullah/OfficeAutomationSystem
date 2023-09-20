@@ -40,6 +40,54 @@ class RolePrivilegeSeeder extends Seeder
             ['roleID' => 1,'privilegeID' => 22],
             ['roleID' => 1,'privilegeID' => 23],
             ['roleID' => 1,'privilegeID' => 24],
+
+            ['roleID' => 1,'privilegeID' => 25],
+            ['roleID' => 1,'privilegeID' => 26],
+            ['roleID' => 1,'privilegeID' => 27],
+            ['roleID' => 1,'privilegeID' => 28],
+
+            ['roleID' => 1,'privilegeID' => 29],
+            ['roleID' => 1,'privilegeID' => 30],
+            ['roleID' => 1,'privilegeID' => 31],
+            ['roleID' => 1,'privilegeID' => 32],
+
+            ['roleID' => 1,'privilegeID' => 33],
+            ['roleID' => 1,'privilegeID' => 34],
+            ['roleID' => 1,'privilegeID' => 35],
+            ['roleID' => 1,'privilegeID' => 36],
+
+            ['roleID' => 1,'privilegeID' => 37],
+            ['roleID' => 1,'privilegeID' => 38],
+            ['roleID' => 1,'privilegeID' => 39],
+            ['roleID' => 1,'privilegeID' => 40],
+
+            ['roleID' => 1,'privilegeID' => 41],
+            ['roleID' => 1,'privilegeID' => 42],
+            ['roleID' => 1,'privilegeID' => 43],
+            ['roleID' => 1,'privilegeID' => 44],
+
+            ['roleID' => 1,'privilegeID' => 45],
+            ['roleID' => 1,'privilegeID' => 46],
+            ['roleID' => 1,'privilegeID' => 47],
+            ['roleID' => 1,'privilegeID' => 48],
+
+            ['roleID' => 1,'privilegeID' => 49],
+            ['roleID' => 1,'privilegeID' => 50],
+            ['roleID' => 1,'privilegeID' => 51],
+            ['roleID' => 1,'privilegeID' => 52],
+
+            ['roleID' => 1,'privilegeID' => 53],
+            ['roleID' => 1,'privilegeID' => 54],
+            ['roleID' => 1,'privilegeID' => 55],
+            ['roleID' => 1,'privilegeID' => 56],
+
+            ['roleID' => 1,'privilegeID' => 57],
+            ['roleID' => 1,'privilegeID' => 58],
+            ['roleID' => 1,'privilegeID' => 59],
+            ['roleID' => 1,'privilegeID' => 60]
+
+
+
         ];
 
 	    foreach ($aryRolePrivileges as $rolePrivilege) {
