@@ -93,7 +93,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'branches.index'|| request()->route()->action['as'] == 'branches.create' || request()->route()->action['as'] == 'branches.edit' || request()->route()->action['as'] == 'branches.show') active @endif" href="{{route('branches.index')}}">
-                            <i data-feather="git-branch"></i><span class="menu-title text-truncate" data-i18n="Branches">Branches</span>
+                            <i class="ti ti-binary-tree"></i></i><span class="menu-title text-truncate" data-i18n="Branches">Branches</span>
                         </a>
                     </li>
                 @endcan
@@ -102,7 +102,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'departments.index'|| request()->route()->action['as'] == 'departments.create' || request()->route()->action['as'] == 'departments.edit' || request()->route()->action['as'] == 'departments.show') active @endif" href="{{route('departments.index')}}">
-                            <i data-feather="building"></i><span class="menu-title text-truncate" data-i18n="Departments">Departments</span>
+                            <i class="ti ti-building"></i><span class="menu-title text-truncate" data-i18n="Departments">Departments</span>
                         </a>
                     </li>
                 @endcan
@@ -111,7 +111,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'files.index'|| request()->route()->action['as'] == 'files.create' || request()->route()->action['as'] == 'files.edit' || request()->route()->action['as'] == 'files.show') active @endif" href="{{route('files.index')}}">
-                            <i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
+                            <i class="ti ti-files"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
                         </a>
                     </li>
                 @endcan
@@ -129,7 +129,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.create' || request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
-                            <i data-feather="file-plus"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
+                            <i class="ti ti-briefcase"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
                         </a>
                     </li>
                 @endcan

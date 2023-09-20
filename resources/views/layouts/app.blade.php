@@ -51,6 +51,9 @@
     <link href="/assets/plugins/sweet-alert/jquery.sweet-modal.min.css" rel="stylesheet"/>
     <link href="/assets/plugins/sweet-alert/sweetalert.css" rel="stylesheet"/>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <!-- END: Custom CSS-->
@@ -182,18 +185,18 @@
             dom: 'lBfrtip',
             "pageLength": 50,
             buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Export To Excel',
-                    className: 'btn-primary',
-                    exportOptions: {columns: ':not(.notExport)'}
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'Export To PDF',
-                    className: 'btn-secondary',
-                    exportOptions: {columns: ':not(.notExport)'}
-                }
+                // {
+                //     extend: 'excelHtml5',
+                //     text: 'Export To Excel',
+                //     className: 'btn-primary',
+                //     exportOptions: {columns: ':not(.notExport)'}
+                // },
+                // {
+                //     extend: 'pdfHtml5',
+                //     text: 'Export To PDF',
+                //     className: 'btn-secondary',
+                //     exportOptions: {columns: ':not(.notExport)'}
+                // }
             ],
         });
 
