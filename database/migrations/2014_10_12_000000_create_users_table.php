@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('userID');
-            $table->foreignId('userTypeID')->constrained('userType','userTypeID');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('image')->nullable();
@@ -25,6 +24,9 @@ return new class extends Migration
             $table->timestamp('emailVerifiedAt')->nullable();
             $table->string('password');
             $table->string('rememberToken')->nullable();
+            $table->foreignId('department_id')->constrained('departments','id');
+            $table->foreignId('branch_id')->constrained('branches','id');
+            $table->boolean('is_signing_authority')->default(0);
             $table->timestamp('dateCreated')->useCurrent();
         });
     }
