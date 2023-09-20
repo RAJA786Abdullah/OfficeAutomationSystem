@@ -44,9 +44,6 @@ class RoleController extends Controller
             $table->editColumn('roleName', function ($row) {
                 return $row->roleName;
             });
-            // $table->addColumn('description', function ($row) {
-            //     return $row->description;
-            // });
             $table->addColumn('privileges', function ($row) {
                 $privileges = [];
                 foreach ($row->privileges as $rolePrivileges) {
@@ -54,12 +51,7 @@ class RoleController extends Controller
                 }
                 return implode(' ', $privileges);
             });
-            // $table->addColumn('dateCreated', function ($row) {
-            //     return $row->dateCreated;
-            // });
-
             $table->rawColumns(['actions','privileges']);
-
             return $table->make(true);
         }
         return view('role.index');
