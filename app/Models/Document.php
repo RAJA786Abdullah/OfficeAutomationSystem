@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    public function file(){
+        return $this->belongsTo('App\Models\Files','file_id','id');
+    }
 }
