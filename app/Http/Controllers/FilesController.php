@@ -29,7 +29,11 @@ class FilesController extends Controller
      */
     public function store(StoreFilesRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class FilesController extends Controller
      */
     public function update(UpdateFilesRequest $request, Files $files)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class FilesController extends Controller
      */
     public function destroy(Files $files)
     {
-        //
+        try {
+            dd($files);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }

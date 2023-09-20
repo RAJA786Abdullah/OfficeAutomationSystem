@@ -29,7 +29,11 @@ class RecipientController extends Controller
      */
     public function store(StoreRecipientRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class RecipientController extends Controller
      */
     public function update(UpdateRecipientRequest $request, Recipient $recipient)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class RecipientController extends Controller
      */
     public function destroy(Recipient $recipient)
     {
-        //
+        try {
+            dd($recipient);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }

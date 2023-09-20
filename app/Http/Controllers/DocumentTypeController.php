@@ -29,7 +29,11 @@ class DocumentTypeController extends Controller
      */
     public function store(StoreDocumentTypeRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class DocumentTypeController extends Controller
      */
     public function update(UpdateDocumentTypeRequest $request, DocumentType $documentType)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class DocumentTypeController extends Controller
      */
     public function destroy(DocumentType $documentType)
     {
-        //
+        try {
+            dd($documentType);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }

@@ -29,7 +29,11 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class DepartmentController extends Controller
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        try {
+            dd($department);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }

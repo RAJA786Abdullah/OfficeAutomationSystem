@@ -29,7 +29,11 @@ class BranchController extends Controller
      */
     public function store(StoreBranchRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class BranchController extends Controller
      */
     public function update(UpdateBranchRequest $request, Branch $branch)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }

@@ -29,7 +29,11 @@ class AttachmentController extends Controller
      */
     public function store(StoreAttachmentRequest $request)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -53,7 +57,11 @@ class AttachmentController extends Controller
      */
     public function update(UpdateAttachmentRequest $request, Attachment $attachment)
     {
-        //
+        try {
+            dd($request->all());
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ class AttachmentController extends Controller
      */
     public function destroy(Attachment $attachment)
     {
-        //
+        try {
+            dd($attachment);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 }
