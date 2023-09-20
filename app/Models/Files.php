@@ -10,7 +10,7 @@ class Files extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function documents(){
+        public function documents(){
         return $this->hasMany('App\Models\Document','file_id','id');
     }
 }
