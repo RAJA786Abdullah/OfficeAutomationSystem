@@ -38,7 +38,7 @@
     <link href="/assets/fonts/fonts/font-awesome.min.css" rel="stylesheet">
 
     <!-- Select 2-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/select2/css/select2.min.css">
 
     <!-- Data table css -->
     <link href="/assets/plugins/datatable/dataTables.bootstrap4.min.css" rel="stylesheet"/>
@@ -153,7 +153,7 @@
 <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
 
 <!-- Select2-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/app-assets/css/plugins/select2/js/select2.full.min.js"></script>
 
 <!-- Hotkeys-->
 <script src="/assets/js/hotkey.js"></script>
@@ -206,7 +206,7 @@
         });
 
         //select 2 i.e. search and select.
-        $('select.select2').select2({
+        $('select.selectTwo').select2({
             dropdownParent: $('.card-body'),
             width: "resolve"
         });

@@ -26,7 +26,7 @@
         <div class="card-header">
             <h4 class="card-title">Add Attachment</h4>
             @can('user_create')
-                <a href="{{route('users.create')}}" class="btn btn-primary ml-auto">
+                <a href="{{route('attachments.create')}}" class="btn btn-primary ml-auto">
                     <i class="fa fa-plus"></i>&ensp;Add Attachment
                 </a>
             @endcan
@@ -39,31 +39,30 @@
                         <th class="wd-15p">SrNo.</th>
                         <th class="wd-25p">Document</th>
                         <th class="wd-25p">Attachment Type</th>
-                        <th class="wd-25p">Attachment Path</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($attachments as $attachment)
+                        @foreach($attachments as $attachment)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{\App\Models\Document::documentTitle($attachment->document_id)}}</td>
+                                <td>{{$attachment->name}}</td>
                                 <td>{{$attachment->type}}</td>
-                                <td>{{$attachment->path}}</td>
                                 <td>{{date('d-m-Y', strtotime($attachment->created_at))}}</td>
                                 <td>
                                     @php
                                         $crud = 'attachments';
                                         $row = $attachment->id;
-                                        $show = 0;
+                                        $show = 1;
                                         $edit = 1;
                                         $delete = 1;
                                     @endphp
                                     @include('partials.actions')
                                 </td>
                             </tr>
-                    @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>
