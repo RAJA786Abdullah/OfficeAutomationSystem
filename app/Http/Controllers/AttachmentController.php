@@ -23,7 +23,8 @@ class AttachmentController extends Controller
      */
     public function create()
     {
-        //
+        $documents = Document::all();
+        return view('attachments.create',compact('documents'));
     }
 
     /**

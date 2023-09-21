@@ -52,6 +52,9 @@
                                 @php
                                     $crud = 'departments';
                                     $row = $department->id;
+                                    $show = 0;
+                                    $edit = 1;
+                                    $delete = 1;
                                 @endphp
                                 @include('partials.actions')
                             </td>
