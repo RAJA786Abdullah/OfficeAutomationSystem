@@ -13,7 +13,8 @@ class RemarkController extends Controller
      */
     public function index()
     {
-        return view('remarks.index');
+        $remarks = Remark::all();
+        return view('remarks.index',compact('remarks'));
     }
 
     /**

@@ -11,7 +11,7 @@ class Branch extends Model
     protected $guarded = [];
 
     public function users(){
-        return $this->hasMany('App\Models\User','branch_id','id');
+        return $this->hasMany('App\Models\User','branch_id','userID');
     }
 
 }

@@ -56,7 +56,7 @@ Route::put('profile', [ProfileController::class, 'update'])->name('profile.updat
 //AJAX Request
 Route::post('ajax/{method}', [AjaxController::class, 'handle'])->name('ajax.handle');
 
-Route::resource('branches',AttachmentController::class);
+Route::resource('branches',BranchController::class);
 Route::resource('departments',DepartmentController::class);
 Route::resource('files',FilesController::class);
 Route::resource('classifications',ClassificationController::class);

@@ -11,7 +11,7 @@ class Department extends Model
     protected $guarded = [];
 
     public function users(){
-        return $this->hasMany('App\Models\User','department_id','id');
+        return $this->hasMany('App\Models\User','department_id','userID');
     }
 
     public function documentTypes(){
