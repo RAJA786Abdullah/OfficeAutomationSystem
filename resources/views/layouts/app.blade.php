@@ -162,6 +162,9 @@
 <!-- SweetAlert-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<!-- CK Editor-->
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+
 
 <!-- BEGIN: Page JS-->
 {{--<script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>--}}
@@ -180,6 +183,9 @@
 </script>
 <script>
     $(document).ready(function () {
+        // CK Editor
+        CKEDITOR.replace('body');
+
         //DataTables
         $('table.display').DataTable({
             dom: 'lBfrtip',

@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classification;
+use App\Models\Department;
 use App\Models\Document;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Models\DocumentType;
+use App\Models\Files;
 
 class DocumentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('documents.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $classifications = Classification::all();
+        $documentTypes = DocumentType::all();
+        $files = Files::all();
+        return view('documents.create', compact('classifications','documentTypes', 'files'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreDocumentRequest $request)
     {
         try {
@@ -36,25 +34,16 @@ class DocumentController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Document $document)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Document $document)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateDocumentRequest $request, Document $document)
     {
         try {
@@ -64,9 +53,6 @@ class DocumentController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Document $document)
     {
         try {
