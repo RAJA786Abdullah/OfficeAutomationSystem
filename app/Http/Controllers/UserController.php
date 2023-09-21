@@ -30,12 +30,12 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request)
     {
+        dd($request->all());
         DB::beginTransaction();
         try {
         $request->merge([
                 'password' => Hash::make($request->password)
             ]);
-        $request['userTypeID'] = 2;
 
         $user = User::create($request->except(['roleID','confirmPassword']));
         $user->roles()->attach($request->roleID);

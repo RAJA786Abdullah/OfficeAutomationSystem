@@ -96,43 +96,77 @@
                         </div>
                     @endif
 
-{{--                    <div class="col-12">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-4">--}}
-{{--                                <div class="card">--}}
-{{--                                    <div class="card-body">--}}
-{{--                                        <h5 class="card-title">Departments</h5>--}}
-{{--                                        <select name="file_code" class="form-select">--}}
-{{--                                            <option disabled>Select Department</option>--}}
-{{--                                            @foreach ($departments as $department)--}}
-{{--                                                <option value="{{ $department->id }}">{{ $department->name }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
+                    <div class="col-12 mt-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="row justify-content-center">
+                                        <div class="col-auto">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
+                                                <label class="form-check-label" for="departmentUser1">
+                                                    Departments
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
+                                                <label class="form-check-label" for="departmentUser2">
+                                                    Users
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
 
-{{--                                        <h5 class="card-title">Users</h5>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-md-4">--}}
+                                    <div id="department">
+                                        <h5 class="card-title text-center mt-5">Departments</h5>
+                                        <select name="file_code" class="form-select select2" style="width: 100%">
+                                            <option disabled>Select Department</option>
+                                            @foreach ($departments as $department)
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
+                                    <div id="user" style="display: none;">
+                                        <h5 class="card-title text-center mt-5">Users</h5>
+                                        <select name="file_code" class="form-select select2" style="width: 100%">
+                                            <option disabled>Select User</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->userID }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <h5 class="card-title text-center mt-5">Users</h5>
+                                    <select name="file_code" class="form-select select2" style="width: 100%">
+                                        <option disabled>Select User</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->userID }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-{{--                            </div>--}}
-{{--                            <div class="col-md-4">--}}
-{{--                                <div class="card">--}}
-{{--                                    <div class="card-body">--}}
+                            <div class="col-md-4">
+                                <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
+                                    <div class="btn-group-vertical">
+                                        <button type="button" class="btn btn-info btn-rounded mt-2" style="width: 100%">To</button>
+                                        <button type="button" class="btn btn-success btn-rounded mt-2">Info</button>
+                                        <button type="button" class="btn btn-outline-primary mt-2" disabled>Copy</button>
+                                    </div>
+                                </div>
+                            </div>
 
-
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-
-{{--                    </div>--}}
-
-
-
-
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <textarea class="form-control mt-2" rows="4" name="to" id="to"></textarea>
+                                    <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
+                                    <textarea class="form-control mt-2" rows="4" name="copy" id="copy"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">
@@ -144,4 +178,20 @@
     </div>
     <!--/ Page layout -->
 </div>
+@endsection
+
+@section('more-script')
+    <script>
+        $(document).ready(function() {
+            $('input[name="departmentUser"]').change(function() {
+                if ($(this).val() === "department") {
+                    $('#department').show();
+                    $('#user').hide();
+                } else {
+                    $('#department').hide();
+                    $('#user').show();
+                }
+            });
+        });
+    </script>
 @endsection
