@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('document_id')->constrained('documents','id');
+            $table->string('name');
             $table->string('type');
             $table->string('path')->nullable();
             $table->timestamps();

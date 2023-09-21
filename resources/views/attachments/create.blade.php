@@ -27,74 +27,55 @@
         <div class="card-header">
             <h4 class="card-title">Add Attachment</h4>
         </div>
-        <form method="POST" action="{{route('users.store')}}">
+        <form method="POST" action="{{route('attachments.store')}}">
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Attachment Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg" placeholder="{{ __('Name') }}" value="{{ old('name')}}" required>
-                        <select class="form-select @error('document_id') is-invalid @enderror" name="document_id" id="document_id">
+                        <label class="form-label required">{{ __('Document') }}</label>
+                        <select name="document_id" id="document_id" class="form-select selectTwo @error('document_id') is-invalid @enderror">
                             <option value="">Select Document</option>
                             @foreach($documents as $document)
-                                <option value="{{$document->id}}">{{\App\Models\Document::documentTitle($document->id)}}</option>
+                                <option value="{{$document->id}} @if($document->id == old('document_id')) selected @endif">{{\App\Models\Document::documentTitle($document->id)}}</option>
                             @endforeach
                         </select>
                     </div>
-                    @if($errors->has('name'))
+                    @if($errors->has('document_id'))
                         <div class="text-danger">
-                            {{ $errors->first('name') }}
+                            {{ $errors->first('document_id') }}
                         </div>
                     @endif
 
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Role') }}</label>
-                        <select name="roleID[]" class="form-select form-select-lg" multiple>
-                            <option disabled>Select Role</option>
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->roleID }}" {{ old('roleID') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
-                            @endforeach
+                        <label class="form-label required">{{ __('Document Type') }}</label>
+                        <select name="type" id="type" class="form-select @error('type') is-invalid @enderror">
+                            <option value="">Select Document Type</option>
+                            <option value="word">Word</option>
+                            <option value="excel">Excel</option>
+                            <option value="pdf">PDF</option>
+                            <option value="img">Image</option>
                         </select>
                     </div>
-                    @if($errors->has('roleID'))
+                    @if($errors->has('type'))
                         <div class="text-danger">
-                            {{ $errors->first('roleID') }}
+                            {{ $errors->first('type') }}
                         </div>
                     @endif
 
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Email address') }}</label>
-                        <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email')}}" required>
+                        <label class="form-label required">{{ __('Choose File') }}</label>
+                        <input type="file" name="path" class="form-control form-control-lg @error('path') is-invalid @enderror" placeholder="{{ __('Choose File') }}" value="{{ old('path')}}">
                     </div>
-                    @if($errors->has('email'))
+                    @if($errors->has('path'))
                         <div class="text-danger">
-                            {{ $errors->first('email') }}
-                        </div>
-                    @endif
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Password') }}</label>
-                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" autocomplete="new-password">
-                    </div>
-                    @if($errors->has('password'))
-                        <div class="text-danger">
-                            {{ $errors->first('password') }}
-                        </div>
-                    @endif
-
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Password confirmation') }}</label>
-                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="{{ __('Password confirmation') }}" autocomplete="new-password">
-                    </div>
-                    @if($errors->has('confirmPassword'))
-                        <div class="text-danger">
-                            {{ $errors->first('confirmPassword') }}
+                            {{ $errors->first('path') }}
                         </div>
                     @endif
                 </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                <a href="{{route('users.index')}}" type="button" class="btn btn-secondary">Back</a>
+                <a href="{{route('attachments.index')}}" type="button" class="btn btn-secondary">Back</a>
 
             </div>
         </form>
