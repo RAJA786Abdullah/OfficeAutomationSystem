@@ -96,6 +96,40 @@
                         </div>
                     @endif
 
+{{--                    <div class="col-12">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-4">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div class="card-body">--}}
+{{--                                        <h5 class="card-title">Departments</h5>--}}
+{{--                                        <select name="file_code" class="form-select">--}}
+{{--                                            <option disabled>Select Department</option>--}}
+{{--                                            @foreach ($departments as $department)--}}
+{{--                                                <option value="{{ $department->id }}">{{ $department->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+
+{{--                                        <h5 class="card-title">Users</h5>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-4">--}}
+
+
+{{--                            </div>--}}
+{{--                            <div class="col-md-4">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div class="card-body">--}}
+
+
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+
+{{--                    </div>--}}
+
 
 
 
