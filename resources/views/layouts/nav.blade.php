@@ -66,29 +66,6 @@
                 </li>
                 @endcan
 
-                {{-- Admin --}}
-                @can('user_read')
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Admin</span></a>
-                    <ul class="menu-content">
-                        <li class=" nav-item" aria-haspopup="true">
-                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'role.index' || request()->route()->action['as'] == 'role.create' || request()->route()->action['as'] == 'role.edit' || request()->route()->action['as'] == 'role.show' ) active @endif" href="{{route('role.index')}}">
-                                <i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
-                            </a>
-                        </li>
-
-                        <li class=" nav-item" aria-haspopup="true">
-                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'users.index' || request()->route()->action['as'] == 'users.create' || request()->route()->action['as'] == 'users.edit' || request()->route()->action['as'] == 'users.show' ) active @endif" href="{{route('users.index')}}">
-                                <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
-                            </a>
-                        </li>
-{{--                        <li class=" nav-item" aria-haspopup="true">--}}
-{{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
-{{--                        </li>--}}
-                    </ul>
-                </li>
-                @endcan
-
                 {{-- Branches --}}
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
@@ -167,6 +144,29 @@
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'recipients.index'|| request()->route()->action['as'] == 'recipients.create' || request()->route()->action['as'] == 'recipients.edit' || request()->route()->action['as'] == 'recipients.show') active @endif" href="{{route('recipients.index')}}">
                             <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Recipients">Recipients</span>
                         </a>
+                    </li>
+                @endcan
+
+                {{-- Admin --}}
+                @can('user_read')
+                    <li class=" nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Admin</span></a>
+                        <ul class="menu-content">
+                            <li class=" nav-item" aria-haspopup="true">
+                                <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'role.index' || request()->route()->action['as'] == 'role.create' || request()->route()->action['as'] == 'role.edit' || request()->route()->action['as'] == 'role.show' ) active @endif" href="{{route('role.index')}}">
+                                    <i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
+                                </a>
+                            </li>
+
+                            <li class=" nav-item" aria-haspopup="true">
+                                <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'users.index' || request()->route()->action['as'] == 'users.create' || request()->route()->action['as'] == 'users.edit' || request()->route()->action['as'] == 'users.show' ) active @endif" href="{{route('users.index')}}">
+                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
+                                </a>
+                            </li>
+                            {{--                        <li class=" nav-item" aria-haspopup="true">--}}
+                            {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
+                            {{--                        </li>--}}
+                        </ul>
                     </li>
                 @endcan
             </ul>

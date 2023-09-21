@@ -45,7 +45,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Role') }}</label>
-                        <select name="roleID[]" class="form-select form-select-lg" multiple>
+                        <select name="roleID[]" class="form-select form-select-lg select2" multiple>
                             <option disabled>Select Role</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->roleID }}" {{ old('roleID') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>

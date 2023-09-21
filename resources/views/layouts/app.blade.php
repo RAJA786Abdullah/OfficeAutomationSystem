@@ -107,8 +107,7 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
-        <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2024 <a href="https://asfandyarkhanafridi.github.io/asfandportfolio/">Asfand Afridi</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
-        <span class="float-md-end d-none d-md-block"> Hand-crafted & Made with<i data-feather="heart"></i></span>
+        <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
     </p>
 </footer>
 <!-- END: Footer-->
@@ -207,7 +206,7 @@
         });
 
         //select 2 i.e. search and select.
-        $('select.form-select').select2({
+        $('select.select2').select2({
             dropdownParent: $('.card-body'),
             width: "resolve"
         });

@@ -38,6 +38,7 @@
                     <tr>
                         <th class="wd-15p">SrNo.</th>
                         <th class="wd-25p">Document type</th>
+                        <th class="wd-25p">Code</th>
                         <th class="wd-25p">Department</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
@@ -55,6 +56,9 @@
                                 @php
                                     $crud = 'document_types';
                                     $row = $documentType->id;
+                                    $show = 0;
+                                    $edit = 1;
+                                    $delete = 1;
                                 @endphp
                                 @include('partials.actions')
                             </td>

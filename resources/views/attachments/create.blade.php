@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'User Create')
+@section('title', 'Attachment Create')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -7,12 +7,12 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Add User</h2>
+                <h2 class="content-header-title float-start mb-0">Add Attachment</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('users.index')}}">Users</a>
+                        <li class="breadcrumb-item"><a href="{{route('attachments.index')}}">Attachments</a>
                         </li>
-                        <li class="breadcrumb-item active">Add User
+                        <li class="breadcrumb-item active">Add Attachment
                         </li>
                     </ol>
                 </div>
@@ -25,17 +25,21 @@
     <div class="card">
         @include('partials.message')
         <div class="card-header">
-            <h4 class="card-title">Add User</h4>
+            <h4 class="card-title">Add Attachment</h4>
         </div>
         <form method="POST" action="{{route('users.store')}}">
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <input type="hidden" class="form-check-input" name="statusID" value="1">
-                        <input type="hidden" class="form-check-input" name="roleID" value="1">
-                        <label class="form-label required">{{ __('User Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name')}}" required>
+                        <label class="form-label required">{{ __('Attachment Name') }}</label>
+                        <input type="text" name="name" class="form-control form-control-lg" placeholder="{{ __('Name') }}" value="{{ old('name')}}" required>
+                        <select class="form-select @error('document_id') is-invalid @enderror" name="document_id" id="document_id">
+                            <option value="">Select Document</option>
+                            @foreach($documents as $document)
+                                <option value="{{$document->id}}">{{\App\Models\Document::documentTitle($document->id)}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     @if($errors->has('name'))
                         <div class="text-danger">
