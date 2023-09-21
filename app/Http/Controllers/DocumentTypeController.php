@@ -13,7 +13,8 @@ class DocumentTypeController extends Controller
      */
     public function index()
     {
-        return view('document_types.index');
+        $documentTypes = DocumentType::all();
+        return view('document_types.index',compact('documentTypes'));
     }
 
     /**

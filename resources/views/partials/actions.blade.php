@@ -9,7 +9,7 @@
         </button>
     </form>
 @endif
-@section('more-script')
+@section('js')
     <script>
         function sweetAlertCall(trElem) {
             var tr = $(trElem).closest('tr');

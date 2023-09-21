@@ -76,10 +76,14 @@ class User extends Authenticatable
     }
 
     public function recipients(){
-        return $this->hasMany('App\Models\Recipient','user_id','id');
+        return $this->hasMany('App\Models\Recipient','userID','id');
     }
 
     public function remarks(){
-        return $this->hasMany('App\Models\Remark', 'user_id', 'id');
+        return $this->hasMany('App\Models\Remark', 'userID', 'id');
+    }
+
+    public function Document(){
+        return $this->hasMany('App\Models\Document', 'created_by', 'id');
     }
 }

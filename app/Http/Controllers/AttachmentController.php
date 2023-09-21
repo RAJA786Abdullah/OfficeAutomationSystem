@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attachment;
 use App\Http\Requests\StoreAttachmentRequest;
 use App\Http\Requests\UpdateAttachmentRequest;
+use App\Models\Document;
 
 class AttachmentController extends Controller
 {
@@ -13,7 +14,8 @@ class AttachmentController extends Controller
      */
     public function index()
     {
-        return view('attachments.index');
+        $attachments = Attachment::all();
+        return view('attachments.index',compact('attachments'));
     }
 
     /**

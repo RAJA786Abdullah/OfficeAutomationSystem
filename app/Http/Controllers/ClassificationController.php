@@ -13,7 +13,8 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        return view('classifications.index');
+        $classifications = Classification::all();
+        return view('classifications.index',compact('classifications'));
     }
 
     /**
