@@ -185,6 +185,7 @@
         $(document).ready(function() {
             $('input[name="departmentUser"]').change(function() {
                 if ($(this).val() === "department") {
+                    console.log(this.val());
                     $('#department').show();
                     $('#user').hide();
                 } else {
