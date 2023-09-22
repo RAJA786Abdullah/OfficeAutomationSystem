@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class DepartmentController extends Controller
 {
@@ -13,6 +15,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $departments = Department::all();
         return view('departments.index',compact('departments'));
     }
@@ -22,7 +25,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('departments.create');
     }
 
     /**
@@ -31,7 +34,8 @@ class DepartmentController extends Controller
     public function store(StoreDepartmentRequest $request)
     {
         try {
-            dd($request->all());
+            Department::create($request->all());
+            return to_route('departments.create')->with('message', 'Department added successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -50,7 +54,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        return view('departments.edit',compact('department'));
     }
 
     /**
@@ -59,7 +63,8 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
         try {
-            dd($request->all());
+            $department->update($request->all());
+            return to_route('departments.index')->with('message', 'Department updated successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -71,7 +76,8 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         try {
-            dd($department);
+            $department->delete();
+            return to_route('departments.index')->with('message', 'Department Deleted successfully!');
         }catch (\Exception $e){
             dd($e);
         }

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class UpdateFilesRequest extends FormRequest
 {
@@ -11,7 +13,8 @@ class UpdateFilesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        abort_if(Gate::denies('files_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return true;
     }
 
     /**
@@ -22,7 +25,20 @@ class UpdateFilesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'document_id' => 'required',
+            'name' => 'required',
+            'type' => 'required',
+            'path' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'document_id.required' => 'Document is required',
+            'name.required' => 'Document Name is required',
+            'type.required' => 'Document Type is required',
+            'path.required' => 'File is required'
         ];
     }
 }

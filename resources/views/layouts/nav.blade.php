@@ -120,33 +120,6 @@
                     </li>
                 @endcan
 
-                {{-- Remarks --}}
-                @can('dashboard_read')
-                    <li class=" nav-item" aria-haspopup="true">
-                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'remarks.index'|| request()->route()->action['as'] == 'remarks.create' || request()->route()->action['as'] == 'remarks.edit' || request()->route()->action['as'] == 'remarks.show') active @endif" href="{{route('remarks.index')}}">
-                            <i data-feather="edit"></i><span class="menu-title text-truncate" data-i18n="Remarks">Remarks</span>
-                        </a>
-                    </li>
-                @endcan
-
-                {{-- Attachments --}}
-                @can('dashboard_read')
-                    <li class=" nav-item" aria-haspopup="true">
-                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'attachments.index'|| request()->route()->action['as'] == 'attachments.create' || request()->route()->action['as'] == 'attachments.edit' || request()->route()->action['as'] == 'attachments.show') active @endif" href="{{route('attachments.index')}}">
-                            <i data-feather="paperclip"></i><span class="menu-title text-truncate" data-i18n="Attachments">Attachments</span>
-                        </a>
-                    </li>
-                @endcan
-
-                {{-- Recipients --}}
-                @can('dashboard_read')
-                    <li class=" nav-item" aria-haspopup="true">
-                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'recipients.index'|| request()->route()->action['as'] == 'recipients.create' || request()->route()->action['as'] == 'recipients.edit' || request()->route()->action['as'] == 'recipients.show') active @endif" href="{{route('recipients.index')}}">
-                            <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Recipients">Recipients</span>
-                        </a>
-                    </li>
-                @endcan
-
                 {{-- Admin --}}
                 @can('user_read')
                     <li class=" nav-item">
