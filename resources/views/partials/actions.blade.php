@@ -32,7 +32,13 @@
                         });
                         tr.find('.deleteForm').submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal({
+                            title:"Your data is safe!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
                     }
                 });
         }
