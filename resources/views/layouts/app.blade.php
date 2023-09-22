@@ -12,6 +12,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
+    <!-- Select 2-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/select/select2.min.css">
+
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/extensions/toastr.min.css">
@@ -36,9 +39,6 @@
     <link href="/assets/plugins/iconfonts/plugin.css" rel="stylesheet"/>
     <link href="/assets/plugins/iconfonts/icons.css" rel="stylesheet"/>
     <link href="/assets/fonts/fonts/font-awesome.min.css" rel="stylesheet">
-
-    <!-- Select 2-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/select2/css/select2.min.css">
 
     <!-- Data table css -->
     <link href="/assets/plugins/datatable/dataTables.bootstrap4.min.css" rel="stylesheet"/>

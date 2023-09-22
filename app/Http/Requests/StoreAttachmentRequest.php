@@ -26,6 +26,7 @@ class StoreAttachmentRequest extends FormRequest
     {
         return [
             'document_id' => 'required',
+            'name' => 'required',
             'type' => 'required',
             'path' => 'required'
         ];
@@ -35,6 +36,7 @@ class StoreAttachmentRequest extends FormRequest
     {
         return [
             'document_id.required' => 'Document is required',
+            'name.required' => 'Document Name is required',
             'type.required' => 'Document Type is required',
             'path.required' => 'File is required'
         ];

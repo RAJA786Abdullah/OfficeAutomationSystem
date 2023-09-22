@@ -33,7 +33,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
                         <label class="form-label required">{{ __('Document') }}</label>
-                        <select name="document_id" id="document_id" class="form-select selectTwo @error('document_id') is-invalid @enderror">
+                        <select name="document_id" id="document_id" class="select2 form-select form-select-lg select2-hidden-accessible selectTwo @error('document_id') is-invalid @enderror" autofocus >
                             <option value="">Select Document</option>
                             @foreach($documents as $document)
                                 <option value="{{$document->id}} @if($document->id == old('document_id')) selected @endif">{{\App\Models\Document::documentTitle($document->id)}}</option>
@@ -43,6 +43,16 @@
                     @if($errors->has('document_id'))
                         <div class="text-danger">
                             {{ $errors->first('document_id') }}
+                        </div>
+                    @endif
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Document Name') }}</label>
+                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Document Name') }}" value="{{ old('name')}}" />
+                    </div>
+                    @if($errors->has('name'))
+                        <div class="text-danger">
+                            {{ $errors->first('name') }}
                         </div>
                     @endif
 

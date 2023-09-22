@@ -33,7 +33,7 @@ class AttachmentController extends Controller
     public function store(StoreAttachmentRequest $request)
     {
         try {
-            dd($request->all());
+            $attachment = Attachment::create($request->all());
         }catch (\Exception $e){
             dd($e);
         }
