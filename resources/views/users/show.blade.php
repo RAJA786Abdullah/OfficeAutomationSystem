@@ -3,7 +3,7 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-<div class="content-header row">
+    <div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
@@ -35,20 +35,37 @@
             <table class="table-sm table-striped text-nowrap w-100 display">
                 <tbody class="col-lg-6 p-0">
                 <tr>
-                    <td><strong>User Name :</strong> {{ $user->name}}</td>
+                    <td><strong>Name :</strong> {{ $user->name}}</td>
                 </tr>
                 <tr>
-                    <td><strong>Email :</strong> <a href="mailto:{{ $user->email}}">{{ $user->email}}</a></td>
+                    <td><strong>User Name :</strong> {{ $user->email }} </td>
                 </tr>
                 </tbody>
                 <tbody class="col-lg-6 p-0">
                 <tr>
-                    <td><strong>User Type :</strong> {{ $user->userType->userType}}</td>
+                    <td><strong>Branch :</strong> {{ $user->branch->name  }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Date Created :</strong> {{ $user->dateCreated}}</td>
+                    <td><strong>Department :</strong> {{ $user->department->name  }}</td>
                 </tr>
                 </tbody>
+                <tbody class="col-lg-6 p-0">
+                <tr>
+                    <td><strong>Status :</strong> {{ $user->status == 1 ? "Active" : "Not Active"  }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Date Created :</strong> {{date('d M Y', strtotime($user->created_at)) }}</td>
+                </tr>
+                </tbody>
+
+                <tbody class="col-lg-6 p-0">
+                <tr>
+                    <td><strong>Is Singing Authority :</strong> {{ $user->is_signing_authority == 1 ? "Yes" : "No"  }}</td>
+                </tr>
+                </tbody>
+
+
+
             </table>
         </div>
     </div>

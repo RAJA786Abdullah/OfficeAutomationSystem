@@ -37,8 +37,8 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">SrNo.</th>
+                        <th class="wd-25p">Name</th>
                         <th class="wd-25p">User Name</th>
-                        <th class="wd-25p">User Email</th>
                         <th class="wd-25p">User Role</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>

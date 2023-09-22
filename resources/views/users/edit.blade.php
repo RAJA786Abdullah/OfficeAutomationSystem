@@ -33,8 +33,6 @@
             <div class="card-body">
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <input type="hidden" class="form-check-input" name="statusID" value="1">
-                        <input type="hidden" class="form-check-input" name="roleID" value="1">
                         <label class="form-label required">{{ __('User Name') }}</label>
                         <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name',$user->name)}}" required>
                         @if($errors->has('name'))
@@ -44,14 +42,78 @@
                         @endif
                     </div>
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Email address') }}</label>
-                        <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
+                        <label class="form-label required">{{ __('User Name') }}</label>
+                        <input type="text" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
                         @if($errors->has('email'))
                             <div class="text-danger">
                                 {{ $errors->first('email') }}
                             </div>
                         @endif
                     </div>
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Branch') }}</label>
+                        <select name="branch_id" class="form-select selectTwo">
+                            <option disabled>Select Branch</option>
+                            @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}" {{ old('branch_id', $user->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('branch_id'))
+                        <div class="text-danger">
+                            {{ $errors->first('branch_id') }}
+                        </div>
+                    @endif
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Department') }}</label>
+                        <select name="department_id" class="form-select selectTwo">
+                            <option disabled>Select Department</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" {{ old('department_id', $user->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('departmentID'))
+                        <div class="text-danger">
+                            {{ $errors->first('departmentID') }}
+                        </div>
+                    @endif
+
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Role') }}</label>
+                        <select name="roleID[]" class="form-select selectTwo" multiple>
+                            <option disabled>Select Role</option>
+
+                            @foreach ($roles as $role)
+                                @foreach($user->roles as $userRole)
+                                    <option value="{{ $role->roleID }}" {{ $role->roleID == $userRole->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
+                                @endforeach
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('roleID'))
+                        <div class="text-danger">
+                            {{ $errors->first('roleID') }}
+                        </div>
+                    @endif
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Is SignIn Authority') }}</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="is_signing_authority" id="yes" value="1" @if(old('is_signing_authority') == null || (old('is_signing_authority',$user->is_signing_authority) == '1')) checked @endif>
+                            <label class="form-check-label" for="yes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="is_signing_authority" id="no" value="0" @if((old('is_signing_authority',$user->is_signing_authority) == '0')) checked @endif>
+                            <label class="form-check-label" for="no">No</label>
+                        </div>
+                    </div>
+
+
+
                     <div class="col-12">
                         <label class="form-label required">{{ __('Old Password') }}</label>
                         <input type="password" name="oldPassword" class="form-control form-control-lg @error('oldPassword') is-invalid @enderror" placeholder="{{ __('Old Password') }}">
