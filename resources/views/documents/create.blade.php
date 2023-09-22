@@ -121,20 +121,20 @@
 
                                     <div id="department">
                                         <h5 class="card-title text-center mt-5">Departments</h5>
-                                        <select name="file_code" class="form-select select2" style="width: 100%">
+                                        <select name="department" class="form-select select2" style="width: 100%">
                                             <option disabled>Select Department</option>
                                             @foreach ($departments as $department)
-                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                                <option value="{{ $department->name }}">{{ $department->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div id="user" style="display: none;">
                                         <h5 class="card-title text-center mt-5">Users</h5>
-                                        <select name="file_code" class="form-select select2" style="width: 100%">
+                                        <select name="user" class="form-select select2" style="width: 100%">
                                             <option disabled>Select User</option>
                                             @foreach ($users as $user)
-                                                <option value="{{ $user->userID }}">{{ $user->name }}</option>
+                                                <option value="{{ $user->name }}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -144,7 +144,7 @@
                             <div class="col-md-4">
                                 <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
                                     <div class="btn-group-vertical">
-                                        <button type="button" class="btn btn-dark btn-rounded mt-2" style="width: 100%">To</button>
+                                        <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickTo()">To</button>
                                         <button type="button" class="btn btn-dark btn-rounded mt-2">Info</button>
                                         <button type="button" class="btn btn-dark btn-rounded mt-2" disabled>Copy</button>
                                     </div>
@@ -153,13 +153,13 @@
 
                             <div class="col-md-4">
                                 <div class="card">
-                                    <label class="form-label fw-bolder">{{ __('To') }}
+                                    <label class="form-label fw-bolder fs-5">{{ __('To') }}
                                         <textarea class="form-control mt-2" rows="4" name="to" id="to"></textarea>
                                     </label>
-                                    <label class="form-label fw-bolder">{{ __('Info') }}
+                                    <label class="form-label fw-bolder fs-5">{{ __('Info') }}
                                         <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
                                     </label>
-                                    <label class="form-label fw-bolder">{{ __('Copy') }}
+                                    <label class="form-label fw-bolder fs-5">{{ __('Copy') }}
                                         <textarea class="form-control mt-2" rows="4" name="copy" id="copy"></textarea>
                                     </label>
                                 </div>
@@ -192,5 +192,24 @@
                 }
             });
         });
+
+        function clickTo()
+        {
+            var viewOne =  $('input[name="departmentUser"]').val();
+            console.log(viewOne);
+            // var newValue = $("select[name='department']").val();
+            // var currentValue = $("#to").val();
+            //
+            // if (currentValue.indexOf(newValue) !== -1) {
+            //     alert(newValue+" already exists in the To.");
+            // } else {
+            //     var appendedValue = currentValue + '\n' + newValue;
+            //
+            //     $("#to").val(appendedValue);
+            // }
+
+
+
+        }
     </script>
 @endsection
