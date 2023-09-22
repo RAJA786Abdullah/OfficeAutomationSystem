@@ -77,13 +77,15 @@
             float: none;
             text-align: center;
         }
-
         #rmBgBtn {
             border: none;
             background: none;
             cursor: pointer;
             margin: 0;
             padding: 0;
+        }
+        .swal-button--confirm {
+            background: #7367f0;
         }
     </style>
 
