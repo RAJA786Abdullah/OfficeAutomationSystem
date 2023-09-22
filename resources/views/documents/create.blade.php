@@ -109,7 +109,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-auto" >
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
                                                 <label class="form-check-label" for="departmentUser2">
@@ -138,31 +138,30 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <h5 class="card-title text-center mt-5">Users</h5>
-                                    <select name="file_code" class="form-select select2" style="width: 100%">
-                                        <option disabled>Select User</option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->userID }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
                                     <div class="btn-group-vertical">
-                                        <button type="button" class="btn btn-info btn-rounded mt-2" style="width: 100%">To</button>
-                                        <button type="button" class="btn btn-success btn-rounded mt-2">Info</button>
-                                        <button type="button" class="btn btn-outline-primary mt-2" disabled>Copy</button>
+                                        <button type="button" class="btn btn-dark btn-rounded mt-2" style="width: 100%">To</button>
+                                        <button type="button" class="btn btn-dark btn-rounded mt-2">Info</button>
+                                        <button type="button" class="btn btn-dark btn-rounded mt-2" disabled>Copy</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="card">
-                                    <textarea class="form-control mt-2" rows="4" name="to" id="to"></textarea>
-                                    <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
-                                    <textarea class="form-control mt-2" rows="4" name="copy" id="copy"></textarea>
+                                    <label class="form-label fw-bolder">{{ __('To') }}
+                                        <textarea class="form-control mt-2" rows="4" name="to" id="to"></textarea>
+                                    </label>
+                                    <label class="form-label fw-bolder">{{ __('Info') }}
+                                        <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
+                                    </label>
+                                    <label class="form-label fw-bolder">{{ __('Copy') }}
+                                        <textarea class="form-control mt-2" rows="4" name="copy" id="copy"></textarea>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -180,12 +179,11 @@
 </div>
 @endsection
 
-@section('more-script')
+@section('js')
     <script>
         $(document).ready(function() {
             $('input[name="departmentUser"]').change(function() {
-                if ($(this).val() === "department") {
-                    console.log(this.val());
+                if (this.value === "department") {
                     $('#department').show();
                     $('#user').hide();
                 } else {
