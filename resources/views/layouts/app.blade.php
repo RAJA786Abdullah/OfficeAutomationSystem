@@ -51,8 +51,7 @@
     <link href="/assets/plugins/sweet-alert/jquery.sweet-modal.min.css" rel="stylesheet"/>
     <link href="/assets/plugins/sweet-alert/sweetalert.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="/app-assets/tablerIcons/tabler-icons.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
@@ -157,11 +156,10 @@
 <script src="/assets/js/hotkey.js"></script>
 
 <!-- SweetAlert-->
-<script src="/app-assets/datatableExportButtons/sweetalert.min.js"></script>
+<script src="/app-assets/sweetalert/sweetalert.min.js"></script>
 
 <!-- CK Editor-->
-<script src="/app-assets/datatableExportButtons/ckeditor.js"></script>
-
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 
 <!-- BEGIN: Page JS-->
 {{--<script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>--}}
@@ -180,9 +178,6 @@
 </script>
 <script>
     $(document).ready(function () {
-        // CK Editor
-        CKEDITOR.replace('body');
-
         //DataTables
         $('table.display').DataTable({
             dom: 'lBfrtip',
