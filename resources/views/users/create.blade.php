@@ -32,8 +32,6 @@
                 @csrf
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <input type="hidden" class="form-check-input" name="statusID" value="1">
-                        <input type="hidden" class="form-check-input" name="roleID" value="1">
                         <label class="form-label required">{{ __('User Name') }}</label>
                         <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name')}}" required>
                     </div>

@@ -182,6 +182,8 @@
 @section('js')
     <script>
         $(document).ready(function() {
+            CKEDITOR.replace('body');
+
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();
@@ -195,21 +197,17 @@
 
         function clickTo()
         {
-            var viewOne =  $('input[name="departmentUser"]').val();
-            console.log(viewOne);
-            // var newValue = $("select[name='department']").val();
-            // var currentValue = $("#to").val();
-            //
-            // if (currentValue.indexOf(newValue) !== -1) {
-            //     alert(newValue+" already exists in the To.");
-            // } else {
-            //     var appendedValue = currentValue + '\n' + newValue;
-            //
-            //     $("#to").val(appendedValue);
-            // }
+            var departmentUser = $('input[name="departmentUser"]:checked').val();
+            var selectName = departmentUser === "department" ? "department" : "user";
+            var newValue = $("select[name='" + selectName + "']").val();
+            var currentValue = $("#to").val();
+            if (currentValue.indexOf(newValue) !== -1) {
+                alert(newValue+" already exists in the To.");
+            } else {
+                var appendedValue = currentValue + '\n' + newValue;
 
-
-
+                $("#to").val(appendedValue);
+            }
         }
     </script>
 @endsection

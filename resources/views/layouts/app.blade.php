@@ -178,6 +178,7 @@
 </script>
 <script>
     $(document).ready(function () {
+
         //DataTables
         $('table.display').DataTable({
             dom: 'lBfrtip',
