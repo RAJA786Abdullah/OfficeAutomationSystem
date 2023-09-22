@@ -17,17 +17,14 @@ return new class extends Migration
             $table->id('userID');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('image')->nullable();
             $table->timestamp('lastLogin')->nullable();
-            $table->integer('statusID')->unsigned()->default(1);
+            $table->integer('status')->default(1);
             $table->ipAddress('lastLoginIP')->nullable();
-            $table->timestamp('emailVerifiedAt')->nullable();
             $table->string('password');
-            $table->string('rememberToken')->nullable();
             $table->foreignId('department_id')->constrained('departments','id');
             $table->foreignId('branch_id')->constrained('branches','id');
             $table->boolean('is_signing_authority')->default(0);
-            $table->timestamp('dateCreated')->useCurrent();
+            $table->timestamps();
         });
     }
 
