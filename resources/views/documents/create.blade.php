@@ -105,7 +105,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
                                                 <label class="form-check-label" for="departmentUser1">
-                                                    Departments
+                                                    Directorate
                                                 </label>
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
                                     </div>
 
                                     <div id="department">
-                                        <h5 class="card-title text-center mt-5">Departments</h5>
+                                        <h5 class="card-title text-center mt-5">Directorate</h5>
                                         <select name="department" class="form-select select2" style="width: 100%">
                                             <option disabled>Select Department</option>
                                             @foreach ($departments as $department)
@@ -190,8 +190,6 @@
                             </table>
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="card-footer">
@@ -223,17 +221,32 @@
         function clickTo() {
             var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
+
             var selectName = departmentUser === "department" ? "department" : "user";
+
             var newValue = $("select[name='" + selectName + "']").val();
-            var currentValue = $("#to").val();
-            if (currentValue.indexOf(newValue) !== -1) {
-                alert(newValue+" already exists in the To.");
+
+            var infoCurrentValue = $("#info").val();
+            var toCurrentValue = $("#to").val();
+
+            if (infoCurrentValue.indexOf(newValue) !== -1) {
+                return swal({
+                    title: newValue + " Already exists in Info",
+                    icon: "warning",
+                });
+
+            }
+            if (toCurrentValue.indexOf(newValue) !== -1) {
+                return swal({
+                    title: newValue + " Already exists",
+                    icon: "warning",
+                });
             } else {
-                if (!currentValue)
+                if (!toCurrentValue)
                 {
                     appendedValue = newValue
                 }else {
-                    appendedValue = currentValue + '\n' + newValue;
+                    appendedValue = toCurrentValue + '\n' + newValue;
                 }
                 $("#to").val(appendedValue);
             }
@@ -241,17 +254,34 @@
         function clickInfo() {
             var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
+
+
             var selectName = departmentUser === "department" ? "department" : "user";
+
             var newValue = $("select[name='" + selectName + "']").val();
-            var currentValue = $("#info").val();
-            if (currentValue.indexOf(newValue) !== -1) {
-                alert(newValue+" already exists in the To.");
+
+            var infoCurrentValue = $("#info").val();
+            var toCurrentValue = $("#to").val();
+
+            if (toCurrentValue.indexOf(newValue) !== -1) {
+                return swal({
+                    title: newValue + " exists in To",
+                    icon: "warning",
+                });
+            }
+
+            if (infoCurrentValue.indexOf(newValue) !== -1) {
+                return swal({
+                    title: newValue + " Already exists",
+                    icon: "warning",
+                });
+
             } else {
-                if (!currentValue)
+                if (!infoCurrentValue)
                 {
                     appendedValue = newValue
                 }else {
-                    appendedValue = currentValue + '\n' + newValue;
+                    appendedValue = infoCurrentValue + '\n' + newValue;
                 }
                 $("#info").val(appendedValue);
             }
