@@ -15,8 +15,8 @@ class FilesSeeder extends Seeder
     public function run(): void
     {
         $aryBranches = [
-            ['name' => 'IT',      'code' => '101', 'created_at' => Carbon::now()],
-            ['name' => 'T&R',     'code' => '102', 'created_at' => Carbon::now()],
+            ['name' => 'Software',      'code' => '101', 'created_at' => Carbon::now()],
+            ['name' => 'Networks',     'code' => '102', 'created_at' => Carbon::now()],
             ['name' => 'HR',      'code' => '103', 'created_at' => Carbon::now()],
             ['name' => 'Security','code' => '104', 'created_at' => Carbon::now()]
         ];

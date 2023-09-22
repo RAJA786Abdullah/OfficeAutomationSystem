@@ -25,20 +25,18 @@ class UpdateDocumentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'document_id' => 'required',
             'name' => 'required',
-            'type' => 'required',
-            'path' => 'required'
+            'code' => 'required',
+            'department_id' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'document_id.required' => 'Document is required',
-            'name.required' => 'Document Name is required',
-            'type.required' => 'Document Type is required',
-            'path.required' => 'File is required'
+            'name.required' => 'Document Type is required',
+            'code.required' => 'Document Code is required',
+            'department_id.required' => 'Department is required'
         ];
     }
 }

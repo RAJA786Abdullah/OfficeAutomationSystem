@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'User Edit')
+@section('title', 'Document Type Edit')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -7,12 +7,12 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Edit User</h2>
+                <h2 class="content-header-title float-start mb-0">Edit Document Type</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('users.index')}}">Users</a>
+                        <li class="breadcrumb-item"><a href="{{route('document_types.index')}}">Document Types</a>
                         </li>
-                        <li class="breadcrumb-item active">Edit User
+                        <li class="breadcrumb-item active">Edit Document Type
                         </li>
                     </ol>
                 </div>
@@ -25,66 +25,48 @@
     <div class="card">
         @include('partials.message')
         <div class="card-header">
-            <h4 class="card-title">Add User</h4>
+            <h4 class="card-title">Add Document Type</h4>
         </div>
-        <form method="POST" action="{{route('users.update',$user->userID)}}">
+        <form method="POST" action="{{route('document_types.update',$documentType->id)}}">
             @method('PUT')
             @csrf
-            <div class="card-body">
-                <div class="row g-2 align-items-center">
-                    <div class="col-12">
-                        <input type="hidden" class="form-check-input" name="statusID" value="1">
-                        <input type="hidden" class="form-check-input" name="roleID" value="1">
-                        <label class="form-label required">{{ __('User Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name',$user->name)}}" required>
-                        @if($errors->has('name'))
-                            <div class="text-danger">
-                                {{ $errors->first('name') }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Email address') }}</label>
-                        <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
-                        @if($errors->has('email'))
-                            <div class="text-danger">
-                                {{ $errors->first('email') }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Old Password') }}</label>
-                        <input type="password" name="oldPassword" class="form-control form-control-lg @error('oldPassword') is-invalid @enderror" placeholder="{{ __('Old Password') }}">
-                        @if($errors->has('oldPassword'))
-                            <div class="text-danger">
-                                {{ $errors->first('oldPassword') }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Password') }}</label>
-                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}">
-                        @if($errors->has('password'))
-                            <div class="text-danger">
-                                {{ $errors->first('password') }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Password confirmation') }}</label>
-                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="{{ __('Password confirmation') }}">
-                        @if($errors->has('confirmPassword'))
-                            <div class="text-danger">
-                                {{ $errors->first('confirmPassword') }}
-                            </div>
-                        @endif
-                    </div>
+            <div class="row g-2 align-items-center">
+                <div class="col-12">
+                    <label class="form-label required">{{ __('Document Type') }}</label>
+                    <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ $documentType->name,old('name')}}" required>
                 </div>
+                @if($errors->has('name'))
+                    <div class="text-danger">
+                        {{ $errors->first('name') }}
+                    </div>
+                @endif
+                <div class="col-12">
+                    <label class="form-label required">{{ __('Document Code') }}</label>
+                    <input type="number" name="code" class="form-control form-control-lg @error('code') is-invalid @enderror" placeholder="{{ __('Code') }}" value="{{ $documentType->code,old('code')}}" required>
+                </div>
+                @if($errors->has('code'))
+                    <div class="text-danger">
+                        {{ $errors->first('code') }}
+                    </div>
+                @endif
+                <div class="col-12">
+                    <label class="form-label required @error('department_id') is-invalid @enderror">{{ __('Department') }}</label>
+                    <label for="department_id"></label><select name="department_id" id="department_id" class="select2 form-select selectTwo @error('department_id') is-invalid @enderror">
+                        <option value="">Select Department</option>
+                        @foreach($departments as $department)
+                            <option value="{{$department->id}}" @if($department->id == $documentType->department_id) selected @endif>{{$department->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @if($errors->has('department_id'))
+                    <div class="text-danger">
+                        {{ $errors->first('department_id') }}
+                    </div>
+                @endif
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
-                <a href="{{route('users.index')}}" type="button" class="btn btn-secondary">Back</a>
-
+                <a href="{{route('document_types.index')}}" type="button" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>

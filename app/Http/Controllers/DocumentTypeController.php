@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\DocumentType;
 use App\Http\Requests\StoreDocumentTypeRequest;
 use App\Http\Requests\UpdateDocumentTypeRequest;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class DocumentTypeController extends Controller
 {
@@ -13,6 +17,7 @@ class DocumentTypeController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('document_type_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $documentTypes = DocumentType::all();
         return view('document_types.index',compact('documentTypes'));
     }
@@ -22,7 +27,8 @@ class DocumentTypeController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::all();
+        return view('document_types.create',compact('departments'));
     }
 
     /**
@@ -31,7 +37,8 @@ class DocumentTypeController extends Controller
     public function store(StoreDocumentTypeRequest $request)
     {
         try {
-            dd($request->all());
+            DocumentType::create($request->all());
+            return to_route('document_types.create')->with('message', 'Document Type added successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -50,7 +57,8 @@ class DocumentTypeController extends Controller
      */
     public function edit(DocumentType $documentType)
     {
-        //
+        $departments = Department::all();
+        return view('document_types.edit',compact('documentType','departments'));
     }
 
     /**
@@ -59,7 +67,8 @@ class DocumentTypeController extends Controller
     public function update(UpdateDocumentTypeRequest $request, DocumentType $documentType)
     {
         try {
-            dd($request->all());
+            $documentType->update($request->all());
+            return to_route('document_types.index')->with('message', 'Document Type Updated successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -70,9 +79,13 @@ class DocumentTypeController extends Controller
      */
     public function destroy(DocumentType $documentType)
     {
+        DB::beginTransaction();
         try {
-            dd($documentType);
+            DB::commit();
+            $documentType->delete();
+            return to_route('document_types.index')->with('message', 'Document Type Deleted successfully!');
         }catch (\Exception $e){
+            DB::rollback();
             dd($e);
         }
     }

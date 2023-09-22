@@ -25,8 +25,8 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Add File</h4>
-            @can('user_create')
-                <a href="{{route('users.create')}}" class="btn btn-primary ml-auto">
+            @can('files_create')
+                <a href="{{route('files.create')}}" class="btn btn-primary ml-auto">
                     <i class="fa fa-plus"></i>&ensp;Add File
                 </a>
             @endcan

@@ -25,8 +25,8 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Add Document type</h4>
-            @can('user_create')
-                <a href="{{route('users.create')}}" class="btn btn-primary ml-auto">
+            @can('document_type_create')
+                <a href="{{route('document_types.create')}}" class="btn btn-primary ml-auto">
                     <i class="fa fa-plus"></i>&ensp;Add Document type
                 </a>
             @endcan

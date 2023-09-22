@@ -65,7 +65,7 @@ class BranchController extends Controller
     {
         try {
             $branch->update($request->all());
-            return to_route('branches.create')->with('message', 'Branch Updated successfully!');
+            return to_route('branches.index')->with('message', 'Branch Updated successfully!');
         }catch (\Exception $e){
             dd($e);
         }

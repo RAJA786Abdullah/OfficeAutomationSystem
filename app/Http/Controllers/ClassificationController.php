@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Classification;
 use App\Http\Requests\StoreClassificationRequest;
 use App\Http\Requests\UpdateClassificationRequest;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class ClassificationController extends Controller
 {
@@ -13,6 +16,7 @@ class ClassificationController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $classifications = Classification::all();
         return view('classifications.index',compact('classifications'));
     }
@@ -22,7 +26,7 @@ class ClassificationController extends Controller
      */
     public function create()
     {
-        //
+        return view('classifications.create');
     }
 
     /**
@@ -30,7 +34,12 @@ class ClassificationController extends Controller
      */
     public function store(StoreClassificationRequest $request)
     {
-        //
+        try {
+            Classification::create($request->all());
+            return to_route('classifications.create')->with('message', 'Classification added successfully!');
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -46,7 +55,7 @@ class ClassificationController extends Controller
      */
     public function edit(Classification $classification)
     {
-        //
+        return view('classifications.edit',compact('classification'));
     }
 
     /**
@@ -54,7 +63,12 @@ class ClassificationController extends Controller
      */
     public function update(UpdateClassificationRequest $request, Classification $classification)
     {
-        //
+        try {
+            $classification->update($request->all());
+            return to_route('classifications.index')->with('message', 'Classification Updated successfully!');
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -62,6 +76,14 @@ class ClassificationController extends Controller
      */
     public function destroy(Classification $classification)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::commit();
+            $classification->delete();
+            return to_route('classifications.index')->with('message', 'Classification Deleted successfully!');
+        }catch (\Exception $e){
+            DB::rollback();
+            dd($e);
+        }
     }
 }

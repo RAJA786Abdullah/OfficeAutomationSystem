@@ -5,7 +5,8 @@
 <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>
 @endif
 @if($delete == 1)
-    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" onsubmit="return confirm(' ! WARNING ! If you Press OK it can not be recovered?');" style="display: inline-block;">
+{{--    onsubmit="return confirm(' ! WARNING ! If you Press OK it can not be recovered?');"--}}
+    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color:white;">

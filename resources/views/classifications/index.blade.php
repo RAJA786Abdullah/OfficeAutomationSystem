@@ -25,8 +25,8 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Add Classification</h4>
-            @can('user_create')
-                <a href="{{route('users.create')}}" class="btn btn-primary ml-auto">
+            @can('classification_create')
+                <a href="{{route('classifications.create')}}" class="btn btn-primary ml-auto">
                     <i class="fa fa-plus"></i>&ensp;Add Classification
                 </a>
             @endcan
