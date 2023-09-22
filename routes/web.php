@@ -62,7 +62,4 @@ Route::resource('files',FilesController::class);
 Route::resource('classifications',ClassificationController::class);
 Route::resource('document_types',DocumentTypeController::class);
 Route::resource('documents',DocumentController::class);
-Route::resource('remarks',RemarkController::class);
-Route::resource('attachments',AttachmentController::class);
-Route::resource('recipients',RecipientController::class);
 });

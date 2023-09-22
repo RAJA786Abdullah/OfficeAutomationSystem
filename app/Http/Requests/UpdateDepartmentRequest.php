@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class UpdateDepartmentRequest extends FormRequest
 {
@@ -11,7 +13,8 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return true;
     }
 
     /**
@@ -22,7 +25,14 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Department Name is required'
         ];
     }
 }

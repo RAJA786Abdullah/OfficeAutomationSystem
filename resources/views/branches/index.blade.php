@@ -25,8 +25,8 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Add Branch</h4>
-            @can('user_create')
-                <a href="{{route('users.create')}}" class="btn btn-primary ml-auto">
+            @can('branch_create')
+                <a href="{{route('branches.create')}}" class="btn btn-primary ml-auto">
                     <i class="fa fa-plus"></i>&ensp;Add Branch
                 </a>
             @endcan

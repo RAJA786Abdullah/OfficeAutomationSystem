@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Gate;
 
 class BranchController extends Controller
 {
@@ -13,6 +16,7 @@ class BranchController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $branches = Branch::all();
         return view('branches.index',compact('branches'));
     }
@@ -22,7 +26,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        //
+        return view('branches.create');
     }
 
     /**
@@ -31,7 +35,8 @@ class BranchController extends Controller
     public function store(StoreBranchRequest $request)
     {
         try {
-            dd($request->all());
+            Branch::create($request->all());
+            return to_route('branches.create')->with('message', 'Branch added successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -50,7 +55,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        return view('branches.edit',compact('branch'));
     }
 
     /**
@@ -59,7 +64,8 @@ class BranchController extends Controller
     public function update(UpdateBranchRequest $request, Branch $branch)
     {
         try {
-            dd($request->all());
+            $branch->update($request->all());
+            return to_route('branches.create')->with('message', 'Branch Updated successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -70,9 +76,13 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
+        DB::beginTransaction();
         try {
-            dd($branch);
+            DB::commit();
+            $branch->delete();
+            return to_route('branches.index')->with('message', 'Branch Deleted successfully!');
         }catch (\Exception $e){
+            DB::rollback();
             dd($e);
         }
     }
