@@ -96,7 +96,7 @@
                         </div>
                     @endif
 
-                    <div class="col-12 mt-4">
+                    <div class="col-12 mt-3">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card">
@@ -145,7 +145,7 @@
                                 <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
                                     <div class="btn-group-vertical">
                                         <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickTo()">To</button>
-                                        <button type="button" class="btn btn-dark btn-rounded mt-2">Info</button>
+                                        <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickInfo()">Info</button>
                                         <button type="button" class="btn btn-dark btn-rounded mt-2" disabled>Copy</button>
                                     </div>
                                 </div>
@@ -154,18 +154,44 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
-                                        <textarea class="form-control mt-2" rows="4" name="to" id="to"></textarea>
+                                        <textarea class="form-control" rows="4" name="to" id="to"></textarea>
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
                                         <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Copy') }}
-                                        <textarea class="form-control mt-2" rows="4" name="copy" id="copy"></textarea>
+                                        <p class="form-control border-primary text-black fs-5 mt-2" id="copy">{{ Auth::user()->department->name }}</p>
                                     </label>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12">
+                        <div class="card row mt-4">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; width:25%;">Name</th>
+                                    <th style="text-align: center; width:25%;">File</th>
+                                    <th style="text-align: center; width:25%;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="annuxFields">
+                                <tr>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-outline-primary" type="button" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <div class="card-footer">
@@ -194,9 +220,8 @@
                 }
             });
         });
-
-        function clickTo()
-        {
+        function clickTo() {
+            var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
             var selectName = departmentUser === "department" ? "department" : "user";
             var newValue = $("select[name='" + selectName + "']").val();
@@ -204,10 +229,58 @@
             if (currentValue.indexOf(newValue) !== -1) {
                 alert(newValue+" already exists in the To.");
             } else {
-                var appendedValue = currentValue + '\n' + newValue;
-
+                if (!currentValue)
+                {
+                    appendedValue = newValue
+                }else {
+                    appendedValue = currentValue + '\n' + newValue;
+                }
                 $("#to").val(appendedValue);
             }
+        }
+        function clickInfo() {
+            var appendedValue = '';
+            var departmentUser = $('input[name="departmentUser"]:checked').val();
+            var selectName = departmentUser === "department" ? "department" : "user";
+            var newValue = $("select[name='" + selectName + "']").val();
+            var currentValue = $("#info").val();
+            if (currentValue.indexOf(newValue) !== -1) {
+                alert(newValue+" already exists in the To.");
+            } else {
+                if (!currentValue)
+                {
+                    appendedValue = newValue
+                }else {
+                    appendedValue = currentValue + '\n' + newValue;
+                }
+                $("#info").val(appendedValue);
+            }
+        }
+
+        var rowID = 1;
+        function addNewAnnux(){
+            rowID +=1;
+            var annuxField =
+                `<tr id="rowID_${rowID}">`+
+                '<tr>'+
+                '<td>'+
+                '<input type="text" name="name[]" class="form-control" required placeholder="Name">'+
+                '</td>'+
+                '<td>'+
+                '<input type="file" name="file[]" class="form-control" required>'+
+                '</td>'+
+                '<td>'+
+                '<div class="form-group">'+
+                '<button class="btn btn-sm btn-outline-primary" type="button" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>'+
+                '<button class="btn btn-sm btn-outline-danger btnDelete" onclick="bindRowRemoveClick(this)" type="button"><i class="fa fa-trash"></i></button>'+
+                '</div>'+
+                '</td>'+
+                '</tr>';
+            $('#annuxFields').append(annuxField);
+        }
+        function bindRowRemoveClick(thisElem) {
+            $(thisElem).closest('tr').remove();
+            --rowID;
         }
     </script>
 @endsection

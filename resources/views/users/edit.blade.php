@@ -81,12 +81,10 @@
                         </div>
                     @endif
 
-
                     <div class="col-12">
                         <label class="form-label required">{{ __('Role') }}</label>
                         <select name="roleID[]" class="form-select selectTwo" multiple>
                             <option disabled>Select Role</option>
-
                             @foreach ($roles as $role)
                                 @foreach($user->roles as $userRole)
                                     <option value="{{ $role->roleID }}" {{ $role->roleID == $userRole->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
@@ -109,6 +107,18 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="is_signing_authority" id="no" value="0" @if((old('is_signing_authority',$user->is_signing_authority) == '0')) checked @endif>
                             <label class="form-check-label" for="no">No</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <label class="form-label required">{{ __('Status') }}</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="active" value="1" @if(old('status') == null || (old('status',$user->status) == '1')) checked @endif>
+                            <label class="form-check-label" for="active">Active</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="notActive" value="0" @if((old('status',$user->status) == '0')) checked @endif>
+                            <label class="form-check-label" for="notActive">Not Active</label>
                         </div>
                     </div>
 
