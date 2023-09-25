@@ -3,9 +3,7 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-    <input type="hidden" name="annux_rows" id="annux_rows" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" />
-
-    <div class="content-header row">
+<div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
@@ -29,7 +27,7 @@
         <div class="card-header">
             <h4 class="card-title">Add Document</h4>
         </div>
-        <form method="POST" action="{{route('documents.store')}}">
+        <form method="POST" action="{{route('documents.store')}}" enctype="multipart/form-data">
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
@@ -65,22 +63,22 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('File') }}</label>
-                        <select name="file_code" class="form-select">
+                        <select name="file_id" class="form-select">
                             <option disabled>Select File</option>
                             @foreach ($files as $file)
-                                <option value="{{ $file->code }}" {{ old('file_code') == $file->code ? 'selected' : '' }}>{{ $file->name }}</option>
+                                <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    @if($errors->has('file_code'))
+                    @if($errors->has('file_id'))
                         <div class="text-danger">
-                            {{ $errors->first('file_code') }}
+                            {{ $errors->first('file_id') }}
                         </div>
                     @endif
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Subject') }}</label>
-                        <input type="text" name="subject" class="form-control" required placeholder="Subject" value="{{ old('subject') }}">
+                        <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
                     </div>
                     @if($errors->has('subject'))
                         <div class="text-danger">
@@ -157,9 +155,19 @@
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
                                         <textarea class="form-control" rows="4" name="to" id="to"> {{ old('to') }}</textarea>
+                                        @if($errors->has('to'))
+                                            <div class="text-danger">
+                                                {{ $errors->first('to') }}
+                                            </div>
+                                        @endif
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
                                         <textarea class="form-control mt-2" rows="4" name="info" id="info"> {{ old('info') }}</textarea>
+                                        @if($errors->has('info'))
+                                            <div class="text-danger">
+                                                {{ $errors->first('info') }}
+                                            </div>
+                                        @endif
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Copy') }}
                                         <p class="form-control border-primary text-black fs-5 mt-2" id="copy">{{ Auth::user()->department->name }}</p>
@@ -181,15 +189,14 @@
                                 </thead>
                                 <tbody id="annuxFields">
 
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <button class="btn btn-outline-flickr" type="button" id="qualificationBtn" value="{{ old('qualification_rows') ? old('qualification_rows') : 0}}"><i class="fa fa-plus"></i></button>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                            <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" value="{{ old('qualification_rows') ? old('qualification_rows') : 0}}" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -199,7 +206,6 @@
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
                 <a href="{{route('documents.index')}}" type="button" class="btn btn-secondary">Back</a>
-
             </div>
         </form>
     </div>
@@ -241,11 +247,11 @@
                     icon: "warning",
                 });
             } else {
-                if (!toCurrentValue)
+                if (!toCurrentValue || toCurrentValue.trim() === '')
                 {
-                    appendedValue = newValue
+                    appendedValue =newValue
                 }else {
-                    appendedValue = toCurrentValue + '\n' + newValue;
+                    appendedValue =toCurrentValue+'\n'+newValue;
                 }
                 $("#to").val(appendedValue);
             }
@@ -269,31 +275,33 @@
                     icon: "warning",
                 });
             } else {
-                if (!infoCurrentValue)
+                console.log(infoCurrentValue)
+                if (!infoCurrentValue || infoCurrentValue.trim() === '')
                 {
-                    appendedValue = newValue
+                    appendedValue=newValue
                 }else {
-                    appendedValue = infoCurrentValue + '\n' + newValue;
-                }
+                        appendedValue = infoCurrentValue+'\n'+newValue;
+                    }
                 $("#info").val(appendedValue);
             }
         }
 
-        var rowID = 1;
+        var annux_rows = {{ old('annux_rows') ? old('annux_rows') : 0 }};
         function addNewAnnux(){
-            rowID +=1;
+            annux_rows +=1;
+
             var annuxField =
-                `<tr id="rowID_${rowID}">`+
+                `<tr id="annux_rows_${annux_rows}">`+
                 '<tr>'+
                 '<td>'+
                 '<input type="text" name="name[]" class="form-control" required placeholder="Name">'+
                 '</td>'+
                 '<td>'+
-                '<input type="file" name="file[]" class="form-control" required>'+
+                '<input type="file" name="attachment[]" class="form-control" required>'+
                 '</td>'+
                 '<td>'+
                 '<div class="form-group">'+
-                '<button class="btn btn-sm btn-outline-primary" type="button" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>'+
+
                 '<button class="btn btn-sm btn-outline-danger btnDelete" onclick="bindRowRemoveClick(this)" type="button"><i class="fa fa-trash"></i></button>'+
                 '</div>'+
                 '</td>'+
@@ -302,7 +310,10 @@
         }
         function bindRowRemoveClick(thisElem) {
             $(thisElem).closest('tr').remove();
-            --rowID;
+            --annux_rows;
+            $('#annux_rows').val(annux_rows);
+
+
         }
     </script>
 @endsection

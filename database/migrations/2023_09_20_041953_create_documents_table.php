@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('document_type_id')->constrained('document_types','id');
             $table->foreignId('file_id')->constrained('files','id');
             $table->integer('document_unique_identifier');
-            $table->integer('code');
+            $table->integer('code')->nullable();
             $table->foreignId('reference_id')->nullable()->constrained('documents','id');
             $table->string('reference')->nullable();
             $table->string('subject');
