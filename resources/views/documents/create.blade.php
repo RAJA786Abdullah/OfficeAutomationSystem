@@ -221,20 +221,15 @@
         function clickTo() {
             var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
-
             var selectName = departmentUser === "department" ? "department" : "user";
-
             var newValue = $("select[name='" + selectName + "']").val();
-
             var infoCurrentValue = $("#info").val();
             var toCurrentValue = $("#to").val();
-
             if (infoCurrentValue.indexOf(newValue) !== -1) {
                 return swal({
                     title: newValue + " Already exists in Info",
                     icon: "warning",
                 });
-
             }
             if (toCurrentValue.indexOf(newValue) !== -1) {
                 return swal({
@@ -254,28 +249,21 @@
         function clickInfo() {
             var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
-
-
             var selectName = departmentUser === "department" ? "department" : "user";
-
             var newValue = $("select[name='" + selectName + "']").val();
-
             var infoCurrentValue = $("#info").val();
             var toCurrentValue = $("#to").val();
-
             if (toCurrentValue.indexOf(newValue) !== -1) {
                 return swal({
                     title: newValue + " exists in To",
                     icon: "warning",
                 });
             }
-
             if (infoCurrentValue.indexOf(newValue) !== -1) {
                 return swal({
                     title: newValue + " Already exists",
                     icon: "warning",
                 });
-
             } else {
                 if (!infoCurrentValue)
                 {
