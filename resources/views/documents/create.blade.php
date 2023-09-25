@@ -3,7 +3,9 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-<div class="content-header row">
+    <input type="hidden" name="annux_rows" id="annux_rows" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" />
+
+    <div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
@@ -78,7 +80,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Subject') }}</label>
-                        <input type="text" name="subject" class="form-control" required placeholder="Subject">
+                        <input type="text" name="subject" class="form-control" required placeholder="Subject" value="{{ old('subject') }}">
                     </div>
                     @if($errors->has('subject'))
                         <div class="text-danger">
@@ -154,10 +156,10 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
-                                        <textarea class="form-control" rows="4" name="to" id="to"></textarea>
+                                        <textarea class="form-control" rows="4" name="to" id="to"> {{ old('to') }}</textarea>
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
-                                        <textarea class="form-control mt-2" rows="4" name="info" id="info"></textarea>
+                                        <textarea class="form-control mt-2" rows="4" name="info" id="info"> {{ old('info') }}</textarea>
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Copy') }}
                                         <p class="form-control border-primary text-black fs-5 mt-2" id="copy">{{ Auth::user()->department->name }}</p>
@@ -178,11 +180,13 @@
                                 </tr>
                                 </thead>
                                 <tbody id="annuxFields">
-                                <tr>
 
+                                <tr>
                                     <td>
                                         <div class="form-group">
-                                            <button class="btn btn-sm btn-outline-primary" type="button" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
+                                            <button class="btn btn-outline-flickr" type="button" id="qualificationBtn" value="{{ old('qualification_rows') ? old('qualification_rows') : 0}}"><i class="fa fa-plus"></i></button>
+
+                                            <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" value="{{ old('qualification_rows') ? old('qualification_rows') : 0}}" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </td>
                                 </tr>

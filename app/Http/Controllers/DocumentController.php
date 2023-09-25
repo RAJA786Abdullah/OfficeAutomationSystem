@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
@@ -28,10 +29,11 @@ class DocumentController extends Controller
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users'));
     }
 
-    public function store(StoreDocumentRequest $request)
+    public function store(Request $request)
     {
         try {
-            dd($request->all());
+        dd($request->except('departmentUser','user', 'department'));
+//            dd($request->all());
         }catch (\Exception $e){
             dd($e);
         }
