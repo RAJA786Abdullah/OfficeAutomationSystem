@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('document_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('code');
+            $table->string('name')->unique();
+            $table->integer('code')->unique();
             $table->foreignId('department_id')->constrained('departments','id');
             $table->timestamps();
         });

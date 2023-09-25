@@ -25,14 +25,15 @@ class UpdateClassificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required|unique:classifications'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Classification Name is required'
+            'name.required' => 'Classification Name is required',
+            'name.unique' => 'Classification Name already exists'
         ];
     }
 }

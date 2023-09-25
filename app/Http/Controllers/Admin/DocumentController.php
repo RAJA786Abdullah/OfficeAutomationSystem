@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Classification;
 use App\Models\Department;
 use App\Models\Document;
-use App\Http\Requests\StoreDocumentRequest;
-use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\User;
@@ -15,7 +16,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        return view('documents.index');
+        return view('admin.documents.index');
     }
 
     public function create()
@@ -25,7 +26,7 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users'));
+        return view('admin.documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users'));
     }
 
     public function store(StoreDocumentRequest $request)

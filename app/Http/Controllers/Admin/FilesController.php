@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Files;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFilesRequest;
 use App\Http\Requests\UpdateFilesRequest;
+use App\Models\Files;
 use Illuminate\Support\Facades\DB;
 
 class FilesController extends Controller
@@ -15,7 +16,7 @@ class FilesController extends Controller
     public function index()
     {
         $files = Files::all();
-        return view('files.index',compact('files'));
+        return view('admin.files.index',compact('files'));
     }
 
     /**
@@ -23,7 +24,7 @@ class FilesController extends Controller
      */
     public function create()
     {
-        return view('files.create');
+        return view('admin.files.create');
     }
 
     /**
@@ -52,7 +53,7 @@ class FilesController extends Controller
      */
     public function edit(Files $file)
     {
-        return view('files.edit',compact('file'));
+        return view('admin.files.edit',compact('file'));
     }
 
     /**

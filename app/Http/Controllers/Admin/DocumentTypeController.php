@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Department;
-use App\Models\DocumentType;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDocumentTypeRequest;
 use App\Http\Requests\UpdateDocumentTypeRequest;
+use App\Models\Department;
+use App\Models\DocumentType;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-use Gate;
 
 class DocumentTypeController extends Controller
 {
@@ -19,7 +20,7 @@ class DocumentTypeController extends Controller
     {
         abort_if(Gate::denies('document_type_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $documentTypes = DocumentType::all();
-        return view('document_types.index',compact('documentTypes'));
+        return view('admin.document_types.index',compact('documentTypes'));
     }
 
     /**
@@ -28,7 +29,7 @@ class DocumentTypeController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('document_types.create',compact('departments'));
+        return view('admin.document_types.create',compact('departments'));
     }
 
     /**
@@ -58,7 +59,7 @@ class DocumentTypeController extends Controller
     public function edit(DocumentType $documentType)
     {
         $departments = Department::all();
-        return view('document_types.edit',compact('documentType','departments'));
+        return view('admin.document_types.edit',compact('documentType','departments'));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
@@ -9,11 +9,11 @@ use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
-use Gate;
 
 class UserController extends Controller
 {
@@ -22,7 +22,7 @@ class UserController extends Controller
         abort_if(Gate::denies('user_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $users = User::with('roles')->get();
-        return view('users.index',compact('users'));
+        return view('admin.users.index',compact('users'));
     }
 
     public function create()
@@ -31,7 +31,7 @@ class UserController extends Controller
         $departments = Department::all();
         $branches = Branch::all();
         $roles = Role::all()->sortBy('roleName');
-        return view('users.create',compact('roles', 'departments', 'branches'));
+        return view('admin.users.create',compact('roles', 'departments', 'branches'));
     }
 
     public function store(UserStoreRequest $request)
@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         abort_if(Gate::denies('user_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $user->load('department','branch','roles');
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     public function edit(User $user)
@@ -72,7 +72,7 @@ class UserController extends Controller
         $userRoles = $user->roles->map(function ($item, $key) {
             return $item->roleID;
         })->toArray();
-        return view('users.edit',compact('user','roles','userRoles', 'departments', 'branches'));
+        return view('admin.users.edit',compact('user','roles','userRoles', 'departments', 'branches'));
     }
 
     public function update(UserUpdateRequest $request, User $user)

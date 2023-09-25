@@ -36,6 +36,6 @@
     <!--/ Page layout -->
 </div>
 @endsection
-@section('more-script')
+@section('js')
 
 @endsection

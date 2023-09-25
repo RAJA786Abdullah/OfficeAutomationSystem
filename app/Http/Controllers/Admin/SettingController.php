@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Setting;
-use App\Models\User;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Monolog\Handler\IFTTTHandler;
 use function Symfony\Component\String\length;
 
 class SettingController extends Controller
@@ -20,7 +18,7 @@ class SettingController extends Controller
         foreach ($settings as $setting) {
             $customSettings[$setting->group][$setting->tab][] = $setting;
         }
-        return view('setting.edit',compact('customSettings'));
+        return view('admin.setting.edit',compact('customSettings'));
     }
 
     public function update(Request $request,Factory $cache)

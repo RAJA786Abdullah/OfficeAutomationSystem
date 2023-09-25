@@ -28,7 +28,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users',
             'password' => 'required',
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required',
@@ -40,6 +40,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'name.required' => 'Name is required',
             'email.required' => 'User Name is required',
+            'email.unique' => 'User Name already exist',
             'password.required' => 'Password is required',
             'confirmPassword.required' => 'Confirm Password is required',
             'roleID.required' => 'Role is required'

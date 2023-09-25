@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Classification;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClassificationRequest;
 use App\Http\Requests\UpdateClassificationRequest;
+use App\Models\Classification;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-use Gate;
 
 class ClassificationController extends Controller
 {
@@ -18,7 +19,7 @@ class ClassificationController extends Controller
     {
         abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $classifications = Classification::all();
-        return view('classifications.index',compact('classifications'));
+        return view('admin.classifications.index',compact('classifications'));
     }
 
     /**
@@ -26,7 +27,7 @@ class ClassificationController extends Controller
      */
     public function create()
     {
-        return view('classifications.create');
+        return view('admin.classifications.create');
     }
 
     /**
@@ -55,7 +56,7 @@ class ClassificationController extends Controller
      */
     public function edit(Classification $classification)
     {
-        return view('classifications.edit',compact('classification'));
+        return view('admin.classifications.edit',compact('classification'));
     }
 
     /**
