@@ -14,30 +14,33 @@ use App\Models\Recipient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
     public function index()
     {
         $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
-//        dd($documents);
-        return view('documents.index');
+        return view('documents.index', compact('documents'));
     }
 
     public function create()
     {
+        $userID = Auth::id();
+        $user = User::where('userID', $userID)->first();
+        $dept_id = $user->department_id;
+        $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users'));
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
     }
 
     public function store(StoreDocumentRequest $request)
     {
         try {
-
             $userID = Auth::id();
             $document = Document::create([
                 'classification_id' => $request->input('classification_id'),
@@ -45,7 +48,8 @@ class DocumentController extends Controller
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
                 'body' => $request->input('body'),
-                'created_by' => Auth::id(),
+                'singing_authority_id' => $request->input('signing_authority_id'),
+                'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
             ]);
@@ -72,22 +76,22 @@ class DocumentController extends Controller
                 ]);
             }
 
-            foreach ($request->name as $key=>$name)
-            {
-                $attachment = $request->file('attachment')[$key];
-                if ($attachment) {
-                    $fileExtension = $attachment->getClientOriginalExtension();
-                    $fileName = $attachment->getClientOriginalName();
-                    $attachment->storeAs('public/attachments', $fileName );
-                    Attachment::create([
-                        'name' => $name,
-                        'type' => $fileExtension,
-                        'path' => $fileName, // Store the original filename
-                        'document_id' => $document->id,
-                    ]);
+            if ($request->name) {
+                foreach ($request->name as $key => $name) {
+                    $attachment = $request->file('attachment')[$key];
+                    if ($attachment) {
+                        $fileExtension = $attachment->getClientOriginalExtension();
+                        $fileName = $attachment->getClientOriginalName();
+                        $attachment->storeAs('public/attachments', $fileName);
+                        Attachment::create([
+                            'name' => $name,
+                            'type' => $fileExtension,
+                            'path' => $fileName, // Store the original filename
+                            'document_id' => $document->id,
+                        ]);
+                    }
                 }
             }
-
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
@@ -97,7 +101,8 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        //
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        return view('documents.show', compact('document'));
     }
 
     public function edit(Document $document)

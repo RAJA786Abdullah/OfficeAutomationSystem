@@ -36,53 +36,35 @@
                 <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
                     <thead>
                     <tr>
-                        <th class="wd-15p">SrNo.</th>
+                        <th class="wd-15p">Reference No</th>
                         <th class="wd-25p">Classification</th>
-                        <th class="wd-25p">Department</th>
                         <th class="wd-25p">File No</th>
-                        <th class="wd-25p">Document Unique Identifier</th>
-                        <th class="wd-25p">Code</th>
-                        <th class="wd-25p">Reference</th>
                         <th class="wd-25p">subject</th>
-                        <th class="wd-25p">Body</th>
                         <th class="wd-25p">Created By</th>
-                        <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-{{--                    @foreach($users as $user)--}}
-{{--                            <tr>--}}
-{{--                                <td>{{$loop->iteration}}</td>--}}
-{{--                                <td>{{$user->name}}</td>--}}
-{{--                                <td>{{$user->email}}</td>--}}
+                    @foreach($documents as $document)
+                            <tr>
+                                <td>{{$document->reference_id}}</td>
+                                <td>{{$document->classification->name}}</td>
+                                <td>{{$document->file->name}}</td>
+                                <td>{{$document->subject}}</td>
+                                <td>{{$document->user->name}}</td>
 
-{{--                                <td>--}}
-
-{{--                                    @foreach($user->roles as $role)--}}
-{{--                                        {{ $loop->iteration }} &nbsp;--}}
-{{--                                        {{ $role->roleName  }} <br>--}}
-{{--                                    @endforeach--}}
-
-{{--                                </td>--}}
-{{--                                <td>{{date('d-m-Y', strtotime($user->dateCreated))}}</td>--}}
-{{--                                <td>--}}
-{{--                                    @php--}}
-{{--                                        $crud = 'users';--}}
-{{--                                        $row = $user->userID;--}}
-{{--                                    @endphp--}}
-{{--                                    <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>--}}
-{{--                                    <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>--}}
-{{--                                    @if($user->userID != 1)--}}
-{{--                                        <form action="{{ route($crud . '.destroy', $user->userID) }}" method="POST" class="deleteForm" onsubmit="return confirm(' ! WARNING ! If you Press OK it can not be recovered?');" style="display: inline-block; margin-bottom: 0; margin-top: 0;">--}}
-{{--                                            <input type="hidden" name="_method" value="DELETE">--}}
-{{--                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-{{--                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" onclick="sweetAlertCall(this)" title="Delete" style="color:white;"><i data-feather="trash"></i></button>--}}
-{{--                                        </form>--}}
-{{--                                    @endif--}}
-{{--                                </td>--}}
-{{--                            </tr>--}}
-{{--                    @endforeach--}}
+                                <td>
+                                    @php
+                                        $crud = 'documents';
+                                        $row = $document->id;
+                                        $show = 1;
+                                        $edit = 1;
+                                        $delete = 1;
+                                    @endphp
+                                    @include('partials.actions')
+                                </td>
+                            </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

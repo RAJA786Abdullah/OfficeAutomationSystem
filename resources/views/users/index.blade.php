@@ -40,6 +40,7 @@
                         <th class="wd-25p">Name</th>
                         <th class="wd-25p">User Name</th>
                         <th class="wd-25p">User Role</th>
+                        <th class="wd-25p">Is Signing Authority</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
@@ -59,6 +60,7 @@
                                     @endforeach
 
                                 </td>
+                                <td>{{$user->is_signing_authority == 1 ? "Yes" : "No"}}</td>
                                 <td>{{date('d-m-Y', strtotime($user->dateCreated))}}</td>
 
                                 <td>

@@ -39,7 +39,7 @@ class Document extends Model
     }
 
     public function user(){
-        return $this->hasMany('App\Models\User','created_by','userID');
+        return $this->belongsTo('App\Models\User','created_by','userID');
     }
 
 

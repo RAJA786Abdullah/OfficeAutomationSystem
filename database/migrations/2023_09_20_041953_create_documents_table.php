@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->string('subject');
             $table->text('body');
+            $table->integer('singing_authority');
             $table->foreignId('created_by')->constrained('users','userID');
             $table->timestamps();
         });

@@ -76,7 +76,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Remark', 'userID', 'id');
     }
 
-    public function Document(){
-        return $this->hasMany('App\Models\Document', 'created_by', 'id');
+    public function document(){
+        return $this->hasOne('App\Models\Document', 'created_by', 'userID');
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('department_id')->constrained('departments','id');
             $table->foreignId('branch_id')->constrained('branches','id');
             $table->boolean('is_signing_authority')->default(0);
+            $table->string('arm_designation')->nullable();
             $table->timestamps();
         });
     }

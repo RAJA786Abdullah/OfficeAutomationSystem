@@ -97,6 +97,31 @@
                     @endif
 
                     <div class="col-12 mt-3">
+                        <div class="card">
+                            <div class="col-12">
+                                <label class="form-label required">{{ __('Signing Authority') }}</label>
+                                @foreach($authorizedUsers as $index => $user)
+                                    <div class="form-check">
+                                        @if($index < 1)
+                                            <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}" checked>
+                                            <label class="form-check-label" for="user{{ $user->userID }}">
+                                                {{ $user->name }}
+                                            </label>
+                                        @else
+                                            <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}">
+                                            <label class="form-check-label" for="user{{ $user->userID }}">
+                                                {{ $user->name }}
+                                            </label>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 mt-3">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card">
@@ -154,7 +179,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
-                                        <textarea class="form-control" rows="4" name="to" id="to"> {{ old('to') }}</textarea>
+                                        <textarea class="form-control" rows="4" name="to" id="to" readonly> {{ old('to') }}</textarea>
                                         @if($errors->has('to'))
                                             <div class="text-danger">
                                                 {{ $errors->first('to') }}
@@ -162,15 +187,15 @@
                                         @endif
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
-                                        <textarea class="form-control mt-2" rows="4" name="info" id="info"> {{ old('info') }}</textarea>
+                                        <textarea class="form-control mt-2" rows="4" name="info" id="info" readonly> {{ old('info') }}</textarea>
                                         @if($errors->has('info'))
                                             <div class="text-danger">
                                                 {{ $errors->first('info') }}
                                             </div>
                                         @endif
                                     </label>
-                                    <label class="form-label fw-bolder fs-5">{{ __('Copy') }}
-                                        <p class="form-control border-primary text-black fs-5 mt-2" id="copy">{{ Auth::user()->department->name }}</p>
+                                    <label class="form-label fw-bolder fs-5">{{ __('ID') }}
+                                        <p class="form-control border-primary text-black fs-5 mt-2" id="copy" disabled>{{ Auth::user()->department->name }}</p>
                                     </label>
                                 </div>
                             </div>
@@ -188,7 +213,6 @@
                                 </tr>
                                 </thead>
                                 <tbody id="annuxFields">
-
                                     <tr>
                                         <td>
                                             <div class="form-group">
@@ -196,9 +220,58 @@
                                             </div>
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <div class="card">
+                            <div class="row">
+                                <div class="card-header d-flex justify-content-center bg-primary">
+                                    <h4 class="card-title text-light">Select Reference</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="card-title text-center mt-5">Classifications</h5>
+                                    <select name="filter_classification" class="form-select select2" style="width: 100%">
+                                        <option disabled>Select Classification</option>
+                                        @foreach ($classifications as $classification)
+                                            <option value="{{ $classification->id }}">{{ $classification->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 class="card-title text-center mt-5">Departments</h5>
+                                    <select name="filter_department" class="form-select select2" style="width: 100%">
+                                        <option disabled>Select Department</option>
+                                        @foreach ($departments as $department)
+                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 class="card-title text-center mt-5">Files</h5>
+                                    <select name="filter_file" class="form-select select2" style="width: 100%">
+                                        <option disabled>Select File</option>
+                                        @foreach ($files as $file)
+                                            <option value="{{ $file->id }}">{{ $file->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 class="card-title text-center mt-5">References</h5>
+                                    <select name="reference" class="form-select selectTwo" style="width: 100%">
+                                        <option disabled>Select Department</option>
+{{--                                        @foreach ($departments as $department)--}}
+{{--                                            <option value="{{ $department->id }}">{{ $department->name }}</option>--}}
+{{--                                        @endforeach--}}
+                                    </select>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
