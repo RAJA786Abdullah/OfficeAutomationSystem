@@ -18,5 +18,14 @@ class UserSeeder extends Seeder
             'branch_id' => 1,
             'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
         ]);
+
+        \Illuminate\Support\Facades\DB::table('users')->insert([
+            'name' => 'User',
+            'email' => 'user1',
+            'status' => 1,
+            'department_id' => 1,
+            'branch_id' => 1,
+            'password' => \Illuminate\Support\Facades\Hash::make('user123'),
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 @section('title', 'Login')
 @section('main-content')
 <div class="content-wrapper">
+    @include('partials.message')
     <div class="content-header row">
     </div>
     <div class="content-body">

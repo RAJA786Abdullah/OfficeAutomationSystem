@@ -79,4 +79,9 @@ class User extends Authenticatable
     public function Document(){
         return $this->hasMany('App\Models\Document', 'created_by', 'id');
     }
+
+    public function isAdmin()
+    {
+        return $this->roles[0]->roleName === 'Admin'; // You can adjust this logic based on your user role implementation
+    }
 }
