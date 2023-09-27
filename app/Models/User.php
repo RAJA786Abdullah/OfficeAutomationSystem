@@ -82,6 +82,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->roles[0]->roleName === 'Admin'; // You can adjust this logic based on your user role implementation
+        return $this->roles[0]->roleName === 'Admin';
     }
 }

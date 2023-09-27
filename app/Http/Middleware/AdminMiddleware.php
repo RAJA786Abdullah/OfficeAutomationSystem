@@ -17,10 +17,10 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check() && auth()->user()->isAdmin()){
-            return redirect('/admin/dashboard')->withErrors('message','Admin Logged In');
+            return $next($request);
         }else{
             Auth::logout();
-            return redirect('/')->withErrors('message','Please Login again');
+            return redirect('/');
         }
     }
 }

@@ -30,7 +30,7 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::middleware('auth')->group(function (){
-    Route::get('/',[UserHomeController::class, 'index']);
+    Route::get('/',[UserHomeController::class, 'index'])->name('userHome');
 
     //Admin Side routes
     Route::prefix('admin')->middleware('admin')->group(function () {
