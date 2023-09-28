@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
