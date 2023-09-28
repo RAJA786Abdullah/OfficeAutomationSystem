@@ -93,7 +93,7 @@
                         <select name="roleID[]" class="form-select selectTwo" multiple>
                             <option disabled>Select Role</option>
                             @foreach ($roles as $role)
-                                <option value="{{ $role->roleID }}" {{ old('roleID') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
+                                <option value="{{ $role->roleID }}" {{ old('roleID[]') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>
                             @endforeach
                         </select>
                     </div>

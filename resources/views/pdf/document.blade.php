@@ -38,9 +38,14 @@
 <body>
     <div class="container">
         <div class="d-flex justify-content-center align-items-center">
-            <u><h3 class="text-center mt-1">{{ strtoupper($document->classification->name) }}</h3>
-            <h3 class="text-center mt-1">{{ strtoupper($document->documentType->name) }}</h3>
-            <h3 class="text-center mt-1">{{ '('.strtoupper($document->department->name) .')' }}</h3></u>
+                <h3 class="text-center">
+                    <u>
+                        {{  strtoupper(trim($document->classification->name)) }} <br>
+                        {{ strtoupper(trim($document->documentType->name))  }} <br>
+                        {{ '('.strtoupper(trim($document->department->name)) .')' }}
+                    </u>
+                </h3>
+
         </div>
         <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
         <div class="body">

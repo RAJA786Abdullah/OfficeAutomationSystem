@@ -30,7 +30,8 @@ class StoreDocumentRequest extends FormRequest
             'file_id' => 'required',
             'subject' => 'required',
             'to' => 'required',
-            'info' => 'required'
+            'info' => 'required',
+            'signing_authority_id' => 'required'
 
         ];
     }
@@ -44,6 +45,7 @@ class StoreDocumentRequest extends FormRequest
             'subject.required' => 'Subject is required',
             'to.required' => 'To is required',
             'info.required' => 'Info is required',
+            'signing_authority_id.required' => 'Signing Authority is required',
         ];
     }
 }

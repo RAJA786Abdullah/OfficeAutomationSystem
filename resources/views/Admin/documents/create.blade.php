@@ -116,9 +116,13 @@
                                     </div>
                                 @endforeach
                             </div>
-
                         </div>
                     </div>
+                    @if($errors->has('signing_authority_id'))
+                        <div class="text-danger">
+                            {{ $errors->first('signing_authority_id') }}
+                        </div>
+                    @endif
 
 
                     <div class="col-12 mt-3">
