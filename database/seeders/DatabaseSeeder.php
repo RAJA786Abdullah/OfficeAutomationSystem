@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
             ClassificationSeeder::class,
             FilesSeeder::class,
             DocumentTypeSeeder::class,
-            DocumentSeeder::class,
-            RemarkSeeder::class,
-            AttachmentSeeder::class,
-            RecipientSeeder::class,
+//            DocumentSeeder::class,
+//            RemarkSeeder::class,
+//            AttachmentSeeder::class,
+//            RecipientSeeder::class,
 	    ]);
     }
 }
