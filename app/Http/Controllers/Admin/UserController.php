@@ -118,4 +118,9 @@ class UserController extends Controller
         }
         return redirect()->route('users.index');
     }
+
+    public function gotoFrontEnd(){
+        abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return view('front-end.home');
+    }
 }

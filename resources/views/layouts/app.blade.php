@@ -180,6 +180,9 @@
 </script>
 <script>
     $(document).ready(function () {
+        function frontEnd(){
+            console.log('yes');
+        }
 
         //DataTables
         $('table.display').DataTable({

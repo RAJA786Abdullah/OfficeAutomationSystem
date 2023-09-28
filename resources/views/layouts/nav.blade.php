@@ -136,6 +136,12 @@
                                     <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
                                 </a>
                             </li>
+
+                            <li class=" nav-item" aria-haspopup="true">
+                                <a id="front-end-link" class="d-flex align-items-center" href="{{ route('gotoFrontEnd') }}">
+                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Front End</span>
+                                </a>
+                            </li>
                             {{--                        <li class=" nav-item" aria-haspopup="true">--}}
                             {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
                             {{--                        </li>--}}
@@ -147,4 +153,20 @@
     </div>
     <!-- END: Main Menu-->
 
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            function frontEnd(){
+                console.log('yes');
+            }
+
+            // $('#front-end-link').click(function(e) {
+            //     console.log('yes');
+            //     // e.preventDefault();
+            //     window.location.href = '/resources/views/front-end/home';
+            // });
+        });
+
+    </script>
 @endsection

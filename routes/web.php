@@ -31,6 +31,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware('auth')->group(function (){
     Route::get('/',[UserHomeController::class, 'index'])->name('userHome');
+    Route::get('/frontEnd',[UserController::class, 'gotoFrontEnd'])->name('gotoFrontEnd');
 
     //Admin Side routes
     Route::prefix('admin')->middleware('admin')->group(function () {
@@ -54,5 +55,9 @@ Route::middleware('auth')->group(function (){
         Route::resource('/document_types',DocumentTypeController::class);
         Route::resource('/documents',DocumentController::class);
         Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
+
+//        Route::get('/frontEnd',[HomeController::class, 'gotoFrontEnd'])->name('gotoFrontEnd');
+
+
     });
 });
