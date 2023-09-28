@@ -75,7 +75,7 @@ class UserController extends Controller
         return view('users.edit',compact('user','roles','userRoles', 'departments', 'branches'));
     }
 
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
         DB::beginTransaction();
         try {

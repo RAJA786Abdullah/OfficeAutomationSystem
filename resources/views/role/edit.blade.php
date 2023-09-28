@@ -42,6 +42,11 @@
                     	<textarea name="description" class="form-control">{{ old('description',$role->description) }}</textarea>
 					</div>
                 </div>
+
+                <label class="form-check-label">
+                    <input type="checkbox" id="select-all-privileges" />
+                    &nbsp;&nbsp;Select All Privileges
+                </label>
 				<div class="form-group row">
 					<div class="col-sm-12">
 						<table class="table" @if($errors->has('privilegeID')) style="border:1px solid red;" @endif>
@@ -85,9 +90,20 @@
 					</div>
 				</div>
                 <div class="row mt-2">
-                    <input class="btn btn-primary" type="submit" value="Save">
+                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
                 </div>
             </form>
         </div>
     </div>
 @stop
+@section('js')
+    <script>
+        // jQuery code to handle the "Select All" checkbox
+        $(document).ready(function () {
+            $('#select-all-privileges').click(function () {
+                // Check or uncheck all privilege checkboxes based on the "Select All" checkbox state
+                $('input[name="privilegeID[]"]').prop('checked', this.checked);
+            });
+        });
+    </script>
+@endsection

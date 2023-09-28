@@ -15,8 +15,8 @@ class RemarkSeeder extends Seeder
     public function run(): void
     {
         $aryRemarks = [
-            ['remark' => 'abc', 'recommendation' => '', 'userID' => 1, 'document_id' => 1, 'created_at' => Carbon::now()],
-            ['remark' => '', 'recommendation' => 'xyz', 'userID' => 1, 'document_id' => 1, 'created_at' => Carbon::now()]
+            ['remark' => 'abc', 'recommendation' => 'abc', 'userID' => 1, 'document_id' => 1, 'created_at' => Carbon::now()],
+            ['remark' => 'xyz', 'recommendation' => 'xyz', 'userID' => 1, 'document_id' => 1, 'created_at' => Carbon::now()]
         ];
         foreach ($aryRemarks as $remark) {
             DB::table('remarks')->insert([

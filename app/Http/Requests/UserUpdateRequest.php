@@ -32,6 +32,8 @@ class UserUpdateRequest extends FormRequest
             'password' => 'required',
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required',
+            'is_signing_authority' => 'required',
+
         ];
     }
 
@@ -42,7 +44,8 @@ class UserUpdateRequest extends FormRequest
             'email.required' => 'User Name is required',
             'password.required' => 'Password is required',
             'confirmPassword.required' => 'Confirm Password is required',
-            'roleID.required' => 'Role is required'
+            'roleID.required' => 'Role is required',
+            'is_signing_authority.required' => 'Signing Authority is required'
         ];
     }
 }

@@ -62,4 +62,6 @@ Route::resource('files',FilesController::class);
 Route::resource('classifications',ClassificationController::class);
 Route::resource('document_types',DocumentTypeController::class);
 Route::resource('documents',DocumentController::class);
+
+Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 });

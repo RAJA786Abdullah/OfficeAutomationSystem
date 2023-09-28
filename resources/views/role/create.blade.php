@@ -46,43 +46,47 @@
                     	<textarea name="description" class="form-control">{{ old('description') }}</textarea>
 					</div>
                 </div>
+                <label class="form-check-label">
+                    <input type="checkbox" id="select-all-privileges" />
+                    &nbsp;&nbsp;Select All Privileges
+                </label>
 				<div class="form-group row">
 					<div class="col-sm-12">
-						<table class="table" @if($errors->has('privilegeID')) style="border:1px solid red;" @endif>
-							<thead>
-								<tr>
-									<th>Modules</th>
-									<th colspan="4">Privileges</th>
-								</tr>
-							</thead>
-							<tbody>
+                        <table class="table" @if($errors->has('privilegeID')) style="border:1px solid red;" @endif>
+                            <thead>
                             <tr>
-								@php
-									$moduleID = 0;
-								@endphp
-								@foreach($privileges as $privilege)
-									@php
-                                       if ($moduleID != $privilege->moduleID) {
-											if ($moduleID != 0) {
-												echo '</tr>';
-											}
-											echo '<tr><td><label>' . $privilege->modules->moduleName . '</label></td>';
-											$moduleID = $privilege->moduleID;
-										}
-									@endphp
-									<td>
-										<label class="form-check-label">
-											<input type="checkbox" name="privilegeID[]" value="{{ $privilege->privilegeID }}" @if($errors->has('privilegeID')) is-invalid @endif
-												{{ (is_array(old('privilegeID')) && in_array($privilege->privilegeID, old('privilegeID'))) ? ' checked' : '' }}
-											/>
-											&nbsp;&nbsp;{{ $privilege->privilegeName }}
-										</label>
-									</td>
-								@endforeach
-								</tr>
-							</tbody>
-						</table>
-						@if($errors->has('privilegeID'))
+                                <th>Modules</th>
+                                <th colspan="4">Privileges</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @php
+                                $moduleID = 0;
+                            @endphp
+                            @foreach($privileges as $privilege)
+                                @php
+                                    if ($moduleID != $privilege->moduleID) {
+                                        if ($moduleID != 0) {
+                                            echo '</tr>';
+                                        }
+                                        echo '<tr><td><label>' . $privilege->modules->moduleName . '</label></td>';
+                                        $moduleID = $privilege->moduleID;
+                                    }
+                                @endphp
+                                <td>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" name="privilegeID[]" value="{{ $privilege->privilegeID }}" @if($errors->has('privilegeID')) is-invalid @endif
+                                            {{ (is_array(old('privilegeID')) && in_array($privilege->privilegeID, old('privilegeID'))) ? ' checked' : '' }}
+                                        />
+                                        &nbsp;&nbsp;{{ $privilege->privilegeName }}
+                                    </label>
+                                </td>
+                                @endforeach
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    @if($errors->has('privilegeID'))
 							<em class="text-danger">
 								{{ $errors->first('privilegeID') }}
 							</em>
@@ -96,3 +100,14 @@
         </div>
     </div>
 @stop
+@section('js')
+    <script>
+        // jQuery code to handle the "Select All" checkbox
+        $(document).ready(function () {
+            $('#select-all-privileges').click(function () {
+                // Check or uncheck all privilege checkboxes based on the "Select All" checkbox state
+                $('input[name="privilegeID[]"]').prop('checked', this.checked);
+            });
+        });
+    </script>
+@endsection

@@ -14,13 +14,13 @@ class FieldTypeSeeder extends Seeder
     public function run()
     {
         $aryFieldTypes = [
-            ['fieldTypeCode' => 'radio', 'fieldType' => 'Radio', 'sortOrder' => 1],
-			['fieldTypeCode' => 'checkbox', 'fieldType' => 'Checkbox', 'sortOrder' => 2],
-			['fieldTypeCode' => 'number', 'fieldType' => 'Number', 'sortOrder' => 3],
-            ['fieldTypeCode' => 'text', 'fieldType' => 'Text', 'sortOrder' => 4],
+            ['fieldTypeCode' => 'radio',    'fieldType' => 'Radio',     'sortOrder' => 1],
+			['fieldTypeCode' => 'checkbox', 'fieldType' => 'Checkbox',  'sortOrder' => 2],
+			['fieldTypeCode' => 'number',   'fieldType' => 'Number',    'sortOrder' => 3],
+            ['fieldTypeCode' => 'text',     'fieldType' => 'Text',      'sortOrder' => 4],
 			['fieldTypeCode' => 'textarea', 'fieldType' => 'Text Area', 'sortOrder' => 5],
-			['fieldTypeCode' => 'select', 'fieldType' => 'Dropdown', 'sortOrder' => 6],
-			['fieldTypeCode' => 'wysiwyg', 'fieldType' => 'WYSIWYG Editor', 'sortOrder' => 7]
+			['fieldTypeCode' => 'select',   'fieldType' => 'Dropdown',  'sortOrder' => 6],
+			['fieldTypeCode' => 'wysiwyg',  'fieldType' => 'WYSIWYG Editor', 'sortOrder' => 7]
         ];
         foreach ($aryFieldTypes as $fieldType) {
             \Illuminate\Support\Facades\DB::table('fieldType')->insert([

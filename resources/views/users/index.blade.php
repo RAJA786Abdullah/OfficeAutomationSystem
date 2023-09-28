@@ -38,9 +38,10 @@
                     <tr>
                         <th class="wd-15p">SrNo.</th>
                         <th class="wd-25p">Name</th>
+                        <th class="wd-25p">Arm Designation</th>
                         <th class="wd-25p">User Name</th>
                         <th class="wd-25p">User Role</th>
-                        <th class="wd-25p">Is Signing Authority</th>
+                        <th class="wd-25p">Signing Authority</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
@@ -50,6 +51,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$user->name}}</td>
+                                <td>{{$user->arm_designation}}</td>
                                 <td>{{$user->email}}</td>
 
                                 <td>

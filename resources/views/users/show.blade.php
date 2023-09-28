@@ -34,34 +34,41 @@
         <div class="card-body">
             <table class="table-sm table-striped text-nowrap w-100 display">
                 <tbody class="col-lg-6 p-0">
-                <tr>
-                    <td><strong>Name :</strong> {{ $user->name}}</td>
-                </tr>
-                <tr>
-                    <td><strong>User Name :</strong> {{ $user->email }} </td>
-                </tr>
+                    <tr>
+                        <td><strong>Name :</strong> {{ $user->name}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Arm Designation :</strong> {{ $user->arm_designation}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>User Name :</strong> {{ $user->email }} </td>
+                    </tr>
                 </tbody>
                 <tbody class="col-lg-6 p-0">
-                <tr>
-                    <td><strong>Branch :</strong> {{ $user->branch->name  }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Department :</strong> {{ $user->department->name  }}</td>
-                </tr>
+                    <tr>
+                        <td><strong>Branch :</strong> {{ $user->branch->name  }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Department :</strong> {{ $user->department->name  }}</td>
+                    </tr>
+
                 </tbody>
                 <tbody class="col-lg-6 p-0">
-                <tr>
-                    <td><strong>Status :</strong> {{ $user->status == 1 ? "Active" : "Not Active"  }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Date Created :</strong> {{date('d M Y', strtotime($user->created_at)) }}</td>
-                </tr>
+                    <tr>
+                        <td><strong>Singing Authority :</strong> {{ $user->is_signing_authority == 1 ? "Yes" : "No"  }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status :</strong> {{ $user->status == 1 ? "Active" : "Not Active"  }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date Created :</strong> {{date('d M Y', strtotime($user->created_at)) }}</td>
+                    </tr>
                 </tbody>
 
                 <tbody class="col-lg-6 p-0">
-                <tr>
-                    <td><strong>Is Singing Authority :</strong> {{ $user->is_signing_authority == 1 ? "Yes" : "No"  }}</td>
-                </tr>
+                    <tr>
+                        <td><strong>Is Singing Authority :</strong> {{ $user->is_signing_authority == 1 ? "Yes" : "No"  }}</td>
+                    </tr>
                 </tbody>
 
 

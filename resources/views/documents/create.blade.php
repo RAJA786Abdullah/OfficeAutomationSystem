@@ -179,7 +179,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
-                                        <textarea class="form-control" rows="4" name="to" id="to" readonly> {{ old('to') }}</textarea>
+                                        <textarea class="form-control" rows="4" name="to" id="to" > {{ old('to') }}</textarea>
                                         @if($errors->has('to'))
                                             <div class="text-danger">
                                                 {{ $errors->first('to') }}
@@ -187,7 +187,7 @@
                                         @endif
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
-                                        <textarea class="form-control mt-2" rows="4" name="info" id="info" readonly> {{ old('info') }}</textarea>
+                                        <textarea class="form-control mt-2" rows="4" name="info" id="info" > {{ old('info') }}</textarea>
                                         @if($errors->has('info'))
                                             <div class="text-danger">
                                                 {{ $errors->first('info') }}

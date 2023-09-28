@@ -42,6 +42,11 @@
                     @endif
 
                     <div class="col-12">
+                        <label class="form-label">{{ __('Arm Designation') }}</label>
+                        <input type="text" name="arm_designation" class="form-control form-control-lg" placeholder="{{ __('Arm Designation') }}" value="{{ old('arm_designation')}}">
+                    </div>
+
+                    <div class="col-12">
                         <label class="form-label required">{{ __('User Name') }}</label><br>
                         <label class="form-label required">{{ __('User Name will be used for login username') }}</label>
                         <input type="text" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('User Name') }}" value="{{ old('email')}}" required>

@@ -16,9 +16,9 @@ class FilesSeeder extends Seeder
     {
         $aryBranches = [
             ['name' => 'Software',      'code' => '101', 'created_at' => Carbon::now()],
-            ['name' => 'Networks',     'code' => '102', 'created_at' => Carbon::now()],
-            ['name' => 'HR',      'code' => '103', 'created_at' => Carbon::now()],
-            ['name' => 'Security','code' => '104', 'created_at' => Carbon::now()]
+            ['name' => 'Networks',      'code' => '102', 'created_at' => Carbon::now()],
+            ['name' => 'Telecom',       'code' => '103', 'created_at' => Carbon::now()],
+            ['name' => 'Procurement',   'code' => '104', 'created_at' => Carbon::now()]
         ];
         foreach ($aryBranches as $branch) {
             DB::table('files')->insert(['name' => $branch['name'],'code'=>$branch['code'],'created_at'=>$branch['created_at']]);

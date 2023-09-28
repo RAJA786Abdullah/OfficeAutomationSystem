@@ -20,6 +20,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
+
         $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         return view('documents.index', compact('documents'));
     }
@@ -48,7 +49,7 @@ class DocumentController extends Controller
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
                 'body' => $request->input('body'),
-                'singing_authority_id' => $request->input('signing_authority_id'),
+                'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
@@ -102,7 +103,22 @@ class DocumentController extends Controller
     public function show(Document $document)
     {
         $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
-        return view('documents.show', compact('document'));
+        $signingAuthorityID = $document->signing_authority_id;
+        $signInData = [];
+
+
+        $user = User::where('userID', $signingAuthorityID)->first();
+        if ($user) {
+
+            $user->load('department');
+            if ($user->arm_designation) {
+                array_push($signInData, $user->arm_designation);
+            }
+            array_push($signInData, $user->name);
+            array_push($signInData, $user->department->name);
+        }
+
+        return view('documents.show', compact('document', 'signInData'));
     }
 
     public function edit(Document $document)

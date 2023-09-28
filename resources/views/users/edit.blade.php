@@ -41,6 +41,12 @@
                             </div>
                         @endif
                     </div>
+
+                    <div class="col-12">
+                        <label class="form-label required">{{ __('Arm Designation') }}</label>
+                        <input type="text" name="arm_designation" class="form-control form-control-lg" placeholder="{{ __('Arm Designation') }}" value="{{ old('arm_designation',$user->arm_designation)}}">
+                    </div>
+
                     <div class="col-12">
                         <label class="form-label required">{{ __('User Name') }}</label>
                         <input type="text" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
@@ -99,7 +105,7 @@
                     @endif
 
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Is SignIn Authority') }}</label>
+                        <label class="form-label required">{{ __(' Signing Authority') }}</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="is_signing_authority" id="yes" value="1" @if(old('is_signing_authority') == null || (old('is_signing_authority',$user->is_signing_authority) == '1')) checked @endif>
                             <label class="form-check-label" for="yes">Yes</label>

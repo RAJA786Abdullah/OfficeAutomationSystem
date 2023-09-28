@@ -22,22 +22,27 @@
 </div>
 <div class="content-body">
     <!-- Page layout -->
-    <div class="card p-3">
+    <div class="card p-5">
         <div class="card-header">
-            <h3 class="mb-0 card-title"><i class="fa fa-user"></i> {{ $document->id }}</h3>
+            <h3 class="mb-0 card-title"><i class="fa fa-user"></i> <b> {{\App\Models\Document::documentTitle($document->id)}} </b></h3>
             @can('user_update')
-                <a href="{{route('users.edit',$document->id)}}" class="btn btn-primary ml-auto">
-                    <i class="fa fa-plus"></i>&ensp;Edit Document
-                </a>
+                <div class="d-flex justify-content-between">
+                    <form action="{{ route('printDocument') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="documentID" value="{{ $document->id }}">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print Document</button>
+                    </form>
+{{--                    <a href="{{ route('users.edit', $document->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;Edit Document</a>--}}
+                </div>
             @endcan
         </div>
-            <div class="card-body">
+            <div class="card-body" >
                 <div class="col-md-12">
                     <h3 class="text-center mb-1 mt-1">{{ strtoupper($document->classification->name) }}</h3>
                     <h3 class="text-center mb-1 mt-1">{{ strtoupper($document->documentType->name) }}</h3>
                     <h3 class="text-center mb-1 mt-1">{{ '('.strtoupper($document->department->name) .')' }}</h3>
-                    <h3 class="mb-1 mt-1">Subj: <u> <b> {{ $document->subject }} </b> </u></h3>
-                    <h3 class="mb-1 mt-1">Signing Authority: <u> <b> {{ $document->singing_authority_id }} </b> </u></h3>
+                    <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
+{{--                    <h3 class="mb-1 mt-1">Signing Authority: <u> <b> {{ $document->user->name }} </b> </u></h3>--}}
 
                     <dl class="row">
                         <div class="col-md-12">
@@ -45,7 +50,23 @@
                         </div>
                     </dl>
 
-
+                    <dl class="row">
+                        <div class="col-md-12  mt-2">
+                            <b class="float-end">
+                                <h4 style="text-align: right">
+                                    @if($signInData)
+                                        @foreach($signInData as $index=> $signIn)
+                                            @if($loop->last)
+                                                <p>{{ '( '.$signIn.' )' }}</p>
+                                            @else
+                                                <p>{{ $signIn }}</p>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </h4>
+                            </b>
+                        </div>
+                    </dl>
                     <dl class="row">
                         <div class="col-md-12 text-center mt-2">
                          <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
@@ -75,97 +96,14 @@
                             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">Office Copy</h5><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                     </dl>
-
-
-
                 </div>
             </div>
-
-{{--                    <div class="col-md-12">--}}
-{{--                        <h5 class="text-center mb-3">Purchase Orders</h5>--}}
-{{--                        <div class="table-responsive">--}}
-{{--                            <table class="table table-bordered table-hover table-striped">--}}
-{{--                                <thead class="thead-dark">--}}
-{{--                                <tr>--}}
-{{--                                    <th scope="col">Product Name</th>--}}
-{{--                                    <th scope="col">Warehouse</th>--}}
-{{--                                    <th scope="col">Code</th>--}}
-{{--                                    <th scope="col">Quantity</th>--}}
-{{--                                    <th scope="col">Batch Number</th>--}}
-{{--                                    <th scope="col">Expiry Date</th>--}}
-{{--                                    <th scope="col">Net Unit Cost</th>--}}
-{{--                                    <th scope="col">Discount</th>--}}
-{{--                                    <th scope="col">Tax</th>--}}
-{{--                                    <th scope="col">Total</th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
-{{--                                <tbody>--}}
-{{--                                @foreach($purchaseOrders as $order)--}}
-{{--                                    <tr>--}}
-{{--                                        <td>{{ $order->product->name }}</td>--}}
-{{--                                        <td>{{ $order->warehouse->name }}</td>--}}
-{{--                                        <td>{{ $order->code }}</td>--}}
-{{--                                        <td>{{ $order->quantity }}</td>--}}
-{{--                                        <td>{{ $order->batchNumber ?? '' }}</td>--}}
-{{--                                        <td>{{ $order->expiryDate ?? '' }}</td>--}}
-{{--                                        <td>{{ $order->netUnitCost }}</td>--}}
-{{--                                        <td>{{ $order->discount }}</td>--}}
-{{--                                        <td>{{ $order->tax }}</td>--}}
-{{--                                        <td>{{ $order->subTotal }}</td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-{{--                                </tbody>--}}
-{{--                            </table>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-
-
-{{--                    <div class="col-md-12">--}}
-{{--                        <h5 class="text-center mb-3">Purchase Receive</h5>--}}
-{{--                        <div class="table-responsive">--}}
-
-{{--                            <table class="table table-bordered">--}}
-{{--                                <thead class="thead-dark">--}}
-{{--                                <tr>--}}
-{{--                                    <th>Product Name</th>--}}
-{{--                                    <th>Received Quantity</th>--}}
-{{--                                    <th>Date</th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
-{{--                                <tbody>--}}
-{{--                                @foreach($purchaseReceives as $receive)--}}
-{{--                                    <tr>--}}
-{{--                                        <td>{{ $receive->product->name }}</td>--}}
-{{--                                        <td>{{ $receive->receivedQty }}</td>--}}
-{{--                                        <td>{{ \Carbon\Carbon::parse($receive->date)->format('Y-m-d')  }}</td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-{{--                                </tbody>--}}
-{{--                            </table>--}}
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-{{--            <table class="table-sm table-striped text-nowrap w-100 display">--}}
-{{--                <tbody class="col-lg-6 p-0">--}}
-{{--                <tr>--}}
-{{--                    <td><strong>User Name :</strong> {{ $user->name}}</td>--}}
-{{--                </tr>--}}
-{{--                <tr>--}}
-{{--                    <td><strong>Email :</strong> <a href="mailto:{{ $user->email}}">{{ $user->email}}</a></td>--}}
-{{--                </tr>--}}
-{{--                </tbody>--}}
-{{--                <tbody class="col-lg-6 p-0">--}}
-{{--                <tr>--}}
-{{--                    <td><strong>User Type :</strong> {{ $user->userType->userType}}</td>--}}
-{{--                </tr>--}}
-{{--                <tr>--}}
-{{--                    <td><strong>Date Created :</strong> {{ $user->dateCreated}}</td>--}}
-{{--                </tr>--}}
-{{--                </tbody>--}}
-{{--            </table>--}}
     </div>
     <!--/ Page layout -->
 </div>
+@endsection
+@section('js')
+    <script>
+
+    </script>
 @endsection

@@ -14,7 +14,7 @@ class AuthGate
 	public function handle($request, Closure $next)
 	{
 		$user = \Auth::user();
-		
+
 		$rawSQL = "
 			SELECT LOWER(CONCAT_WS('_',privilege.privilegeCode,accessLevel.accessLevel)) AS permission
 			FROM userRole
@@ -25,14 +25,14 @@ class AuthGate
 		if (!app()->runningInConsole() && $user) {
 			$rawSQL .= $user->userID;
 			$userPermissions = DB::select($rawSQL);
-			
-			
+
+
 			foreach ($userPermissions as $permission) {
 				Gate::define($permission->permission, function () {
 					return true;
 				});
 			}
-			
+
 			// Settings stuff
 			// \App\Services\SettingService::initializeSettings();
 		}
