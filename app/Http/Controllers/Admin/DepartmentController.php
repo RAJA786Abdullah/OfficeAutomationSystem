@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Department;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Department;
 use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class DepartmentController extends Controller
 {
@@ -17,7 +18,7 @@ class DepartmentController extends Controller
     {
         abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $departments = Department::all();
-        return view('departments.index',compact('departments'));
+        return view('admin.departments.index',compact('departments'));
     }
 
     /**
@@ -25,7 +26,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        return view('admin.departments.create');
     }
 
     /**
@@ -54,7 +55,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        return view('departments.edit',compact('department'));
+        return view('admin.departments.edit',compact('department'));
     }
 
     /**

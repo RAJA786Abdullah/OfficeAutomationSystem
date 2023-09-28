@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Role;
-use Gate;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleStoreRequest;
 use App\Http\Requests\RoleUpdateRequest;
+use App\Models\Role;
+use Gate;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class RoleController extends Controller
@@ -54,7 +55,7 @@ class RoleController extends Controller
             $table->rawColumns(['actions','privileges']);
             return $table->make(true);
         }
-        return view('role.index');
+        return view('admin.role.index');
     }
 
     public function create()
@@ -62,7 +63,7 @@ class RoleController extends Controller
 		abort_if(Gate::denies('roles_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 		$accessLevels = \App\Models\AccessLevel::all();
 		$privileges = \App\Models\Privilege::with(['modules','accessLevel'])->get();
-		return view('role.create',compact('accessLevels','privileges'));
+		return view('admin.role.create',compact('accessLevels','privileges'));
     }
 
     public function store(RoleStoreRequest $request)
@@ -85,7 +86,7 @@ class RoleController extends Controller
     {
 		abort_if(Gate::denies('roles_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 		$role = Role::with('privileges.modules')->find($role->roleID);
-        return view('role.show', compact('role'));
+        return view('admin.role.show', compact('role'));
     }
 
     public function edit(Role $role)
@@ -97,7 +98,7 @@ class RoleController extends Controller
 			return $item->privilegeID;
 		})->toArray();
 
-		return view('role.edit',compact('role','accessLevels','privileges','rolePrivileges'));
+		return view('admin.role.edit',compact('role','accessLevels','privileges','rolePrivileges'));
     }
 
     public function update(RoleUpdateRequest $request, Role $role)

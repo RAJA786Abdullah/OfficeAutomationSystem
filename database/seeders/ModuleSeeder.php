@@ -22,7 +22,6 @@ class ModuleSeeder extends Seeder
             ['moduleID' => 4, 'moduleCode' => 'ROLES','moduleName' => 'Roles Module'],
             ['moduleID' => 5, 'moduleCode' => 'PAGES','moduleName' => 'Pages Module'],
             ['moduleID' => 6, 'moduleCode' => 'DASHBOARD', 'moduleName' => 'Dashboard Module'],
-
             ['moduleID' => 7, 'moduleCode' => 'BRANCH', 'moduleName' => 'Branch Module'],
             ['moduleID' => 8, 'moduleCode' => 'DEPARTMENT', 'moduleName' => 'Department Module'],
             ['moduleID' => 9, 'moduleCode' => 'FILES', 'moduleName' => 'Files Module'],
@@ -32,6 +31,7 @@ class ModuleSeeder extends Seeder
             ['moduleID' => 13, 'moduleCode' => 'REMARKS', 'moduleName' => 'Remarks Module'],
             ['moduleID' => 14, 'moduleCode' => 'ATTACHMENTS', 'moduleName' => 'Attachments Module'],
             ['moduleID' => 15, 'moduleCode' => 'RECIPIENTS', 'moduleName' => 'Recipients Module'],
+            ['moduleID' => 16, 'moduleCode' => 'FRONT', 'moduleName' => 'Front Module'],
         ];
 	    foreach ($aryModules as $module) {
 		    DB::table('modules')->insert(['moduleCode' => $module['moduleCode'],'moduleName' => $module['moduleName'],'moduleID' => $module['moduleID']]);

@@ -3,6 +3,7 @@
 @section('title', 'Login')
 @section('main-content')
 <div class="content-wrapper">
+    @include('partials.message')
     <div class="content-header row">
     </div>
     <div class="content-body">
@@ -29,7 +30,7 @@
                         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-1">
-                                <label class="form-label" for="login-email">Email</label>
+                                <label class="form-label" for="login-email">User Name</label>
                                 <input class="form-control @error('email') is-invalid @enderror" id="login-email" type="text" name="email" value="{{ old('email') }}" placeholder="john@example.com" aria-describedby="login-email" autofocus="" tabindex="1" required autocomplete="email"/>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">

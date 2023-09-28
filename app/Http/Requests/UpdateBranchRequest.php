@@ -25,7 +25,7 @@ class UpdateBranchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:branches',
             'location' => 'required',
         ];
     }
@@ -34,6 +34,7 @@ class UpdateBranchRequest extends FormRequest
     {
         return [
             'name.required' => 'Branch Name is required',
+            'name.unique' => 'Branch Name already exist',
             'location.required' => 'Branch Location is required',
         ];
     }

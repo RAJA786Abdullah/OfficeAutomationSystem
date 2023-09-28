@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Branch;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
+use App\Models\Branch;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-use Gate;
 
 class BranchController extends Controller
 {
@@ -18,7 +19,7 @@ class BranchController extends Controller
     {
         abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $branches = Branch::all();
-        return view('branches.index',compact('branches'));
+        return view('admin.branches.index',compact('branches'));
     }
 
     /**
@@ -26,7 +27,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('branches.create');
+        return view('admin.branches.create');
     }
 
     /**
@@ -55,7 +56,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        return view('branches.edit',compact('branch'));
+        return view('admin.branches.edit',compact('branch'));
     }
 
     /**

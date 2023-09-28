@@ -79,4 +79,9 @@ class User extends Authenticatable
     public function document(){
         return $this->hasOne('App\Models\Document', 'created_by', 'userID');
     }
+
+    public function isAdmin()
+    {
+        return $this->roles[0]->roleName === 'Admin';
+    }
 }

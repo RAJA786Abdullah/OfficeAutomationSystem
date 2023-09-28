@@ -25,14 +25,15 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:departments',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Department Name is required'
+            'name.required' => 'Department Name is required',
+            'name.unique' => 'Department Name already exist'
         ];
     }
 }
