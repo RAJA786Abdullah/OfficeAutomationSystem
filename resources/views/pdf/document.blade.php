@@ -33,6 +33,9 @@
         .my-2{
             margin-bottom: 5px;
         }
+        .body{
+            padding: 12px;
+        }
     </style>
 </head>
 <body>
@@ -40,7 +43,7 @@
         <div class="d-flex justify-content-center align-items-center">
                 <h3 class="text-center">
                     <u>
-                        {{  strtoupper(trim($document->classification->name)) }} <br>
+                        {{ strtoupper(trim($document->classification->name)) }} <br>
                         {{ strtoupper(trim($document->documentType->name))  }} <br>
                         {{ '('.strtoupper(trim($document->department->name)) .')' }}
                     </u>

@@ -123,7 +123,16 @@ class DocumentController extends Controller
 
     public function edit(Document $document)
     {
-        //
+        $userID = Auth::id();
+        $user = User::where('userID', $userID)->first();
+        $dept_id = $user->department_id;
+        $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
+        $classifications = Classification::all();
+        $documentTypes = DocumentType::all();
+        $departments = Department::all();
+        $users = User::all();
+        $files = Files::all();
+        return view('admin.documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
     }
 
     public function update(UpdateDocumentRequest $request, Document $document)

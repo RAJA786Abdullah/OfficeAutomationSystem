@@ -1,0 +1,23 @@
+[1mdiff --git a/resources/views/pdf/document.blade.php b/resources/views/pdf/document.blade.php[m
+[1mindex 12e3d1d..be332c7 100644[m
+[1m--- a/resources/views/pdf/document.blade.php[m
+[1m+++ b/resources/views/pdf/document.blade.php[m
+[36m@@ -33,6 +33,9 @@[m
+         .my-2{[m
+             margin-bottom: 5px;[m
+         }[m
+[32m+[m[32m        .body{[m
+[32m+[m[32m            padding: 12px;[m
+[32m+[m[32m        }[m
+     </style>[m
+ </head>[m
+ <body>[m
+[36m@@ -40,7 +43,7 @@[m
+         <div class="d-flex justify-content-center align-items-center">[m
+                 <h3 class="text-center">[m
+                     <u>[m
+[31m-                        {{  strtoupper(trim($document->classification->name)) }} <br>[m
+[32m+[m[32m                        {{ strtoupper(trim($document->classification->name)) }} <br>[m
+                         {{ strtoupper(trim($document->documentType->name))  }} <br>[m
+                         {{ '('.strtoupper(trim($document->department->name)) .')' }}[m
+                     </u>[m

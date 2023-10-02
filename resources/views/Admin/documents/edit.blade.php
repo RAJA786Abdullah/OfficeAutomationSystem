@@ -27,30 +27,16 @@
         <div class="card-header">
             <h4 class="card-title">Add User</h4>
         </div>
-        <form method="POST" action="{{route('users.update',$user->userID)}}">
+        <form method="POST" action="{{route('documents.update',$document->id)}}">
             @method('PUT')
             @csrf
             <div class="card-body">
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <input type="hidden" class="form-check-input" name="statusID" value="1">
-                        <input type="hidden" class="form-check-input" name="roleID" value="1">
-                        <label class="form-label required">{{ __('User Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name',$user->name)}}" required>
-                        @if($errors->has('name'))
-                            <div class="text-danger">
-                                {{ $errors->first('name') }}
-                            </div>
-                        @endif
+
                     </div>
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Email address') }}</label>
-                        <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
-                        @if($errors->has('email'))
-                            <div class="text-danger">
-                                {{ $errors->first('email') }}
-                            </div>
-                        @endif
+
                     </div>
                     <div class="col-12">
                         <label class="form-label required">{{ __('Old Password') }}</label>
