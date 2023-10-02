@@ -366,7 +366,6 @@
         var annux_rows = {{ old('annux_rows') ? old('annux_rows') : 0 }};
         function addNewAnnux(){
             annux_rows +=1;
-
             var annuxField =
                 `<tr id="annux_rows_${annux_rows}">`+
                 '<tr>'+
@@ -378,7 +377,6 @@
                 '</td>'+
                 '<td>'+
                 '<div class="form-group">'+
-
                 '<button class="btn btn-sm btn-outline-danger btnDelete" onclick="bindRowRemoveClick(this)" type="button"><i class="fa fa-trash"></i></button>'+
                 '</div>'+
                 '</td>'+
@@ -389,8 +387,6 @@
             $(thisElem).closest('tr').remove();
             --annux_rows;
             $('#annux_rows').val(annux_rows);
-
-
         }
     </script>
 @endsection

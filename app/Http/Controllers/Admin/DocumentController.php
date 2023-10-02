@@ -105,8 +105,6 @@ class DocumentController extends Controller
         $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
         $signingAuthorityID = $document->signing_authority_id;
         $signInData = [];
-
-
         $user = User::where('userID', $signingAuthorityID)->first();
         if ($user) {
 
@@ -123,7 +121,19 @@ class DocumentController extends Controller
 
     public function edit(Document $document)
     {
+        $tos = [];
+        $infos = [];
         $userID = Auth::id();
+        $document->load('recipients','attachments');
+        foreach ($document->recipients as $recipient){
+            if ($recipient->type == 'to'){
+                array_push($tos,$recipient->name);
+            }
+            if ($recipient->type == 'info'){
+                array_push($infos,$recipient->name);
+            }
+        }
+
         $user = User::where('userID', $userID)->first();
         $dept_id = $user->department_id;
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
@@ -132,12 +142,87 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('admin.documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
+        return view('admin.documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
     }
 
     public function update(UpdateDocumentRequest $request, Document $document)
     {
         try {
+            $userID = Auth::id();
+            $document->update([
+                'classification_id' => $request->input('classification_id'),
+                'document_type_id' => $request->input('document_type_id'),
+                'file_id' => $request->input('file_id'),
+                'subject' => $request->input('subject'),
+                'body' => $request->input('body'),
+                'signing_authority_id' => $request->input('signing_authority_id'),
+                'created_by' => $userID,
+                'department_id' => Auth::user()->department_id,
+                'document_unique_identifier' => 1,
+            ]);
+//            $document->attachments()->delete();
+
+            $info = $request->input('info');
+            $to = $request->input('to');
+            $infoArray = preg_split('/\r\n|\r|\n/', $info);
+            $toArray = preg_split('/\r\n|\r|\n/', $to);
+            foreach ($infoArray as $info){
+                Recipient::create([
+                    'name' => $info,
+                    'type' => 'info',
+                    'document_id' => $document->id,
+                    'userID' => $userID,
+                ]);
+            }
+
+            foreach ($toArray as $to){
+                Recipient::create([
+                    'name' => $to,
+                    'type' => 'to',
+                    'document_id' => $document->id,
+                    'userID' => $userID,
+                ]);
+            }
+
+            if ($request->name) {
+                foreach ($request->name as $key => $name) {
+                    $id = $request['ids'][$key];
+                    dump($key);
+                    if ($request->file('attachment')[$key]){
+                        dump($request->file('attachment')[$key]);
+                        dump($id);
+                    }
+//                    dump($request->file('attachment')[$key]);
+//                    dump($id);
+//                    dump($name);
+
+//                    $attachment = $request->file('attachment')[$key];
+//                    dump(typeOf($attachment));
+//                    dd($request->ids[$key]);
+//
+//                    dd($attachment);
+//                    if ($attachment) {
+//                        $fileExtension = $attachment->getClientOriginalExtension();
+//                        $fileName = $attachment->getClientOriginalName();
+//                        $attachment->storeAs('public/attachments', $fileName);
+//                        Attachment::create([
+//                            'name' => $name,
+//                            'type' => $fileExtension,
+//                            'path' => $fileName, // Store the original filename
+//                            'document_id' => $document->id,
+//                        ]);
+//                    }
+//                    else{
+//                        Attachment::update([
+//
+//                        ]);
+//                    }
+
+                }
+            }
+            dd('yes');
+            $request->session()->flash('message', 'Document created successfully!');
+            return redirect()->route('documents.index');
             dd($request->all());
         }catch (\Exception $e){
             dd($e);

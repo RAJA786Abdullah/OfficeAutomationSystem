@@ -25,20 +25,26 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'document_id' => 'required',
-            'name' => 'required',
-            'type' => 'required',
-            'path' => 'required'
+            'classification_id' => 'required',
+            'document_type_id' => 'required',
+            'file_id' => 'required',
+            'subject' => 'required',
+            'to' => 'required',
+            'info' => 'required',
+            'signing_authority_id' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'document_id.required' => 'Document is required',
-            'name.required' => 'Document Name is required',
-            'type.required' => 'Document Type is required',
-            'path.required' => 'File is required'
+            'classification_id.required' => 'Classification is required',
+            'document_type_id.required' => 'Document Type is required',
+            'file_id.required' => 'File is required',
+            'subject.required' => 'Subject is required',
+            'to.required' => 'To is required',
+            'info.required' => 'Info is required',
+            'signing_authority_id.required' => 'Signing Authority is required',
         ];
     }
 }
