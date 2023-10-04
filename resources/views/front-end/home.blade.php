@@ -23,7 +23,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <a class="nav-item navbar-brand" href="#"><i class="ti ti-home rounded-pill"></i></a>
+                <a class="nav-item navbar-brand" href="{{route('userHome')}}"><i class="ti ti-home rounded-pill"></i></a>
                 <a class="nav-item navbar-brand" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="ti ti-logout"></i></a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
