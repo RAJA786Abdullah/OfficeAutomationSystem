@@ -7,27 +7,17 @@ use Illuminate\Database\Seeder;
 
 class UserRoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $aryUserRoles = [
             ['userID' => 1,'roleID' => 1],
-            ['userID' => 2,'roleID' => 2],
-//
-//            ['userID' => 1,'roleID' => 3],
-//            ['userID' => 2,'roleID' => 4],
-//
-//            ['userID' => 1,'roleID' => 1],
-//            ['userID' => 2,'roleID' => 2],
-//
-//            ['userID' => 1,'roleID' => 1],
-//            ['userID' => 2,'roleID' => 2],
+            ['userID' => 2,'roleID' => 6],
 
+            ['userID' => 3,'roleID' => 5],
+            ['userID' => 4,'roleID' => 7],
 
+            ['userID' => 5,'roleID' => 1],
+            ['userID' => 6,'roleID' => 4],
         ];
 
 	    foreach ($aryUserRoles as $userRole) {

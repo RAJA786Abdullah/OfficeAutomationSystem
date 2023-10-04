@@ -117,17 +117,6 @@ class DocumentController extends Controller
             array_push($signInData, $user->name);
             array_push($signInData, $user->department->name);
         }
-
-//        $showPdf = true;
-//        $string = $grandCategory->image;
-//        $extension = Str::after($string, ".");
-//
-//        $contentType = 'application/pdf';
-//
-//        $content = Storage::disk('books')->get($grandCategory['image']);
-//        return view('grandCategories.show', compact('grandCategory', 'content', 'contentType', 'showPdf'));
-
-
         return view('documents.show', compact('document', 'signInData'));
     }
 
