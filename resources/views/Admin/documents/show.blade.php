@@ -98,7 +98,6 @@
 
                     <dl>
                         <div class="col-md-12">
-
                             @foreach($document->attachments as $attachment)
                                 @php
                                     $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
@@ -118,7 +117,7 @@
                                     </div>
 
                                     <object data="data:{{ $contentType }};base64,{{ base64_encode($content) }}" width="100%" height="900"></object>
-                                @elseif($fileExtension == 'jpg')
+                                @elseif($fileExtension == 'jpg' || $fileExtension == 'png')
                                     <div class="text-center mt-1 mb-1">
                                         <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
                                             Download {{ $attachment->name }}
