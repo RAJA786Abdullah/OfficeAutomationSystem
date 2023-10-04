@@ -88,8 +88,8 @@
             background: #7367f0;
         }
     </style>
-
     @yield('css')
+
 </head>
 
 <!-- BEGIN: Body-->
