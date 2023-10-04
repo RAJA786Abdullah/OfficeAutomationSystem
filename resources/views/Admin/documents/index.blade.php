@@ -37,6 +37,7 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">Reference No</th>
+                        <th class="wd-15p">Department</th>
                         <th class="wd-25p">Classification</th>
                         <th class="wd-25p">File No</th>
                         <th class="wd-25p">subject</th>
@@ -48,6 +49,7 @@
                     @foreach($documents as $document)
                             <tr>
                                 <td>{{$document->reference_id}}</td>
+                                <td>{{$document->department->name}}</td>
                                 <td>{{$document->classification->name}}</td>
                                 <td>{{$document->file->name}}</td>
                                 <td>{{$document->subject}}</td>
