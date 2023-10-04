@@ -26,6 +26,7 @@ class UpdateFilesRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'department_id' => 'required',
             'code' => 'required|unique:files'
         ];
     }
@@ -34,6 +35,7 @@ class UpdateFilesRequest extends FormRequest
     {
         return [
             'name.required' => 'File Name is required',
+            'department_id.required' => 'Department is required',
             'code.required' => 'File Code is required',
             'code.unique' => 'File Code already exist'
         ];

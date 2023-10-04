@@ -57,11 +57,11 @@
         <div class="text-right">
             <h4 style="text-align: right">
                 @if($signInData)
-                    @foreach($signInData as $index=> $signIn)
+                    @foreach($signInData as $index => $signIn)
                         @if($loop->last)
-                            <p>{{ '( '.$signIn.' )' }}</p>
+                            <p style="margin: 0;">{{ '('.$signIn.')' }}</p>
                         @else
-                            <p>{{ $signIn }}</p>
+                            <p style="margin: 0;">{{ $signIn }}</p>
                         @endif
                     @endforeach
                 @endif

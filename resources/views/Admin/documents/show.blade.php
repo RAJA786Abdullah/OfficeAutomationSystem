@@ -42,7 +42,6 @@
                     <h3 class="text-center">{{ strtoupper($document->documentType->name) }}</h3>
                     <h3 class="text-center">{{ '('.strtoupper($document->department->name) .')' }}</h3>
                     <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
-                    {{--                    <h3 class="mb-1 mt-1">Signing Authority: <u> <b> {{ $document->user->name }} </b> </u></h3>--}}
 
                     <dl class="row">
                         <div class="col-md-12">
@@ -57,9 +56,9 @@
                                     @if($signInData)
                                         @foreach($signInData as $index=> $signIn)
                                             @if($loop->last)
-                                                <p>{{ '( '.$signIn.' )' }}</p>
+                                                <p style="margin: 0;">{{ '( '.$signIn.' )' }}</p>
                                             @else
-                                                <p>{{ $signIn }}</p>
+                                                <p style="margin: 0;">{{ $signIn }}</p>
                                             @endif
                                         @endforeach
                                     @endif
@@ -94,6 +93,25 @@
                         <div class="col-md-12">
                             <h5 class="d-inline-block">ID:</h5>
                             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">Office Copy</h5><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </dl>
+
+                    <dl>
+                        <div class="col-md-12">
+
+                            @foreach($document->attachments as $attachment)
+                                @php
+                                    $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
+                                    $contentType = \App\Models\Document::getContentType($fileExtension);
+                                    $content = Illuminate\Support\Facades\Storage::disk('attachments')->get($attachment['path']);
+                                @endphp
+                                {{ $fileExtension }}
+                                @if($fileExtension == 'xlsx')
+                                    <iframe src="data:{{ $contentType }};base64,{{ base64_encode($content) }}" frameborder="0" style="width:100%;height:500px;"></iframe>
+                                @endif
+                                <object data="data:{{ $contentType }};base64,{{ base64_encode($content) }}" width="100%" height="900"></object>
+
+                            @endforeach
                         </div>
                     </dl>
                 </div>

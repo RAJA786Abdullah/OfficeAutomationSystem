@@ -58,4 +58,25 @@ class Document extends Model
             dd($e);
         }
     }
+    public static function getContentType($fileExtension) {
+        $contentTypeMap = [
+            // for images
+            'jpg' => 'image/jpeg','image/jpg',
+            'png' => 'image/png',
+            'bmp' => 'image/bmp',
+            'tiff' => 'image/tif',
+
+            // for docs
+            'pdf' => 'application/pdf',
+            'word' => 'application/doc','application/docx',
+            'xlsx' => 'application/xls','application/xlsx',
+            'powerpoint' => 'application/ppt','application/pptx',
+            'spreadsheet' => 'application/csv',
+
+        ];
+
+        // Use the default content type 'application/octet-stream' for unknown extensions
+        return $contentTypeMap[$fileExtension] ?? 'application/octet-stream';
+    }
+
 }

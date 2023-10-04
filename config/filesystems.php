@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'attachments' => [
+            'driver' => 'local', // You can use other drivers like 's3' or 'public' based on your needs.
+            'root' => storage_path('app/public/attachments'), // The path where your attachments are stored.
+        ],
+
     ],
 
     /*

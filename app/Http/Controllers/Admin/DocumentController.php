@@ -15,6 +15,8 @@ use App\Models\Recipient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
@@ -106,8 +108,8 @@ class DocumentController extends Controller
         $signingAuthorityID = $document->signing_authority_id;
         $signInData = [];
         $user = User::where('userID', $signingAuthorityID)->first();
-        if ($user) {
-
+        if ($user)
+        {
             $user->load('department');
             if ($user->arm_designation) {
                 array_push($signInData, $user->arm_designation);
@@ -115,6 +117,16 @@ class DocumentController extends Controller
             array_push($signInData, $user->name);
             array_push($signInData, $user->department->name);
         }
+
+//        $showPdf = true;
+//        $string = $grandCategory->image;
+//        $extension = Str::after($string, ".");
+//
+//        $contentType = 'application/pdf';
+//
+//        $content = Storage::disk('books')->get($grandCategory['image']);
+//        return view('grandCategories.show', compact('grandCategory', 'content', 'contentType', 'showPdf'));
+
 
         return view('documents.show', compact('document', 'signInData'));
     }
@@ -188,7 +200,7 @@ class DocumentController extends Controller
                 foreach ($request->name as $key => $name) {
                     $id = $request['ids'][$key];
                     dump($key);
-                    if ($request->file('attachment')[$key]){
+                    if ($request->file('attachment')[$key]) {
                         dump($request->file('attachment')[$key]);
                         dump($id);
                     }

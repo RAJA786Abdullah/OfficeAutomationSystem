@@ -17,6 +17,17 @@ class UserRoleSeeder extends Seeder
         $aryUserRoles = [
             ['userID' => 1,'roleID' => 1],
             ['userID' => 2,'roleID' => 2],
+//
+//            ['userID' => 1,'roleID' => 3],
+//            ['userID' => 2,'roleID' => 4],
+//
+//            ['userID' => 1,'roleID' => 1],
+//            ['userID' => 2,'roleID' => 2],
+//
+//            ['userID' => 1,'roleID' => 1],
+//            ['userID' => 2,'roleID' => 2],
+
+
         ];
 
 	    foreach ($aryUserRoles as $userRole) {

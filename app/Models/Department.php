@@ -18,5 +18,9 @@ class Department extends Model
         return $this->hasMany('App\Models\DocumentType','department_id','id');
     }
 
+    public function files(){
+        return $this->hasMany('App\Models\Files','department_id','id');
+    }
+
 }
 

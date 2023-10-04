@@ -43,6 +43,21 @@
                     @endif
 
                     <div class="col-12">
+                        <label class="form-label required">{{ __('Department') }}</label>
+                        <select name="department_id" class="form-select">
+                            <option disabled>Select Department</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" {{ old('department_id', $file->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('department_id'))
+                        <div class="text-danger">
+                            {{ $errors->first('department_id') }}
+                        </div>
+                    @endif
+
+                    <div class="col-12">
                         <label class="form-label required">{{ __('File Code') }}</label>
                         <input type="text" name="code" class="form-control form-control-lg @error('code') is-invalid @enderror" placeholder="{{ __('Code') }}" value="{{ $file->code,old('code')}}" required>
                     </div>

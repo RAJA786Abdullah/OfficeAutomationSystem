@@ -37,9 +37,10 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">SrNo.</th>
+                        <th class="wd-25p">Department</th>
                         <th class="wd-25p">File Name</th>
                         <th class="wd-25p">File Code</th>
-                        <th class="wd-15p">Date Created</th>
+{{--                        <th class="wd-15p">Date Created</th>--}}
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
                     </thead>
@@ -47,9 +48,10 @@
                     @foreach($files as $file)
                         <tr>
                             <td>{{$loop->iteration}}</td>
+                            <td>{{$file->department->name}}</td>
                             <td>{{$file->name}}</td>
                             <td>{{$file->code}}</td>
-                            <td>{{date('d-m-Y', strtotime($file->created_at))}}</td>
+{{--                            <td>{{date('d-m-Y', strtotime($file->created_at))}}</td>--}}
                             <td>
                                 @php
                                     $crud = 'files';

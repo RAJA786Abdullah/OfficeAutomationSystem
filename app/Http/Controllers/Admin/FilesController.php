@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFilesRequest;
 use App\Http\Requests\UpdateFilesRequest;
+use App\Models\Department;
 use App\Models\Files;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,8 @@ class FilesController extends Controller
      */
     public function create()
     {
-        return view('admin.files.create');
+        $departments = Department::all();
+        return view('admin.files.create',compact('departments') );
     }
 
     /**
@@ -34,7 +36,7 @@ class FilesController extends Controller
     {
         try {
             Files::create($request->all());
-            return to_route('files.create')->with('message', 'Files Updated successfully!');
+            return to_route('files.create')->with('message', 'File Created successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -53,7 +55,8 @@ class FilesController extends Controller
      */
     public function edit(Files $file)
     {
-        return view('admin.files.edit',compact('file'));
+        $departments = Department::all();
+        return view('admin.files.edit',compact('file', 'departments'));
     }
 
     /**

@@ -15,13 +15,17 @@ class FilesSeeder extends Seeder
     public function run(): void
     {
         $aryBranches = [
-            ['name' => 'Software',      'code' => '101', 'created_at' => Carbon::now()],
-            ['name' => 'Networks',      'code' => '102', 'created_at' => Carbon::now()],
-            ['name' => 'Telecom',       'code' => '103', 'created_at' => Carbon::now()],
-            ['name' => 'Procurement',   'code' => '104', 'created_at' => Carbon::now()]
+            ['name' => 'Software',    'department_id' => 1, 'code' => '101', 'created_at' => Carbon::now()],
+            ['name' => 'Networks',    'department_id' => 1, 'code' => '102', 'created_at' => Carbon::now()],
+            ['name' => 'Telecom',     'department_id' => 1, 'code' => '103', 'created_at' => Carbon::now()],
+            ['name' => 'Procurement', 'department_id' => 1, 'code' => '104', 'created_at' => Carbon::now()],
         ];
         foreach ($aryBranches as $branch) {
-            DB::table('files')->insert(['name' => $branch['name'],'code'=>$branch['code'],'created_at'=>$branch['created_at']]);
+            DB::table('files')->insert([
+                'name' => $branch['name'],
+                'department_id' => $branch['department_id'],
+                'code'=>$branch['code'],
+                'created_at'=>$branch['created_at']]);
         }
     }
 }
