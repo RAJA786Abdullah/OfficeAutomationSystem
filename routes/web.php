@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\FilesController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RemarksController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
@@ -54,6 +55,11 @@ Route::middleware('auth')->group(function (){
         Route::resource('/classifications',ClassificationController::class);
         Route::resource('/document_types',DocumentTypeController::class);
         Route::resource('/documents',DocumentController::class);
+        Route::resource('/remarks',RemarksController::class);
+
+        Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
+
+//        Route::get('/docShow/{id}',HomeController::class, 'docShow')->name('docShow');
         Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 
 //        Route::get('/frontEnd',[HomeController::class, 'gotoFrontEnd'])->name('gotoFrontEnd');
