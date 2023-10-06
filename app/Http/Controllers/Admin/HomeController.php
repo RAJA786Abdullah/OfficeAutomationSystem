@@ -18,8 +18,12 @@ class  HomeController extends Controller
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+
+
         $userDocuments = [];
         $userID =Auth::id();
+
+
         $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
         $userDepName = Department::where('id',$userDepID)->pluck('name')->first();
         $recipientsGrouped = Recipient::all()->groupBy('document_id');

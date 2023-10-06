@@ -14,4 +14,12 @@ class Remark extends Model
     public function user(){
         return $this->belongsTo('App\Models\User', 'userID', 'userID');
     }
+
+    public function toUser(){
+        return $this->belongsTo('App\Models\User', 'toUserID', 'userID');
+    }
+
+    public function document(){
+        return $this->belongsTo('App\Models\Document', 'document_id', 'id');
+    }
 }
