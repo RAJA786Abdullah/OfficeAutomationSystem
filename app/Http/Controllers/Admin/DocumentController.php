@@ -200,34 +200,34 @@ class DocumentController extends Controller
             if ($request->name) {
                 $attachments = $document->load('attachments');
                 foreach($attachments->attachments as $attachment) {
-                    try {
                         $attachment->delete();
-                    } catch (Exception $e) {
-                        echo 'Error deleting attachment: ' . $e->getMessage();
-                    }
                 }
+//                        dd(($request->file('attachment')));
                 $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
-                    $attachment->name = $name;
-                    // Handle file upload
-                    if ($request->hasFile('attachment') && $request->file('attachment')[$key]->isValid()) {
-                        $file = $request->file('attachment')[$key];
-                        $fileExtension = $file->getClientOriginalExtension();
-                        $fileName = $file->getClientOriginalName();
-                        $file->storeAs('public/attachments', $fileName);
-                        $attachment->type = $fileExtension;
-                        $attachment->path = $fileName;
-                    } elseif ($request->attachmentsHidden && isset($request->attachmentsHidden[$key])) {
-                        // Use the existing attachment path if provided
-                        $attachment->path = $request->attachmentsHidden[$key];
-                        $attachment->type = pathinfo($attachment->path, PATHINFO_EXTENSION);
-                    } else {
-                        dd('Error');
-                        // Handle validation error for attachments
+                    if (is_array($request->file('attachment'))){
+                        foreach($request->file('attachment') as $file){
+                            $attachment->name = $name;
+                            // Handle file upload
+                            if ($request->hasFile('attachment') && count($request->file('attachment')) > 0) {
+                                $fileExtension = $file->getClientOriginalExtension();
+                                $fileName = $file->getClientOriginalName();
+                                $file->storeAs('public/attachments', $fileName);
+                                $attachment->type = $fileExtension;
+                                $attachment->path = $fileName;
+                            } elseif ($request->attachmentsHidden && isset($request->attachmentsHidden[$key])) {
+                                // Use the existing attachment path if provided
+                                $attachment->path = $request->attachmentsHidden[$key];
+                                $attachment->type = pathinfo($attachment->path, PATHINFO_EXTENSION);
+                            } else {
+                                dd('Error');
+                                // Handle validation error for attachments
+                            }
+                            // Associate the attachment with the document
+                            $attachment->document_id = $document->id;
+                            $attachment->save();
+                        }
                     }
-                    // Associate the attachment with the document
-                    $attachment->document_id = $document->id;
-                    $attachment->save();
                 }
             }
             DB::commit();
