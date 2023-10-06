@@ -15,6 +15,7 @@ use App\Models\Recipient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,7 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
+        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
@@ -61,6 +63,8 @@ class DocumentController extends Controller
             $to = $request->input('to');
             $infoArray = preg_split('/\r\n|\r|\n/', $info);
             $toArray = preg_split('/\r\n|\r|\n/', $to);
+            $infoArray= array_map('trim', $infoArray);
+            $toArray= array_map('trim', $toArray);
             foreach ($infoArray as $info){
                 Recipient::create([
                     'name' => $info,
@@ -95,9 +99,11 @@ class DocumentController extends Controller
                     }
                 }
             }
+            DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
+            DB::rollback();
             dd($e);
         }
     }
@@ -148,6 +154,7 @@ class DocumentController extends Controller
 
     public function update(UpdateDocumentRequest $request, Document $document)
     {
+//        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document->update([
@@ -161,12 +168,16 @@ class DocumentController extends Controller
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
             ]);
-//            $document->attachments()->delete();
-
             $info = $request->input('info');
             $to = $request->input('to');
             $infoArray = preg_split('/\r\n|\r|\n/', $info);
             $toArray = preg_split('/\r\n|\r|\n/', $to);
+            $infoArray= array_map('trim', $infoArray);
+            $toArray= array_map('trim', $toArray);
+            $doc = $document->load('recipients');
+            foreach($doc->recipients as $recipient){
+                $recipient->delete();
+            }
             foreach ($infoArray as $info){
                 Recipient::create([
                     'name' => $info,
@@ -185,47 +196,45 @@ class DocumentController extends Controller
                 ]);
             }
 
+            //update attachment table where document_id is the one in Request
             if ($request->name) {
-                foreach ($request->name as $key => $name) {
-                    $id = $request['ids'][$key];
-                    dump($key);
-                    if ($request->file('attachment')[$key]) {
-                        dump($request->file('attachment')[$key]);
-                        dump($id);
+                $attachments = $document->load('attachments');
+                foreach($attachments->attachments as $attachment) {
+                    try {
+                        $attachment->delete();
+                    } catch (Exception $e) {
+                        echo 'Error deleting attachment: ' . $e->getMessage();
                     }
-//                    dump($request->file('attachment')[$key]);
-//                    dump($id);
-//                    dump($name);
-
-//                    $attachment = $request->file('attachment')[$key];
-//                    dump(typeOf($attachment));
-//                    dd($request->ids[$key]);
-//
-//                    dd($attachment);
-//                    if ($attachment) {
-//                        $fileExtension = $attachment->getClientOriginalExtension();
-//                        $fileName = $attachment->getClientOriginalName();
-//                        $attachment->storeAs('public/attachments', $fileName);
-//                        Attachment::create([
-//                            'name' => $name,
-//                            'type' => $fileExtension,
-//                            'path' => $fileName, // Store the original filename
-//                            'document_id' => $document->id,
-//                        ]);
-//                    }
-//                    else{
-//                        Attachment::update([
-//
-//                        ]);
-//                    }
-
+                }
+                $attachment = new Attachment();
+                foreach ($request->name as $key => $name) {
+                    $attachment->name = $name;
+                    // Handle file upload
+                    if ($request->hasFile('attachment') && $request->file('attachment')[$key]->isValid()) {
+                        $file = $request->file('attachment')[$key];
+                        $fileExtension = $file->getClientOriginalExtension();
+                        $fileName = $file->getClientOriginalName();
+                        $file->storeAs('public/attachments', $fileName);
+                        $attachment->type = $fileExtension;
+                        $attachment->path = $fileName;
+                    } elseif ($request->attachmentsHidden && isset($request->attachmentsHidden[$key])) {
+                        // Use the existing attachment path if provided
+                        $attachment->path = $request->attachmentsHidden[$key];
+                        $attachment->type = pathinfo($attachment->path, PATHINFO_EXTENSION);
+                    } else {
+                        dd('Error');
+                        // Handle validation error for attachments
+                    }
+                    // Associate the attachment with the document
+                    $attachment->document_id = $document->id;
+                    $attachment->save();
                 }
             }
-            dd('yes');
-            $request->session()->flash('message', 'Document created successfully!');
+            DB::commit();
+            $request->session()->flash('message', 'Document Updated successfully!');
             return redirect()->route('documents.index');
-            dd($request->all());
         }catch (\Exception $e){
+            DB::rollBack();
             dd($e);
         }
     }

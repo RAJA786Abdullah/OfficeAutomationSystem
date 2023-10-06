@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     {
 
         $aryUsers = [
-            ['name' => 'Qasim', 'email' => 'qasim', 'status' => 1,'department_id' => 1, 'branch_id'=> 1, 'password'=> \Illuminate\Support\Facades\Hash::make('qasim123')],
+            ['name' => 'Admin', 'email' => 'admin', 'status' => 1,'department_id' => 1, 'branch_id'=> 1, 'password'=> \Illuminate\Support\Facades\Hash::make('admin123')],
             ['name' => 'Hameed', 'email' => 'hameed', 'status' => 1,'department_id' => 1, 'branch_id'=> 1, 'password'=>\Illuminate\Support\Facades\Hash::make('hameed123')],
             ['name' => 'Zain', 'email' => 'zain', 'status' => 1,'department_id' => 1, 'branch_id'=> 1, 'password'=>\Illuminate\Support\Facades\Hash::make('zain1234')],
             ['name' => 'Wahab', 'email' => 'wahab', 'status' => 1,'department_id' => 1, 'branch_id'=> 1, 'password'=>\Illuminate\Support\Facades\Hash::make('wahab123')],

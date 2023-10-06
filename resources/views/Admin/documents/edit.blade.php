@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'User Edit')
+@section('title', 'Document Edit')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -184,26 +184,15 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <label class="form-label fw-bolder fs-5">{{ __('To') }}
-{{--                                        <textarea class="form-control" rows="4" name="to" id="to" >--}}
-{{--                                            @foreach($tos as $to){{trim($to)}}@endforeach--}}
-{{--                                        </textarea>--}}
-                                        <textarea class="form-control" rows="4" name="to" id="to">
-                                            @foreach($tos as $to){{ trim($to) }}@if (!$loop->last){{ "\n" }}@endif
-                                            @endforeach
-                                        </textarea>
-
+                                        <textarea class="form-control" rows="4" name="to" id="to">@foreach($tos as $to){{ trim($to) }}@if (!$loop->last){{ "\n" }} @endif @endforeach</textarea>
                                     @if($errors->has('to'))
-                                            <div class="text-danger">
-                                                {{ $errors->first('to') }}
-                                            </div>
-                                        @endif
+                                        <div class="text-danger">
+                                            {{ $errors->first('to') }}
+                                        </div>
+                                    @endif
                                     </label>
                                     <label class="form-label fw-bolder fs-5">{{ __('Info') }}
-                                        <textarea class="form-control mt-2" rows="4" name="info" id="info" > {{ old('info') }}
-                                            @foreach($infos as $info)
-                                                {{ $info }}
-                                            @endforeach
-                                        </textarea>
+                                        <textarea class="form-control" rows="4" name="info" id="info">@foreach($infos as $info){{ trim($info) }}@if (!$loop->last){{ "\n" }}@endif @endforeach</textarea>
                                         @if($errors->has('info'))
                                             <div class="text-danger">
                                                 {{ $errors->first('info') }}
@@ -232,7 +221,7 @@
                                 <tr>
                                     <td>
                                         <div class="form-group">
-                                            <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" onclick="addNewAnnux();"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -252,6 +241,7 @@
                                         </td>
                                         <td>
                                             <p>Previous File: {{ $attachment->path }}</p>
+                                            <input type="hidden" name="attachmentsHidden[]" value="{{$attachment->path}}">
                                             <input type="file" name="attachment[]" class="form-control" value="{{ $attachment->path }}" placeholder="{{ $attachment->path }}">
                                         </td>
                                         <td>
@@ -273,7 +263,7 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
-                <a href="{{route('users.index')}}" type="button" class="btn btn-secondary">Back</a>
+                <a href="{{route('documents.index')}}" type="button" class="btn btn-secondary">Back</a>
 
             </div>
         </form>
@@ -356,7 +346,7 @@
         }
 
 
-        var annux_rows = {{ $rowID }};
+        var annux_rows = {{ $rowID ? $rowID : 0 }};
         function addNewAnnux(){
             annux_rows +=1;
             var annuxField =
