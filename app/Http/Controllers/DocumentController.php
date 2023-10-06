@@ -19,7 +19,8 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+        $userDepID = Auth::user()->department_id;
+        $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         return view('documents.index', compact('documents'));
     }
 

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->integer('code')->nullable();
             $table->foreignId('reference_id')->nullable()->constrained('documents','id');
             $table->string('reference')->nullable();
+            $table->string('in_dept')->nullable();
+            $table->string('out_dept')->nullable();
+            $table->string('reference')->nullable();
             $table->string('subject');
             $table->text('body');
             $table->integer('signing_authority_id');

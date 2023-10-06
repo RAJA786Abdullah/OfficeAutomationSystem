@@ -37,19 +37,21 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">Reference No</th>
-                        <th class="wd-15p">Department</th>
+{{--                        <th class="wd-15p">Department</th>--}}
                         <th class="wd-25p">Classification</th>
                         <th class="wd-25p">File No</th>
                         <th class="wd-25p">subject</th>
                         <th class="wd-25p">Created By</th>
+
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
+                        <th class="wd-25p">Send Doc</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($documents as $document)
                             <tr>
                                 <td>{{$document->reference_id}}</td>
-                                <td>{{$document->department->name}}</td>
+{{--                                <td>{{$document->department->name}}</td>--}}
                                 <td>{{$document->classification->name}}</td>
                                 <td>{{$document->file->name}}</td>
                                 <td>{{$document->subject}}</td>
@@ -65,6 +67,18 @@
                                     @endphp
                                     @include('partials.actions')
                                 </td>
+                                <td>
+
+                                    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" style="display: inline-block;">
+                                        @method('POST')
+                                        @csrf
+                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
+                                            <i data-feather="send"></i>
+                                        </button>
+                                    </form>
+{{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
+
+                                </td>
                             </tr>
                     @endforeach
                     </tbody>
@@ -76,28 +90,35 @@
     <!--/ Page layout -->
 </div>
 @endsection
-@section('more-script')
+@section('js')
     @include('partials.shortcutKeyCreate')
     <script>
-        function sweetAlertCall(trElem){
-            var tr = $(trElem).closest('tr');
-            var promise = swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this data!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Poof! Your data has been deleted!", {
-                            icon: "success",
-                        });
-                        tr.find('.deleteForm').submit();
-                    } else {
-                        swal("Your data is safe!");
-                    }
-                });
+
+
+        // A $( document ).ready() block.
+        $( document ).ready(function() {
+            console.log( "ready!" );
+        });
+        function sendDocAlert(){
+            console.log(trElem);
+            // var tr = $(trElem).closest('tr');
+            // var promise = swal({
+            //     title: "Are you sure?",
+            //     text: "Once deleted, you will not be able to recover this data!",
+            //     icon: "warning",
+            //     buttons: true,
+            //     dangerMode: true,
+            // })
+            //     .then((willDelete) => {
+            //         if (willDelete) {
+            //             swal("Poof! Your data has been deleted!", {
+            //                 icon: "success",
+            //             });
+            //             tr.find('.deleteForm').submit();
+            //         } else {
+            //             swal("Your data is safe!");
+            //         }
+            //     });
         }
     </script>
 @endsection
