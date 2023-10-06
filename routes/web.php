@@ -30,11 +30,12 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::middleware('auth')->group(function (){
-    Route::get('/',[UserHomeController::class, 'index'])->name('userHome');
-    Route::get('/frontEnd',[UserController::class, 'gotoFrontEnd'])->name('gotoFrontEnd');
+//    Route::get('/',[UserHomeController::class, 'index'])->name('userHome');
+//    Route::get('/frontEnd',[UserController::class, 'gotoFrontEnd'])->name('gotoFrontEnd');
 
     //Admin Side routes
-    Route::prefix('admin')->middleware('admin')->group(function () {
+//    ->middleware('admin')
+    Route::prefix('admin')->group(function () {
         //Dashboard
         Route::get('/',[HomeController::class, 'index'])->name('home');
         //Users

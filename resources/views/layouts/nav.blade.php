@@ -137,11 +137,11 @@
                                 </a>
                             </li>
 
-                            <li class=" nav-item" aria-haspopup="true">
-                                <a id="front-end-link" class="d-flex align-items-center" href="{{ route('gotoFrontEnd') }}">
-                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Front End</span>
-                                </a>
-                            </li>
+{{--                            <li class=" nav-item" aria-haspopup="true">--}}
+{{--                                <a id="front-end-link" class="d-flex align-items-center" href="{{ route('gotoFrontEnd') }}">--}}
+{{--                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Front End</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
                             {{--                        <li class=" nav-item" aria-haspopup="true">--}}
                             {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
                             {{--                        </li>--}}
