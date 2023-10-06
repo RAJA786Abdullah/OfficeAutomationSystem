@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFilesRequest;
 use App\Http\Requests\UpdateFilesRequest;
 use App\Models\Department;
@@ -17,7 +16,7 @@ class FilesController extends Controller
     public function index()
     {
         $files = Files::all();
-        return view('admin.files.index',compact('files'));
+        return view('files.index',compact('files'));
     }
 
     /**
@@ -26,7 +25,7 @@ class FilesController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('admin.files.create',compact('departments') );
+        return view('files.create',compact('departments') );
     }
 
     /**
@@ -56,7 +55,7 @@ class FilesController extends Controller
     public function edit(Files $file)
     {
         $departments = Department::all();
-        return view('admin.files.edit',compact('file', 'departments'));
+        return view('files.edit',compact('file', 'departments'));
     }
 
     /**

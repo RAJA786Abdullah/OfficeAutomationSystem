@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
@@ -18,7 +17,7 @@ class DepartmentController extends Controller
     {
         abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $departments = Department::all();
-        return view('admin.departments.index',compact('departments'));
+        return view('departments.index',compact('departments'));
     }
 
     /**
@@ -26,7 +25,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('admin.departments.create');
+        return view('departments.create');
     }
 
     /**
@@ -55,7 +54,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        return view('admin.departments.edit',compact('department'));
+        return view('departments.edit',compact('department'));
     }
 
     /**

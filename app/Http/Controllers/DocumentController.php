@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Attachment;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Models\Attachment;
 use App\Models\Classification;
 use App\Models\Department;
 use App\Models\Document;
@@ -13,19 +12,15 @@ use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\Recipient;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
     public function index()
     {
         $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
-        return view('admin.documents.index', compact('documents'));
+        return view('documents.index', compact('documents'));
     }
 
     public function create()
@@ -39,7 +34,7 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('admin.documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
     }
 
     public function store(StoreDocumentRequest $request)
@@ -149,7 +144,7 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('admin.documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
+        return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
     }
 
     public function update(UpdateDocumentRequest $request, Document $document)
