@@ -11,10 +11,10 @@ use Gate;
 class  UserHomeController extends Controller
 {
     public function index(){
-        abort_if(Gate::denies('front_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        if (auth()->user()->isAdmin()) {
+//        abort_if(Gate::denies('front_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        if (auth()->user()->isAdmin()) {
             return redirect('/admin');
-        }
-        return view('front-end.home');
+//        }
+//        return view('front-end.home');
     }
 }
