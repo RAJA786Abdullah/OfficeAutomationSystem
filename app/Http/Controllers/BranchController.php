@@ -47,6 +47,7 @@ class BranchController extends Controller
      */
     public function show(Branch $branch)
     {
+        abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //
     }
 
