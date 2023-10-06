@@ -79,6 +79,6 @@ class  HomeController extends Controller
 //            $query->where('type', 'to')->where('userID', $userID);
 //        })->with('attachments')->get();
 //        dd($documents);
-        return view('admin.home');
+        return view('home');
     }
 }

@@ -18,7 +18,7 @@ class ClassificationController extends Controller
     {
         abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $classifications = Classification::all();
-        return view('admin.classifications.index',compact('classifications'));
+        return view('classifications.index',compact('classifications'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ClassificationController extends Controller
      */
     public function create()
     {
-        return view('admin.classifications.create');
+        return view('classifications.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class ClassificationController extends Controller
      */
     public function edit(Classification $classification)
     {
-        return view('admin.classifications.edit',compact('classification'));
+        return view('classifications.edit',compact('classification'));
     }
 
     /**

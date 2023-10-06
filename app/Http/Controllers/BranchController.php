@@ -18,7 +18,7 @@ class BranchController extends Controller
     {
         abort_if(Gate::denies('branch_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $branches = Branch::all();
-        return view('admin.branches.index',compact('branches'));
+        return view('branches.index',compact('branches'));
     }
 
     /**
@@ -26,7 +26,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('admin.branches.create');
+        return view('branches.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        return view('admin.branches.edit',compact('branch'));
+        return view('branches.edit',compact('branch'));
     }
 
     /**

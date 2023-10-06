@@ -19,7 +19,7 @@ class DocumentTypeController extends Controller
     {
         abort_if(Gate::denies('document_type_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $documentTypes = DocumentType::all();
-        return view('admin.document_types.index',compact('documentTypes'));
+        return view('document_types.index',compact('documentTypes'));
     }
 
     /**
@@ -28,7 +28,7 @@ class DocumentTypeController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('admin.document_types.create',compact('departments'));
+        return view('document_types.create',compact('departments'));
     }
 
     /**
@@ -58,7 +58,7 @@ class DocumentTypeController extends Controller
     public function edit(DocumentType $documentType)
     {
         $departments = Department::all();
-        return view('admin.document_types.edit',compact('documentType','departments'));
+        return view('document_types.edit',compact('documentType','departments'));
     }
 
     /**

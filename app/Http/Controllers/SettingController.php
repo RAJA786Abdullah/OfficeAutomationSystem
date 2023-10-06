@@ -17,7 +17,7 @@ class SettingController extends Controller
         foreach ($settings as $setting) {
             $customSettings[$setting->group][$setting->tab][] = $setting;
         }
-        return view('admin.setting.edit',compact('customSettings'));
+        return view('setting.edit',compact('customSettings'));
     }
 
     public function update(Request $request,Factory $cache)

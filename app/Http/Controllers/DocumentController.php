@@ -20,7 +20,7 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
-        return view('admin.documents.index', compact('documents'));
+        return view('documents.index', compact('documents'));
     }
 
     public function create()
@@ -34,7 +34,7 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('admin.documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
     }
 
     public function store(StoreDocumentRequest $request)
@@ -144,7 +144,7 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('admin.documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
+        return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
     }
 
     public function update(UpdateDocumentRequest $request, Document $document)
