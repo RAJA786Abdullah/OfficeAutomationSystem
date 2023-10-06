@@ -50,4 +50,6 @@ Route::resource('/classifications',ClassificationController::class);
 Route::resource('/document_types',DocumentTypeController::class);
 Route::resource('/documents',DocumentController::class);
 Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
+Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
+
 });

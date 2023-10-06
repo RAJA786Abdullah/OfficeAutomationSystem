@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
 
     public function remarks(){
-        return $this->hasMany('App\Models\Remark', 'userID', 'id');
+        return $this->hasMany('App\Models\Remark', 'userID', 'userID');
     }
 
     public function document(){
@@ -84,4 +84,6 @@ class User extends Authenticatable
     {
         return $this->roles[0]->roleName === 'Admin';
     }
+
+
 }

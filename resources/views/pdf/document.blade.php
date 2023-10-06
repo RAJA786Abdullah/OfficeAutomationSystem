@@ -33,9 +33,9 @@
         .my-2{
             margin-bottom: 5px;
         }
-        .body{
-            padding: 12px;
-        }
+        /*.body{*/
+        /*    padding: 12px;*/
+        /*}*/
     </style>
 </head>
 <body>

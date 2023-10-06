@@ -58,6 +58,24 @@ class Document extends Model
             dd($e);
         }
     }
+
+    public function scopeDashboardDocumentTitle($query,$id)
+    {
+        try {
+            $query = $query->where('id',$id)->with('documentType','file','department')->first();
+            $subject = $query->subject;
+            $departmentNumber = $query->documentType->code;
+            $fileNumber = $query->file->code;
+            $ionNumber = $query->document_unique_identifier;
+            $departmentName = $query->department->name;
+            $createdAt = date('d M Y', strtotime($query->created_at));
+            $docTitle = "$departmentNumber/$fileNumber/$ionNumber/$departmentName dated $createdAt";
+            return ['subject'=>$subject, 'docTitle'=>$docTitle];
+        }catch (\Exception $e)
+        {
+            dd($e);
+        }
+    }
     public static function getContentType($fileExtension) {
         $contentTypeMap = [
             // for images

@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'dashboard')
+@section('title', 'Dashboard')
 @section('more-style')
 
 @endsection
@@ -34,7 +34,37 @@
                     <a class="btn btn-outline-primary rounded-pill btn-sm" style="margin-left: 10px" href="#" role="button">Tracking</a>
                 </div>
                 <!-- Your content here -->
+                @php
+                    $count = 0;
+                @endphp
+                @foreach($allDocuments as  $allDocument)
+                    @foreach($userDocuments as $document)
+                        @if ($allDocument->id == $document)
+                            @php
+                                $doc = \App\Models\Document::dashboardDocumentTitle($document);
+                                $count++;
+                            @endphp
+{{--                            <a href="{{ route('documents.show', $allDocument->id) }}" class=" text-primary mt-1">--}}
+{{--                                <b>{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</b>--}}
+{{--                            </a><br>--}}
 
+{{--                        <div class="row">--}}
+{{--                            <div class="col-1">--}}
+{{--                                {{ $count }}--}}
+{{--                            </div>--}}
+{{--                            <div class="col-11" style="margin-left: ">--}}
+{{--                                <u><b><a href="{{ route('documents.show', $allDocument->id) }}" class="text-primary text-decoration-none">{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</a></b></u>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                            <span class="">{{ $count }}</span>
+                            <span style="padding-left: 10px" ><u><b><a href="{{ route('docShow', $allDocument->id) }}" class="text-primary text-decoration-none">{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</a></b></u></span>
+                            <br>
+
+{{--                            {{ $count }} - <b><h4><u><a href="{{ route('documents.show', $allDocument->id) }}" class="text-primary text-decoration-none">{{ $doc['subject'] . ' - ' . $doc['docTitle'] }}</a></u></h4></b>--}}
+{{--                            <b><h4><a href="{{ route('documents.show', $allDocument->id) }}">{{ $doc['subject'] . ' - ' . $doc['docTitle'] }}</a></h4></b>--}}
+                        @endif
+                    @endforeach
+                @endforeach
             </div>
         </div>
     </div>

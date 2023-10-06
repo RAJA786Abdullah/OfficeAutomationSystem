@@ -29,7 +29,7 @@ class RoleController extends Controller
                 $editGate      = 'roles_update';
                 $deleteGate    = 'roles_delete';
                 $crudRoutePart = 'role';
-                $primaryKey = 'roleID';
+                $primaryKey    = 'roleID';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -121,7 +121,7 @@ class RoleController extends Controller
     {
 		abort_if(Gate::denies('roles_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 		if (count($role->users->toArray()) >= 1) {
-			$request->session()->flash('warning', 'Role cannot be deleted due to assigned User!');
+			$request->session()->flash('errorMessage', 'Role cannot be deleted due to assigned User!');
 		} else {
 			DB::beginTransaction();
 			try {
