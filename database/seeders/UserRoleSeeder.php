@@ -11,13 +11,13 @@ class UserRoleSeeder extends Seeder
     {
         $aryUserRoles = [
             ['userID' => 1,'roleID' => 1],
-            ['userID' => 2,'roleID' => 6],
-
-            ['userID' => 3,'roleID' => 5],
-            ['userID' => 4,'roleID' => 7],
-
-            ['userID' => 5,'roleID' => 1],
-            ['userID' => 6,'roleID' => 4],
+//            ['userID' => 2,'roleID' => 6],
+//
+//            ['userID' => 3,'roleID' => 5],
+//            ['userID' => 4,'roleID' => 7],
+//
+//            ['userID' => 5,'roleID' => 1],
+//            ['userID' => 6,'roleID' => 4],
         ];
 
 	    foreach ($aryUserRoles as $userRole) {
