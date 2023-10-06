@@ -40,11 +40,11 @@
                     <table class="datatable-role table table-bordered table-striped table-hover ajaxTable datatable">
                         <thead>
                         <tr>
-                            <th>Role</th>
+                            <th width="15%">Role</th>
                             <!-- <th>Description</th> -->
-                            <th>Privileges</th>
+                            <th width="70%">Privileges</th>
                             <!-- <th>Date Created</th> -->
-                            <th>Actions</th>
+                            <th width="15%">Actions</th>
                         </tr>
                         </thead>
                     </table>

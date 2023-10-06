@@ -86,15 +86,15 @@ class RolePrivilegeSeeder extends Seeder
             ['roleID' => 1,'privilegeID' => 59],
             ['roleID' => 1,'privilegeID' => 60],
 
-            ['roleID' => 1,'privilegeID' => 61],
-            ['roleID' => 1,'privilegeID' => 62],
-            ['roleID' => 1,'privilegeID' => 63],
-            ['roleID' => 1,'privilegeID' => 64],
+//            ['roleID' => 1,'privilegeID' => 61],
+//            ['roleID' => 1,'privilegeID' => 62],
+//            ['roleID' => 1,'privilegeID' => 63],
+//            ['roleID' => 1,'privilegeID' => 64],
 
-            ['roleID' => 2,'privilegeID' => 61],
-            ['roleID' => 2,'privilegeID' => 62],
-            ['roleID' => 2,'privilegeID' => 63],
-            ['roleID' => 2,'privilegeID' => 64]
+//            ['roleID' => 2,'privilegeID' => 61],
+//            ['roleID' => 2,'privilegeID' => 62],
+//            ['roleID' => 2,'privilegeID' => 63],
+//            ['roleID' => 2,'privilegeID' => 64]
         ];
 
 	    foreach ($aryRolePrivileges as $rolePrivilege) {

@@ -15,7 +15,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('department_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $departments = Department::all();
         return view('departments.index',compact('departments'));
     }

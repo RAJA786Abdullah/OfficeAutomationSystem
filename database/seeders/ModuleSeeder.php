@@ -31,7 +31,7 @@ class ModuleSeeder extends Seeder
             ['moduleID' => 13, 'moduleCode' => 'REMARKS', 'moduleName' => 'Remarks Module'],
             ['moduleID' => 14, 'moduleCode' => 'ATTACHMENTS', 'moduleName' => 'Attachments Module'],
             ['moduleID' => 15, 'moduleCode' => 'RECIPIENTS', 'moduleName' => 'Recipients Module'],
-            ['moduleID' => 16, 'moduleCode' => 'FRONT', 'moduleName' => 'Front Module'],
+//            ['moduleID' => 16, 'moduleCode' => 'FRONT', 'moduleName' => 'Front Module'],
         ];
 	    foreach ($aryModules as $module) {
 		    DB::table('modules')->insert(['moduleCode' => $module['moduleCode'],'moduleName' => $module['moduleName'],'moduleID' => $module['moduleID']]);

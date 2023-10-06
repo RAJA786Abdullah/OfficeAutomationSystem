@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('recommendation')->nullable();
             $table->foreignId('userID')->constrained('users','userID');
             $table->foreignId('document_id')->constrained('documents','id');
+            $table->foreignId('toUserID')->constrained('users','userID');
             $table->timestamps();
         });
     }
