@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Attachment;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Models\Attachment;
 use App\Models\Classification;
 use App\Models\Department;
 use App\Models\Document;
@@ -13,12 +12,8 @@ use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\Recipient;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {

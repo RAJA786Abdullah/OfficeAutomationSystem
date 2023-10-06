@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Http\Request;

@@ -1,15 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Department;
-use App\Models\Document;
 use App\Models\Recipient;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class  HomeController extends Controller
