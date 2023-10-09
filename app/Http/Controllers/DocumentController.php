@@ -41,7 +41,8 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-        DB::beginTransaction();
+//        dd($request->all());
+//        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
@@ -103,11 +104,11 @@ class DocumentController extends Controller
                     }
                 }
             }
-            DB::commit();
+//            DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
-            DB::rollback();
+//            DB::rollback();
             dd($e);
         }
     }
