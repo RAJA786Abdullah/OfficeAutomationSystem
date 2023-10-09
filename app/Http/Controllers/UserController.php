@@ -95,8 +95,8 @@ class UserController extends Controller
                 return redirect()->route('users.edit',$user->userID);
             }
         } catch (\Exception $e) {
-            dd($e);
             DB::rollback();
+            dd($e);
             $request->session()->flash('errorMessage', 'An error occurred while updating user!');
             return redirect()->route('users.index');
         }
