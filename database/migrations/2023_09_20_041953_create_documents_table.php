@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->string('in_dept')->nullable();
             $table->string('out_dept')->nullable();
-            $table->string('reference')->nullable();
             $table->string('subject');
             $table->text('body');
             $table->integer('signing_authority_id');
