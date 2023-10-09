@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'User Show')
+@section('title', 'Document Show')
 @section('app-content', 'app-content')
 
 @section('main-content')
