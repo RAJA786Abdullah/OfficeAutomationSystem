@@ -81,7 +81,7 @@
                                         </form>
                                     @endif
 
-                                    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
                                         @method('POST')
                                         @csrf
                                         <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
@@ -131,8 +131,31 @@
                 });
         }
 
-        function sendDocAlert(){
-            console.log('yes');
+        function sendDocAlert(trElem){
+            var tr = $(trElem).closest('tr');
+            swal({
+                title: "Are you sure?",
+                text: "Once you send the Document you will be unable to edit or delete the document!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Document sent successfully!", {
+                            icon: "success",
+                        });
+                        tr.find('.sendDoc').submit();
+                    } else {
+                        swal({
+                            title:"You can update your document!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
+                    }
+                });
         }
     </script>
 @endsection
