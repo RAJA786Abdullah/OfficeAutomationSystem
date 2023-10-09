@@ -244,7 +244,13 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         try {
-            dd($document);
+            $document->load(['attachments','recipients','remarks']);
+            $document->attachments()->delete();
+            $document->attachments()->delete();
+            $document->recipients()->delete();
+            $document->remarks()->delete();
+            $document->delete();
+            return to_route('documents.index')->with('message', 'Document its attachments and recipients Deleted successfully!');
         }catch (\Exception $e){
             dd($e);
         }

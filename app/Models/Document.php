@@ -38,6 +38,10 @@ class Document extends Model
         return $this->hasMany('App\Models\Recipient','document_id','id');
     }
 
+    public function remarks(){
+        return $this->hasMany('App\Models\Remark','document_id','id');
+    }
+
     public function user(){
         return $this->belongsTo('App\Models\User','created_by','userID');
     }
