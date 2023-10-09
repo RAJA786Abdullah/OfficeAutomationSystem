@@ -44,7 +44,6 @@
                         <th class="wd-25p">Created By</th>
 
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
-                        <th class="wd-25p">Send Doc</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -65,9 +64,22 @@
                                         $edit = 1;
                                         $delete = 1;
                                     @endphp
-                                    @include('partials.actions')
-                                </td>
-                                <td>
+                                    @if($show == 1)
+                                        <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
+                                    @endif
+                                    @if($edit == 1)
+                                        <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>
+                                    @endif
+                                    @if($delete == 1)
+                                        {{--    onsubmit="return confirm(' ! WARNING ! If you Press OK it can not be recovered?');"--}}
+                                        <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color:white;">
+                                                <i data-feather="trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
 
                                     <form action="{{ route($crud . '.destroy', $row) }}" method="POST" style="display: inline-block;">
                                         @method('POST')
@@ -92,36 +104,36 @@
 @endsection
 @section('js')
     <script>
-        $(document).ready(function() {
+        function sweetAlertCall(trElem) {
+            var tr = $(trElem).closest('tr');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your data has been deleted!", {
+                            icon: "success",
+                        });
+                        tr.find('.deleteForm').submit();
+                    } else {
+                        swal({
+                            title:"Your data is safe!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
+                    }
+                });
+        }
+
+        function sendDocAlert(){
             console.log('yes');
-        });
-        @endsection
-{{--@section('js')--}}
-{{--    @include('partials.shortcutKeyCreate')--}}
-{{--    <script>--}}
+        }
+    </script>
+@endsection
 
-
-{{--            console.log( "ready!" );--}}
-{{--        function sendDocAlert(){--}}
-{{--            console.log(trElem);--}}
-{{--            // var tr = $(trElem).closest('tr');--}}
-{{--            // var promise = swal({--}}
-{{--            //     title: "Are you sure?",--}}
-{{--            //     text: "Once deleted, you will not be able to recover this data!",--}}
-{{--            //     icon: "warning",--}}
-{{--            //     buttons: true,--}}
-{{--            //     dangerMode: true,--}}
-{{--            // })--}}
-{{--            //     .then((willDelete) => {--}}
-{{--            //         if (willDelete) {--}}
-{{--            //             swal("Poof! Your data has been deleted!", {--}}
-{{--            //                 icon: "success",--}}
-{{--            //             });--}}
-{{--            //             tr.find('.deleteForm').submit();--}}
-{{--            //         } else {--}}
-{{--            //             swal("Your data is safe!");--}}
-{{--            //         }--}}
-{{--            //     });--}}
-{{--        }--}}
-{{--    </script>--}}
-{{--@endsection--}}
