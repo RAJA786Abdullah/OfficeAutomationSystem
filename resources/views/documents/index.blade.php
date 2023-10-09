@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'Documents')
+@section('title', 'Documents Index')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -91,34 +91,37 @@
 </div>
 @endsection
 @section('js')
-    @include('partials.shortcutKeyCreate')
     <script>
-
-
-        // A $( document ).ready() block.
-        $( document ).ready(function() {
-            console.log( "ready!" );
+        $(document).ready(function() {
+            console.log('yes');
         });
-        function sendDocAlert(){
-            console.log(trElem);
-            // var tr = $(trElem).closest('tr');
-            // var promise = swal({
-            //     title: "Are you sure?",
-            //     text: "Once deleted, you will not be able to recover this data!",
-            //     icon: "warning",
-            //     buttons: true,
-            //     dangerMode: true,
-            // })
-            //     .then((willDelete) => {
-            //         if (willDelete) {
-            //             swal("Poof! Your data has been deleted!", {
-            //                 icon: "success",
-            //             });
-            //             tr.find('.deleteForm').submit();
-            //         } else {
-            //             swal("Your data is safe!");
-            //         }
-            //     });
-        }
-    </script>
-@endsection
+        @endsection
+{{--@section('js')--}}
+{{--    @include('partials.shortcutKeyCreate')--}}
+{{--    <script>--}}
+
+
+{{--            console.log( "ready!" );--}}
+{{--        function sendDocAlert(){--}}
+{{--            console.log(trElem);--}}
+{{--            // var tr = $(trElem).closest('tr');--}}
+{{--            // var promise = swal({--}}
+{{--            //     title: "Are you sure?",--}}
+{{--            //     text: "Once deleted, you will not be able to recover this data!",--}}
+{{--            //     icon: "warning",--}}
+{{--            //     buttons: true,--}}
+{{--            //     dangerMode: true,--}}
+{{--            // })--}}
+{{--            //     .then((willDelete) => {--}}
+{{--            //         if (willDelete) {--}}
+{{--            //             swal("Poof! Your data has been deleted!", {--}}
+{{--            //                 icon: "success",--}}
+{{--            //             });--}}
+{{--            //             tr.find('.deleteForm').submit();--}}
+{{--            //         } else {--}}
+{{--            //             swal("Your data is safe!");--}}
+{{--            //         }--}}
+{{--            //     });--}}
+{{--        }--}}
+{{--    </script>--}}
+{{--@endsection--}}
