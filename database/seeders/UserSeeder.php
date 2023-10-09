@@ -31,8 +31,8 @@ class UserSeeder extends Seeder
                 'status' => $user['status'],
                 'department_id' => $user['department_id'],
                 'branch_id' => $user['branch_id'],
+                'is_signing_authority' => $user['is_signing_authority'],
                 'password' => $user['password'],
-
             ]);
         }
     }

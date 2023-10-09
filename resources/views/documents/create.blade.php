@@ -231,50 +231,73 @@
 
                     <div class="col-12 mt-3">
                         <div class="card">
-                            <div class="row">
+                            <div class="row justify-content-center my-1">
+                                <div class="col-auto">
+                                    <label class="form-check-label" for="referenceEnter">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="referenceSelection" id="referenceEnter" value="enter" checked>
+                                            Enter Reference Manually
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-auto">
+                                    <label class="form-check-label" for="referenceSelect">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="referenceSelection" id="referenceSelect" value="select">
+                                            Find Reference
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row enterReference">
+                                <div class="card-header d-flex justify-content-center bg-primary">
+                                    <h4 class="card-title text-light">Enter Reference</h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <h5 class="card-title text-center mt-5">Reference</h5>
+                                    <input type="text" name="reference" id="reference" class="form-control form-control-lg">
+                                </div>
+                            </div>
+                            <div class="row selectReference" style="display: none;">
                                 <div class="card-header d-flex justify-content-center bg-primary">
                                     <h4 class="card-title text-light">Select Reference</h4>
                                 </div>
                                 <div class="col-md-6">
                                     <h5 class="card-title text-center mt-5">Classifications</h5>
                                     <select name="filter_classification" class="form-select select2" style="width: 100%">
-                                        <option disabled>Select Classification</option>
+                                        <option value="">Select Classification</option>
                                         @foreach ($classifications as $classification)
                                             <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-6">
                                     <h5 class="card-title text-center mt-5">Departments</h5>
                                     <select name="filter_department" class="form-select select2" style="width: 100%">
-                                        <option disabled>Select Department</option>
+                                        <option value="">Select Department</option>
                                         @foreach ($departments as $department)
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-6">
                                     <h5 class="card-title text-center mt-5">Files</h5>
                                     <select name="filter_file" class="form-select select2" style="width: 100%">
-                                        <option disabled>Select File</option>
+                                        <option value="">Select File</option>
                                         @foreach ($files as $file)
                                             <option value="{{ $file->id }}">{{ $file->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-6">
                                     <h5 class="card-title text-center mt-5">References</h5>
-                                    <select name="reference" class="form-select selectTwo" style="width: 100%">
-                                        <option disabled>Select Department</option>
-{{--                                        @foreach ($departments as $department)--}}
-{{--                                            <option value="{{ $department->id }}">{{ $department->name }}</option>--}}
-{{--                                        @endforeach--}}
+                                    <select name="reference_id" class="form-select selectTwo" id="reference_id" style="width: 100%">
+                                        <option value="">Select Reference</option>
+                                        @foreach ($documents as $document)
+                                            <option value="{{ $document->id }}">{{ \App\Models\Document::documentTitle($document->id) }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -302,6 +325,18 @@
                 } else {
                     $('#department').hide();
                     $('#user').show();
+                }
+            });
+
+            $('input[name="referenceSelection"]').change(function() {
+                if (this.value === "enter") {
+                    $('.enterReference').show();
+                    $('.selectReference').hide();
+                    $('#reference_id').val('');
+                } else {
+                    $('.enterReference').hide();
+                    $('.selectReference').show();
+                    $('#reference').val('');
                 }
             });
         });

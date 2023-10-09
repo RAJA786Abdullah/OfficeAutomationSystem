@@ -35,7 +35,8 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
+        $documents = Document::all();
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
     }
 
     public function store(StoreDocumentRequest $request)
@@ -77,6 +78,13 @@ class DocumentController extends Controller
                     'document_id' => $document->id,
                     'userID' => $userID,
                 ]);
+            }
+
+            if($request->reference){
+                dd('this is reference',$request->reference);
+            }
+            elseif($request->reference_id){
+                dd('this is reference ID',$request->reference_id);
             }
 
             if ($request->name) {
