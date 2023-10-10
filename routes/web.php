@@ -53,5 +53,6 @@ Route::resource('/remarks',RemarksController::class);
 
 Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
+Route::get('/sendDocToSup/{id}', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
 
 });
