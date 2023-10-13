@@ -42,7 +42,6 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-//        dd($request->all());
         DB::beginTransaction();
         try {
             $userID = Auth::id();
@@ -106,11 +105,11 @@ class DocumentController extends Controller
                     }
                 }
             }
-            DB::commit();
+//            DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
-            DB::rollback();
+//            DB::rollback();
             dd($e);
         }
     }
@@ -208,9 +207,8 @@ class DocumentController extends Controller
             if ($request->name) {
                 $attachments = $document->load('attachments');
                 foreach($attachments->attachments as $attachment) {
-                        $attachment->delete();
+                    $attachment->delete();
                 }
-//                        dd(($request->file('attachment')));
                 $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
                     foreach($request->file('attachment') as $file){
@@ -250,7 +248,13 @@ class DocumentController extends Controller
         try {
 
             $document->delete();
-//            dd($document);
+            $document->load(['attachments','recipients','remarks']);
+            $document->attachments()->delete();
+            $document->attachments()->delete();
+            $document->recipients()->delete();
+            $document->remarks()->delete();
+            $document->delete();
+            return to_route('documents.index')->with('message', 'Document its attachments and recipients Deleted successfully!');
         }catch (\Exception $e){
             dd($e);
         }
@@ -264,10 +268,5 @@ class DocumentController extends Controller
         $request->session()->flash('message', 'Document Send successfully!');
 
         return redirect()->back();
-//
-//        dd($document->signing_authority_id);
-////        Document::update(['in_dept'])
-//        dd($document);
-//        dd($request->all());
     }
 }

@@ -50,6 +50,7 @@ class  HomeController extends Controller
             }
         }
         $allDocuments = Document::all();
+//        dd($allDocuments,$userDocuments);
         return view('home', compact('userDocuments', 'allDocuments'));
     }
 

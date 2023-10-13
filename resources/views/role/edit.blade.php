@@ -60,6 +60,7 @@
 								@php
 									$moduleID = 0;
 								@endphp
+                                <tr>
 								@foreach($privileges as $privilege)
 									@php
 										if ($moduleID != $privilege->moduleID) {

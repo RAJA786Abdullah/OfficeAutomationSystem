@@ -15,6 +15,7 @@ class ClassificationSeeder extends Seeder
     public function run(): void
     {
         $aryClassifications = [
+            ['name' => 'RESTD', 'created_at' => Carbon::now()],
             ['name' => 'Personal', 'created_at' => Carbon::now()],
             ['name' => 'Immediate', 'created_at' => Carbon::now()],
             ['name' => 'Confidential', 'created_at' => Carbon::now()],
