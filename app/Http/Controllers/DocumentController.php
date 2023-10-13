@@ -64,22 +64,27 @@ class DocumentController extends Controller
             $toArray = preg_split('/\r\n|\r|\n/', $to);
             $infoArray= array_map('trim', $infoArray);
             $toArray= array_map('trim', $toArray);
-            foreach ($infoArray as $info){
-                Recipient::create([
-                    'name' => $info,
-                    'type' => 'info',
-                    'document_id' => $document->id,
-                    'userID' => $userID,
-                ]);
+
+            if ($infoArray){
+                foreach ($infoArray as $info){
+                    Recipient::create([
+                        'name' => $info,
+                        'type' => 'info',
+                        'document_id' => $document->id,
+                        'userID' => $userID,
+                    ]);
+                }
             }
 
-            foreach ($toArray as $to){
-                Recipient::create([
-                    'name' => $to,
-                    'type' => 'to',
-                    'document_id' => $document->id,
-                    'userID' => $userID,
-                ]);
+            if($toArray){
+                foreach ($toArray as $to){
+                    Recipient::create([
+                        'name' => $to,
+                        'type' => 'to',
+                        'document_id' => $document->id,
+                        'userID' => $userID,
+                    ]);
+                }
             }
 
             if($request->reference){
@@ -105,11 +110,11 @@ class DocumentController extends Controller
                     }
                 }
             }
-//            DB::commit();
+            DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
-//            DB::rollback();
+            DB::rollback();
             dd($e);
         }
     }
@@ -164,7 +169,7 @@ class DocumentController extends Controller
 
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-//        DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document->update([

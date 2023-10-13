@@ -30,6 +30,7 @@ class UserSeeder extends Seeder
                 'department_id' => $user['department_id'],
                 'branch_id' => $user['branch_id'],
                 'is_signing_authority' => $user['is_signing_authority'],
+                'arm_designation' => $user['arm_designation'],
                 'password' => $user['password'],
             ]);
         }
