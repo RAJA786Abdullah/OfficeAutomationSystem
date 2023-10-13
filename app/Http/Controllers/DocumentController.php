@@ -248,7 +248,9 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         try {
-            dd($document);
+
+            $document->delete();
+//            dd($document);
         }catch (\Exception $e){
             dd($e);
         }
