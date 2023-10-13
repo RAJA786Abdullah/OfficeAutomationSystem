@@ -57,12 +57,26 @@
                                 <td>{{$document->user->name}}</td>
 
                                 <td>
+
+
+
                                     @php
                                         $crud = 'documents';
                                         $row = $document->id;
-                                        $show = 1;
-                                        $edit = 1;
-                                        $delete = 1;
+                                        if ($document->created_by != $document->in_dept){
+                                            $show = 1;
+                                            $edit = 0;
+                                            $delete = 0;
+                                            $send = 0;
+                                        }
+                                        else{
+                                             $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $send = 1;
+                                        }
+
+
                                     @endphp
                                     @if($show == 1)
                                         <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
@@ -80,15 +94,18 @@
                                             </button>
                                         </form>
                                     @endif
+                                    @if($send == 1)
+                                        <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                            @method('GET')
+                                            @csrf
+                                            <input type="hidden" name="docID" value="{{ $document->id }}">
+                                            <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
+                                                <i data-feather="send"></i>
+                                            </button>
+                                        </form>
+                                    @endif
 
-                                    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" style="display: inline-block;">
-                                        @method('POST')
-                                        @csrf
-                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
-                                            <i data-feather="send"></i>
-                                        </button>
-                                    </form>
-{{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
+                                        {{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
 
                                 </td>
                             </tr>
@@ -131,9 +148,34 @@
                 });
         }
 
-        function sendDocAlert(){
-            console.log('yes');
+        function sendDocAlert() {
+            swal({
+                title: "Are you sure?",
+                text: "Once you send the Document, you will be unable to edit or delete the document!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willSend) => {
+                    if (willSend) {
+                        swal("Document sent successfully!", {
+                            icon: "success",
+                        });
+
+                        // Find and submit the form with class 'sendDoc'
+                        $('.sendDoc').submit();
+                    } else {
+                        swal({
+                            title: "You can update your document!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
+                    }
+                });
         }
+
     </script>
 @endsection
 

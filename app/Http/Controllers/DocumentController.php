@@ -12,6 +12,7 @@ use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\Recipient;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -41,8 +42,7 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-//        dd($request->all());
-//        DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
@@ -55,6 +55,7 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
+                'in_dept' => Auth::id()
             ]);
 
             $info = $request->input('info');
@@ -172,6 +173,7 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
+                'in_dept' => Auth::id()
             ]);
             $info = $request->input('info');
             $to = $request->input('to');
@@ -255,5 +257,15 @@ class DocumentController extends Controller
         }catch (\Exception $e){
             dd($e);
         }
+    }
+
+    public static function sendDocToSup(Request $request)
+    {
+        $document = Document::find($request->id);
+        $document->update(['in_dept' => $document->signing_authority_id]);
+
+        $request->session()->flash('message', 'Document Send successfully!');
+
+        return redirect()->back();
     }
 }
