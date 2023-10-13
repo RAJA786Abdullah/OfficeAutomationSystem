@@ -16,7 +16,7 @@ class AuditController extends Controller
      */
     public function index()
     {
-        $audits = \OwenIt\Auditing\Models\Audit::with(['user','branch','classification','department'])->orderBy('created_at', 'desc')->get();
+        $audits = \OwenIt\Auditing\Models\Audit::orderBy('created_at', 'desc')->get();
         return view('audit.index', compact('audits'));
     }
 }
