@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContracts;
 
-class User extends Authenticatable
+class User extends Authenticatable implements AuditableContracts
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -55,10 +57,6 @@ class User extends Authenticatable
 
     public function settings(){
         return $this->belongsToMany('App\Models\Setting', 'userSettings', 'userID', 'settingID');
-    }
-
-    public function userType(){
-        return $this->belongsTo('App\Models\UserType', 'userTypeID', 'userTypeID');
     }
 
     public function branch(){

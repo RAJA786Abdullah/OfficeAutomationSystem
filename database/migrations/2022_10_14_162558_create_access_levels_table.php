@@ -17,6 +17,7 @@ return new class extends Migration
 			$table->id('accessLevelID');
 			$table->string('accessLevel', 45);
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

@@ -55,4 +55,6 @@ Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printD
 Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
 Route::get('/sendDocToSup/{id}', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
 
+Route::get('audits', [\App\Http\Controllers\AuditController::class,'index'])->name('audit.index');
+
 });
