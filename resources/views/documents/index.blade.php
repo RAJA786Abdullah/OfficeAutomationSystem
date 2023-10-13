@@ -63,18 +63,28 @@
                                     @php
                                         $crud = 'documents';
                                         $row = $document->id;
-                                        if ($document->created_by != $document->in_dept){
-                                            $show = 1;
-                                            $edit = 0;
-                                            $delete = 0;
-                                            $send = 0;
-                                        }
-                                        else{
-                                             $show = 1;
-                                            $edit = 1;
-                                            $delete = 1;
-                                            $send = 1;
-                                        }
+                                        $show = 1;
+                                        $edit = 1;
+                                        $delete = 1;
+                                        $send = 1;
+//                                        if ($document->created_by != $document->in_dept){
+//                                            $show = 1;
+//                                            $edit = 0;
+//                                            $delete = 0;
+//                                            $send = 0;
+//                                        }
+//                                        elseif ($document->signing_authority_id == $document->in_dept){
+//                                            $show = 1;
+//                                            $edit = 1;
+//                                            $delete = 1;
+//                                            $send = 1;
+//                                        }
+//                                        else{
+//                                             $show = 1;
+//                                             $edit = 1;
+//                                             $delete = 1;
+//                                             $send = 1;
+//                                        }
 
 
                                     @endphp

@@ -212,9 +212,8 @@ class DocumentController extends Controller
             if ($request->name) {
                 $attachments = $document->load('attachments');
                 foreach($attachments->attachments as $attachment) {
-                        $attachment->delete();
+                    $attachment->delete();
                 }
-//                        dd(($request->file('attachment')));
                 $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
                     foreach($request->file('attachment') as $file){
@@ -252,6 +251,8 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         try {
+
+            $document->delete();
             $document->load(['attachments','recipients','remarks']);
             $document->attachments()->delete();
             $document->attachments()->delete();
