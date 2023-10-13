@@ -63,28 +63,36 @@
                                     @php
                                         $crud = 'documents';
                                         $row = $document->id;
-                                        $show = 1;
-                                        $edit = 1;
-                                        $delete = 1;
-                                        $send = 1;
-//                                        if ($document->created_by != $document->in_dept){
-//                                            $show = 1;
-//                                            $edit = 0;
-//                                            $delete = 0;
-//                                            $send = 0;
-//                                        }
-//                                        elseif ($document->signing_authority_id == $document->in_dept){
-//                                            $show = 1;
-//                                            $edit = 1;
-//                                            $delete = 1;
-//                                            $send = 1;
-//                                        }
-//                                        else{
-//                                             $show = 1;
-//                                             $edit = 1;
-//                                             $delete = 1;
-//                                             $send = 1;
-//                                        }
+                                        $show = 0;
+                                        $edit = 0;
+                                        $delete = 0;
+                                        $send = 0;
+                                        $approve = 0;
+                                        $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
+                                        if (strpos($user, "Director") !== false) {
+                                              if ($document->signing_authority_id == $document->in_dept)
+                                            {
+                                                $show = 1;
+                                                $edit = 1;
+                                                $delete = 1;
+                                                $approve = 1;
+                                            }
+                                            else{
+                                                $show = 1;
+                                            }
+                                        }
+                                        elseif (strpos($user, "Clerk") !== false) {
+                                            if ($document->created_by == $document->in_dept)
+                                            {
+                                                $show = 1;
+                                                $edit = 1;
+                                                $delete = 1;
+                                                $send = 1;
+                                            }
+                                            else{
+                                                $show = 1;
+                                            }
+                                        }
 
 
                                     @endphp
@@ -111,6 +119,17 @@
                                             <input type="hidden" name="docID" value="{{ $document->id }}">
                                             <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
                                                 <i data-feather="send"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    @if($approve == 1)
+                                        <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                            @method('GET')
+                                            @csrf
+                                            <input type="hidden" name="docID" value="{{ $document->id }}">
+                                            <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Approve" style="color:white;">
+                                                <i data-feather="check"></i>
                                             </button>
                                         </form>
                                     @endif

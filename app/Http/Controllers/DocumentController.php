@@ -42,7 +42,7 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-        DB::beginTransaction();
+//        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
@@ -116,7 +116,7 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user', 'remarks');
         $signingAuthorityID = $document->signing_authority_id;
         $signInData = [];
         $user = User::where('userID', $signingAuthorityID)->first();
@@ -129,7 +129,11 @@ class DocumentController extends Controller
             array_push($signInData, $user->name);
             array_push($signInData, $user->department->name);
         }
-        return view('documents.show', compact('document', 'signInData'));
+
+        $userID = Auth::id();
+        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+        $departmentUsers = User::where('department_id', $userDepID)->get();
+        return view('documents.show', compact('document', 'signInData', 'departmentUsers'));
     }
 
     public function edit(Document $document)
