@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('is_signing_authority')->default(0);
             $table->string('arm_designation')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

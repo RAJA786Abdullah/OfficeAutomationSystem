@@ -17,6 +17,7 @@ return new class extends Migration
 			$table->bigIncrements('moduleID');
 			$table->string('moduleCode');
 			$table->string('moduleName');
+            $table->softDeletes();
 		});
 	}
 

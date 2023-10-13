@@ -19,6 +19,7 @@ return new class extends Migration
 			$table->foreignId('accessLevelID')->constrained('accessLevel','accessLevelID');
 			$table->string('privilegeCode');
 			$table->string('privilegeName');
+            $table->softDeletes();
 		});
 	}
 

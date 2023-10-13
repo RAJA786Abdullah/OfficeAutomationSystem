@@ -105,11 +105,11 @@ class DocumentController extends Controller
                     }
                 }
             }
-//            DB::commit();
+            DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
             return redirect()->route('documents.index');
         }catch (\Exception $e){
-//            DB::rollback();
+            DB::rollback();
             dd($e);
         }
     }

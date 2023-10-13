@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('signing_authority_id');
             $table->foreignId('created_by')->constrained('users','userID');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

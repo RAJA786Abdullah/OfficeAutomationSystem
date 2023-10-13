@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->foreignId('roleID')->constrained('roles','roleID');
 			$table->primary(['roleID','userID']);
 			$table->timestamp('dateCreated')->useCurrent();
+            $table->softDeletes();
 		});
 	}
 
