@@ -107,15 +107,12 @@
 
                                 @if($fileExtension == 'xlsx')
                                     <iframe src="data:{{ $contentType }};base64,{{ base64_encode($content) }}" style="width:100%;height:500px;"></iframe>
-
                                 @elseif($fileExtension == 'pdf')
-
                                     <div class="text-center mt-1 mb-1">
                                         <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
                                             Download {{ $attachment->name }}
                                         </a>
                                     </div>
-
                                     <object data="data:{{ $contentType }};base64,{{ base64_encode($content) }}" width="100%" height="900"></object>
                                 @elseif($fileExtension == 'jpg' || $fileExtension == 'png')
                                     <div class="text-center mt-1 mb-1">
@@ -160,7 +157,6 @@
                             </form>
                         </dl>
                     @endif
-
                     @if($document->remarks)
                         @foreach($document->remarks as $remarks)
                             <h5>From : {{ $remarks->user->name  }}</h5>
