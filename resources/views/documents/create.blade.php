@@ -88,7 +88,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Body') }}</label>
-                        <textarea name="body" id="body" class="form-control"></textarea>
+                        <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
                     </div>
                     @if($errors->has('body'))
                         <div class="text-danger">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
 use App\Models\Remark;
 use Gate;
 use Illuminate\Http\Request;
@@ -26,11 +27,10 @@ class RemarksController extends Controller
         ], [
             'remark.required' => 'Remarks required',
         ]);
-
-
         try {
             $userID = Auth::id();
             $request->userID = $userID;
+            Document::where('id', $request->document_id)->update(['in_dept' => $request->input('toUser_id')]);
             Remark::create([
                 'remark' => $request->input('remark'),
                 'userID' => $userID,
