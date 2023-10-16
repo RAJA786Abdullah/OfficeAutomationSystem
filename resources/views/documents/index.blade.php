@@ -55,11 +55,7 @@
                                 <td>{{$document->file->name}}</td>
                                 <td>{{$document->subject}}</td>
                                 <td>{{$document->user->name}}</td>
-
                                 <td>
-
-
-
                                     @php
                                         $crud = 'documents';
                                         $row = $document->id;
@@ -69,7 +65,14 @@
                                         $send = 0;
                                         $approve = 0;
                                         $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
-                                        if (strpos($user, "Director") !== false) {
+                                        if (strpos($user, "Admin") !== false){
+                                            $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $send = 1;
+                                            $approve = 1;
+                                        }
+                                        elseif (strpos($user, "Director") !== false) {
                                               if ($document->signing_authority_id == $document->in_dept)
                                             {
                                                 $show = 1;
@@ -93,8 +96,6 @@
                                                 $show = 1;
                                             }
                                         }
-
-
                                     @endphp
                                     @if($show == 1)
                                         <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
@@ -122,7 +123,6 @@
                                             </button>
                                         </form>
                                     @endif
-
                                     @if($approve == 1)
                                         <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
                                             @method('GET')
@@ -133,9 +133,7 @@
                                             </button>
                                         </form>
                                     @endif
-
-                                        {{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
-
+{{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
                                 </td>
                             </tr>
                     @endforeach
@@ -176,7 +174,6 @@
                     }
                 });
         }
-
         function sendDocAlert() {
             swal({
                 title: "Are you sure?",
@@ -204,7 +201,6 @@
                     }
                 });
         }
-
     </script>
 @endsection
 

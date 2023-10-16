@@ -19,7 +19,7 @@
                         <div class="user-nav d-sm-flex d-none">
                             <span class="user-name fw-bolder">{{ ucfirst(Auth::user()->name) }}</span><span class="user-status">{{ ucfirst(Auth::user()->roles[0]->roleName) }}</span>
                         </div>
-                        <span class="avatar"><img class="round" src="/app-assets/images/logo/logo.png" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+                        <span class="avatar"><img src="/app-assets/images/logo/logoWhite.jpg" width="30px" height="30px" alt="logo"><span class="avatar-status-online"></span></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                         <a class="dropdown-item" href="{{ route('profile.show') }}"><i class="me-50" data-feather="user"></i> Profile</a>
@@ -44,7 +44,7 @@
                 <li class="nav-item me-auto">
                     <a class="navbar-brand" href="{{route('home')}}">
                         <span class="brand-logo">
-                            <img src="/app-assets/images/logo/logo1.jfif" alt="logo">
+                            <img src="/app-assets/images/logo/logoWhite.jpg" width="40px" height="40px" alt="logo">
                         </span>
                         <h2 class="brand-text">O A S</h2>
                     </a></li>
