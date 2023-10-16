@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
 		    PrivilegeSeeder::class,
 		    RoleSeeder::class,
 		    RolePrivilegeSeeder::class,
-            UserTypeSeeder::class,
             DepartmentSeeder::class,
             BranchSeeder::class,
 		    UserSeeder::class,

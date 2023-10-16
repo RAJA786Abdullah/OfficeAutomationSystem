@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->foreignId('privilegeID')->constrained('privilege','privilegeID');
 			$table->primary(['roleID','privilegeID']);
 			$table->timestamp('dateCreated')->useCurrent();
+            $table->softDeletes();
 		});
 	}
 

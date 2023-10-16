@@ -94,7 +94,7 @@
                 @endcan
 
                 {{-- Classifications --}}
-                @can('classifications_read')
+                @can('classification_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'classifications.index'|| request()->route()->action['as'] == 'classifications.create' || request()->route()->action['as'] == 'classifications.edit' || request()->route()->action['as'] == 'classifications.show') active @endif" href="{{route('classifications.index')}}">
                             <i class="ti ti-layout-grid"></i><span class="menu-title text-truncate" data-i18n="classifications">Classifications</span>
@@ -134,6 +134,12 @@
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'users.index' || request()->route()->action['as'] == 'users.create' || request()->route()->action['as'] == 'users.edit' || request()->route()->action['as'] == 'users.show' ) active @endif" href="{{route('users.index')}}">
                                     <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
+                                </a>
+                            </li>
+
+                            <li class=" nav-item" aria-haspopup="true">
+                                <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'audit.index' ) active @endif" href="{{route('audit.index')}}">
+                                    <i class="ti ti-history"></i><span class="menu-title text-truncate" data-i18n="Audit">Audit</span>
                                 </a>
                             </li>
 

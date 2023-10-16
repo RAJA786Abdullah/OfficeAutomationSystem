@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('code')->unique();
             $table->foreignId('department_id')->constrained('departments','id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
