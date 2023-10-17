@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('body-class','blank-page loginBackground')
+@section('classFooter','text-white')
 @section('title', 'Login')
 @section('main-content')
 <div class="content-wrapper" style="">

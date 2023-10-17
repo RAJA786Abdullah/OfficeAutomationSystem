@@ -127,7 +127,7 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
-        <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
+        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/" class="@yield('classFooter')">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
     </p>
 </footer>
 <!-- END: Footer-->
