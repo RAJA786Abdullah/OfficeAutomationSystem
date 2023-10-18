@@ -12,14 +12,19 @@ use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\Recipient;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Mpdf;
 
 class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+        $userDepID = Auth::user()->department_id;
+        $userID = Auth::id();
+//        $documents = Document::where('department_id', $userDepID)->where('created_by', $userID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+        $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         return view('documents.index', compact('documents'));
     }
 
@@ -34,12 +39,13 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers'));
+        $documents = Document::all();
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
     }
 
     public function store(StoreDocumentRequest $request)
     {
-        DB::beginTransaction();
+//        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
@@ -52,6 +58,7 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
+                'in_dept' => Auth::id()
             ]);
 
             $info = $request->input('info');
@@ -60,22 +67,34 @@ class DocumentController extends Controller
             $toArray = preg_split('/\r\n|\r|\n/', $to);
             $infoArray= array_map('trim', $infoArray);
             $toArray= array_map('trim', $toArray);
-            foreach ($infoArray as $info){
-                Recipient::create([
-                    'name' => $info,
-                    'type' => 'info',
-                    'document_id' => $document->id,
-                    'userID' => $userID,
-                ]);
+
+            if ($infoArray){
+                foreach ($infoArray as $info){
+                    Recipient::create([
+                        'name' => $info,
+                        'type' => 'info',
+                        'document_id' => $document->id,
+                        'userID' => $userID,
+                    ]);
+                }
             }
 
-            foreach ($toArray as $to){
-                Recipient::create([
-                    'name' => $to,
-                    'type' => 'to',
-                    'document_id' => $document->id,
-                    'userID' => $userID,
-                ]);
+            if($toArray){
+                foreach ($toArray as $to){
+                    Recipient::create([
+                        'name' => $to,
+                        'type' => 'to',
+                        'document_id' => $document->id,
+                        'userID' => $userID,
+                    ]);
+                }
+            }
+
+            if($request->reference){
+                dd('this is reference',$request->reference);
+            }
+            elseif($request->reference_id){
+                dd('this is reference ID',$request->reference_id);
             }
 
             if ($request->name) {
@@ -105,7 +124,7 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user', 'remarks');
         $signingAuthorityID = $document->signing_authority_id;
         $signInData = [];
         $user = User::where('userID', $signingAuthorityID)->first();
@@ -118,7 +137,11 @@ class DocumentController extends Controller
             array_push($signInData, $user->name);
             array_push($signInData, $user->department->name);
         }
-        return view('documents.show', compact('document', 'signInData'));
+
+        $userID = Auth::id();
+        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+        $departmentUsers = User::where('department_id', $userDepID)->get();
+        return view('documents.show', compact('document', 'signInData', 'departmentUsers'));
     }
 
     public function edit(Document $document)
@@ -149,7 +172,7 @@ class DocumentController extends Controller
 
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-//        DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document->update([
@@ -162,6 +185,7 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
+                'in_dept' => Auth::id()
             ]);
             $info = $request->input('info');
             $to = $request->input('to');
@@ -195,9 +219,8 @@ class DocumentController extends Controller
             if ($request->name) {
                 $attachments = $document->load('attachments');
                 foreach($attachments->attachments as $attachment) {
-                        $attachment->delete();
+                    $attachment->delete();
                 }
-//                        dd(($request->file('attachment')));
                 $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
                     foreach($request->file('attachment') as $file){
@@ -235,9 +258,27 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         try {
-            dd($document);
+
+            $document->delete();
+            $document->load(['attachments','recipients','remarks']);
+            $document->attachments()->delete();
+            $document->attachments()->delete();
+            $document->recipients()->delete();
+            $document->remarks()->delete();
+            $document->delete();
+            return to_route('documents.index')->with('message', 'Document its attachments and recipients Deleted successfully!');
         }catch (\Exception $e){
             dd($e);
         }
+    }
+
+    public static function sendDocToSup(Request $request)
+    {
+        $document = Document::find($request->id);
+        $document->update(['in_dept' => $document->signing_authority_id]);
+
+        $request->session()->flash('message', 'Document Send successfully!');
+
+        return redirect()->back();
     }
 }

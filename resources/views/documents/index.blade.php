@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'Documents')
+@section('title', 'Documents Index')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -37,7 +37,6 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">Reference No</th>
-                        <th class="wd-15p">Department</th>
                         <th class="wd-25p">Classification</th>
                         <th class="wd-25p">File No</th>
                         <th class="wd-25p">subject</th>
@@ -49,23 +48,89 @@
                     @foreach($documents as $document)
                             <tr>
                                 <td>{{$document->reference_id}}</td>
-                                <td>{{$document->department->name}}</td>
+{{--                                <td>{{$document->department->name}}</td>--}}
                                 <td>{{$document->classification->name}}</td>
                                 <td>{{$document->file->name}}</td>
                                 <td>{{$document->subject}}</td>
                                 <td>{{$document->user->name}}</td>
-
                                 <td>
                                     @php
                                         $crud = 'documents';
                                         $row = $document->id;
-                                        $show = 1;
-                                        $edit = 1;
-                                        $delete = 1;
-                                    @endphp
-                                    @include('partials.actions')
-                                </td>
-                            </tr>
+                                        $show = 0;
+                                        $edit = 0;
+                                        $delete = 0;
+                                        $send = 0;
+                                        $approve = 0;
+                                        $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
+                                        if (strpos($user, "Admin") !== false){
+                                            $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $send = 1;
+                                            $approve = 1;
+                                        }
+                                        elseif (strpos($user, "Director") !== false) {
+                                              if ($document->signing_authority_id == $document->in_dept)
+                                            {
+                                                $show = 1;
+                                                $edit = 1;
+                                                $delete = 1;
+                                                $approve = 1;
+                                            }
+                                            else{
+                                                $show = 1;
+                                            }
+                                        }
+                                    elseif (strpos($user, "Clerk") !== false) {
+                                        if ($document->created_by == $document->in_dept) {
+                                            $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $send = 1;
+                                        } else{
+                                            $show = 1;
+                                        }
+                                    }
+                                @endphp
+                                @if($show == 1)
+                                    <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
+                                @endif
+                                @if($edit == 1)
+                                    <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>
+                                @endif
+                                @if($delete == 1)
+                                    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color:white;">
+                                            <i data-feather="trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                                @if($send == 1)
+                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                        @method('GET')
+                                        @csrf
+                                        <input type="hidden" name="docID" value="{{ $document->id }}">
+                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
+                                            <i data-feather="send"></i>
+                                        </button>
+                                    </form>
+                                @endif
+
+                                @if($approve == 1)
+                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                        @method('GET')
+                                        @csrf
+                                        <input type="hidden" name="docID" value="{{ $document->id }}">
+                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Approve" style="color:white;">
+                                            <i data-feather="check"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -76,12 +141,11 @@
     <!--/ Page layout -->
 </div>
 @endsection
-@section('more-script')
-    @include('partials.shortcutKeyCreate')
+@section('js')
     <script>
-        function sweetAlertCall(trElem){
+        function sweetAlertCall(trElem) {
             var tr = $(trElem).closest('tr');
-            var promise = swal({
+            swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this data!",
                 icon: "warning",
@@ -95,9 +159,43 @@
                         });
                         tr.find('.deleteForm').submit();
                     } else {
-                        swal("Your data is safe!");
+                        swal({
+                            title:"Your data is safe!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
+                    }
+                });
+        }
+        function sendDocAlert() {
+            swal({
+                title: "Are you sure?",
+                text: "Once you send the Document, you will be unable to edit or delete the document!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willSend) => {
+                    if (willSend) {
+                        swal("Document sent successfully!", {
+                            icon: "success",
+                        });
+
+                        // Find and submit the form with class 'sendDoc'
+                        $('.sendDoc').submit();
+                    } else {
+                        swal({
+                            title: "You can update your document!",
+                            buttons: true,
+                            confirmButtonText: 'shukria',
+                            confirmButton: true,
+                            confirmButtonColor: '#7367f0'
+                        });
                     }
                 });
         }
     </script>
 @endsection
+

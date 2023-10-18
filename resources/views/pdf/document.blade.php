@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Document</title>
     <style>
+        @page {
+            margin: 1cm; /* Adjust the margin size as needed */
+        }
         .container{
             display: flex;
             justify-content: center;
@@ -34,7 +37,10 @@
             margin-bottom: 5px;
         }
         /*.body{*/
-        /*    padding: 12px;*/
+        /*    !*padding: 10px; !* Reset padding to zero for printing *!*!*/
+        /*    margin: 10px;*/
+        /*    padding-right: 0;*/
+        /*    !*padding: 12px;*!*/
         /*}*/
     </style>
 </head>
@@ -51,7 +57,7 @@
 
         </div>
         <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
-        <div class="body">
+        <div class="body" style="padding-right: 10px; width: 100%">
             {!! $document['body'] !!}
         </div>
         <div class="text-right">

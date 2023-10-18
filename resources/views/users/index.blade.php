@@ -57,7 +57,7 @@
                                 <td>
 
                                     @foreach($user->roles as $role)
-                                        {{ $loop->iteration }} &nbsp;
+{{--                                        {{ $loop->iteration }} &nbsp;--}}
                                         {{ $role->roleName  }} <br>
                                     @endforeach
 

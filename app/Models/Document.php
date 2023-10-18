@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Document extends Model
+class Document extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
+
     protected $guarded = [];
 
     public function classification(){
@@ -36,6 +40,10 @@ class Document extends Model
 
     public function recipients(){
         return $this->hasMany('App\Models\Recipient','document_id','id');
+    }
+
+    public function remarks(){
+        return $this->hasMany('App\Models\Remark','document_id','id');
     }
 
     public function user(){

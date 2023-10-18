@@ -86,10 +86,6 @@ class PrivilegeSeeder extends Seeder
             ['moduleID' => 15, 'accessLevelID' => 3, 'privilegeCode' => 'RECIPIENTS','privilegeName' => 'Recipients Update'],
             ['moduleID' => 15, 'accessLevelID' => 4, 'privilegeCode' => 'RECIPIENTS','privilegeName' => 'Recipients Delete'],
 
-//            ['moduleID' => 16, 'accessLevelID' => 1, 'privilegeCode' => 'FRONT','privilegeName' => 'Front Create'],
-//            ['moduleID' => 16, 'accessLevelID' => 2, 'privilegeCode' => 'FRONT','privilegeName' => 'Front Read'],
-//            ['moduleID' => 16, 'accessLevelID' => 3, 'privilegeCode' => 'FRONT','privilegeName' => 'Front Update'],
-//            ['moduleID' => 16, 'accessLevelID' => 4, 'privilegeCode' => 'FRONT','privilegeName' => 'Front Delete'],
 
             ];
 	    foreach ($aryPrivileges as $privilege) {

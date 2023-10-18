@@ -13,7 +13,7 @@ class UpdateDocumentTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        abort_if(Gate::denies('document_types_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('document_type_update'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return true;
     }
 
@@ -25,8 +25,8 @@ class UpdateDocumentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:document_types',
-            'code' => 'required|unique:document_types',
+            'name' => 'required',
+            'code' => 'required',
             'department_id' => 'required'
         ];
     }
@@ -35,9 +35,7 @@ class UpdateDocumentTypeRequest extends FormRequest
     {
         return [
             'name.required' => 'Document Type is required',
-            'name.unique' => 'Document Type already exist',
             'code.required' => 'Document Code is required',
-            'code.unique' => 'Document Code already exist',
             'department_id.required' => 'Department is required'
         ];
     }

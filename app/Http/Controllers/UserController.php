@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Role;
@@ -73,7 +74,7 @@ class UserController extends Controller
         return view('users.edit',compact('user','roles','userRoles', 'departments', 'branches'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         DB::beginTransaction();
         try {
@@ -94,8 +95,8 @@ class UserController extends Controller
                 return redirect()->route('users.edit',$user->userID);
             }
         } catch (\Exception $e) {
-            dd($e);
             DB::rollback();
+            dd($e);
             $request->session()->flash('errorMessage', 'An error occurred while updating user!');
             return redirect()->route('users.index');
         }

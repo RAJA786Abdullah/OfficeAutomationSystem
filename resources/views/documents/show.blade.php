@@ -1,7 +1,9 @@
 @extends('layouts.nav')
-@section('title', 'User Show')
+@section('title', 'Document Show')
 @section('app-content', 'app-content')
-
+@php
+    use PhpOffice\PhpSpreadsheet\IOFactory;
+@endphp
 @section('main-content')
     <div class="content-header row">
         <div class="content-header-left col-md-9 col-12 mb-2">
@@ -98,37 +100,90 @@
 
                     <dl>
                         <div class="col-md-12">
-                            @foreach($document->attachments as $attachment)
-                                @php
+                            @foreach ($document->attachments as $attachment)
+                                    <?php
                                     $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
-                                    $contentType = \App\Models\Document::getContentType($fileExtension);
-                                    $content = Illuminate\Support\Facades\Storage::disk('attachments')->get($attachment['path']);
-                                @endphp
-
-                                @if($fileExtension == 'xlsx')
-                                    <iframe src="data:{{ $contentType }};base64,{{ base64_encode($content) }}" style="width:100%;height:500px;"></iframe>
-
-                                @elseif($fileExtension == 'pdf')
-
-                                    <div class="text-center mt-1 mb-1">
-                                        <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
-                                            Download {{ $attachment->name }}
-                                        </a>
-                                    </div>
-
-                                    <object data="data:{{ $contentType }};base64,{{ base64_encode($content) }}" width="100%" height="900"></object>
-                                @elseif($fileExtension == 'jpg' || $fileExtension == 'png')
-                                    <div class="text-center mt-1 mb-1">
-                                        <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
-                                            Download {{ $attachment->name }}
-                                        </a>
-                                    </div>
-                                    <img width="100%" src="{{ asset('storage/attachments/'.$attachment->path) }}"/>
+                                    $attachmentPath = public_path('storage/attachments/' . $attachment->path);
+                                    $pdfPath = public_path('storage/attachments/' . $attachment->path . '.pdf');
+                                    ?>
+                                @if (file_exists($attachmentPath))
+                                    @switch($fileExtension)
+                                        @case('xlsx')
+                                            @php
+                                                try {
+                                                    $spreadsheet = IOFactory::load($attachmentPath);
+                                                    $pdfWriter = IOFactory::createWriter($spreadsheet, 'Tcpdf');
+                                                    $pdfWriter->save($pdfPath);
+                                                } catch (Exception $e) {
+                                                    // Handle the exception, e.g., log the error.
+                                                }
+                                            @endphp
+                                            <iframe src="{{ asset('storage/attachments/' . $attachment->path . '.pdf') }}" width="100%" height="900"></iframe>
+                                            @break
+                                        @case('docx')
+                                            @php
+                                                try {
+                                                    $phpWord = IOFactory::load($attachmentPath);
+                                                    $pdfWriter = IOFactory::createWriter($phpWord, 'PDF');
+                                                    $pdfWriter->save($pdfPath);
+                                                } catch (Exception $e) {
+                                                    // Handle the exception, e.g., log the error.
+                                                }
+                                            @endphp
+                                            @break
+                                        @default
+                                            <a href="{{ asset('storage/attachments/' . $attachment->name) }}" class="btn btn-primary" download>
+                                                Download {{ $attachment->name }}
+                                            </a>
+                                            <p>This file type is not supported for direct display.</p>
+                                    @endswitch
+                                    <a href="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" class="btn btn-primary" download>
+                                        Download {{ $attachment->name }} PDF
+                                    </a>
+                                    <object data="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" type="application/pdf" width="100%" height="900"></object>
+                                @else
+                                    <p>Error: File not found at {{ $attachmentPath }}</p>
                                 @endif
-
                             @endforeach
                         </div>
                     </dl>
+
+                    @if( \Illuminate\Support\Facades\Auth::id() ==  $document->signing_authority_id)
+                        <dl>
+                            <form method="POST" action="{{route('remarks.store')}}">
+                                <input type="hidden" name="document_id" value="{{ $document->id }}">
+                                @csrf
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <label for="remark" class="text-black fs-5">Add Remarks</label>
+                                        <textarea class="mt-2 form-control" name="remark" id="remark" cols="60" rows="5" required> {{ old('remark') }}</textarea>
+                                        @if($errors->has('remark'))
+                                            <div class="text-danger">
+                                                {{ $errors->first('remark') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>
+                                        <select name="toUser_id" class="form-select selectTwo">
+                                            <option disabled>Select User</option>
+                                            @foreach ($departmentUsers as $departmentUser)
+                                                <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </dl>
+                    @endif
+                    @if($document->remarks)
+                        @foreach($document->remarks as $remarks)
+                            <h5>From : {{ $remarks->user->name  }}</h5>
+                            <p>Remark : {{ $remarks->remark  }}</p>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

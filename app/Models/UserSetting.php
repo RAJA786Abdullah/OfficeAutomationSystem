@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UserSetting extends Model
 {
     use HasFactory;
-
-    use HasFactory;
     protected $table = 'userSettings';
     protected $primaryKey = ['userID','settingID'];
     public $timestamps = false;

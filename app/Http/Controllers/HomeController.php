@@ -17,14 +17,14 @@ class  HomeController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-
-
         $userDocuments = [];
-        $userID =Auth::id();
 
-        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
-        $userDepName = Department::where('id',$userDepID)->pluck('name')->first();
+//        $userID =Auth::id();
+//        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+//        $userDepID = Auth::user()->department_id;
+//        $userDepName = Department::where('id',$userDepID)->pluck('name')->first();
+
+        $userDepName = Auth::user()->department->name;
         $recipientsGrouped = Recipient::all()->groupBy('document_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
@@ -50,6 +50,7 @@ class  HomeController extends Controller
             }
         }
         $allDocuments = Document::all();
+//        dd($allDocuments,$userDocuments);
         return view('home', compact('userDocuments', 'allDocuments'));
     }
 

@@ -21,11 +21,14 @@ return new class extends Migration
             $table->integer('code')->nullable();
             $table->foreignId('reference_id')->nullable()->constrained('documents','id');
             $table->string('reference')->nullable();
+            $table->string('in_dept')->nullable();
+            $table->string('out_dept')->nullable();
             $table->string('subject');
             $table->text('body');
             $table->integer('signing_authority_id');
             $table->foreignId('created_by')->constrained('users','userID');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

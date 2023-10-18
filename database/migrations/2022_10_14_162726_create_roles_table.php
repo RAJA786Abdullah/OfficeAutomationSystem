@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->string('roleName');
 			$table->string('description')->nullable();
 			$table->timestamp('dateCreated')->useCurrent();
+            $table->softDeletes();
 		});
 	}
 

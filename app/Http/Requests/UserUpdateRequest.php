@@ -28,12 +28,12 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required',
             'password' => 'required',
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required',
             'is_signing_authority' => 'required',
-
+            'oldPassword' => 'required',
         ];
     }
 
@@ -42,11 +42,11 @@ class UserUpdateRequest extends FormRequest
         return [
             'name.required' => 'Name is required',
             'email.required' => 'User Name is required',
-            'email.unique' => 'User Name already exist',
             'password.required' => 'Password is required',
             'confirmPassword.required' => 'Confirm Password is required',
             'roleID.required' => 'Role is required',
-            'is_signing_authority.required' => 'Signing Authority is required'
+            'is_signing_authority.required' => 'Signing Authority is required',
+            'oldPassword.required' => 'Old Password is required'
         ];
     }
 }

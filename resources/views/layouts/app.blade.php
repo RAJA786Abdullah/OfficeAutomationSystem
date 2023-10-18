@@ -87,6 +87,25 @@
         .swal-button--confirm {
             background: #7367f0;
         }
+        .loginBackground{
+            background-image: url('/app-assets/images/pages/back2.jpg');
+            /* Control the height of the image */
+            min-height: 380px;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .loginCard{
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(86, 86, 86, 0.5);
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+        }
     </style>
     @yield('css')
 
@@ -108,7 +127,7 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
-        <span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
+        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/" class="@yield('classFooter')">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
     </p>
 </footer>
 <!-- END: Footer-->
