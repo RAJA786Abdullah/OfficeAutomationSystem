@@ -36,7 +36,8 @@
                 <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
                     <thead>
                     <tr>
-                        <th class="wd-15p">Reference No</th>
+{{--                        <th class="wd-15p">Reference No</th>--}}
+                        <th class="wd-15p">Document Title</th>
                         <th class="wd-25p">Classification</th>
                         <th class="wd-25p">File No</th>
                         <th class="wd-25p">subject</th>
@@ -47,7 +48,8 @@
                     <tbody>
                     @foreach($documents as $document)
                             <tr>
-                                <td>{{$document->reference_id}}</td>
+{{--                                <td>{{$document->reference_id}}</td>--}}
+                                <td>{{\App\Models\Document::documentTitle($document->id)}}</td>
 {{--                                <td>{{$document->department->name}}</td>--}}
                                 <td>{{$document->classification->name}}</td>
                                 <td>{{$document->file->name}}</td>
@@ -71,7 +73,7 @@
                                             $approve = 1;
                                         }
                                         elseif (strpos($user, "Director") !== false) {
-                                              if ($document->signing_authority_id == $document->in_dept)
+                                            if ($document->signing_authority_id == $document->in_dept)
                                             {
                                                 $show = 1;
                                                 $edit = 1;
@@ -82,16 +84,16 @@
                                                 $show = 1;
                                             }
                                         }
-                                    elseif (strpos($user, "Clerk") !== false) {
-                                        if ($document->created_by == $document->in_dept) {
-                                            $show = 1;
-                                            $edit = 1;
-                                            $delete = 1;
-                                            $send = 1;
-                                        } else{
-                                            $show = 1;
+                                        elseif (strpos($user, "Clerk") !== false) {
+                                            if ($document->created_by == $document->in_dept) {
+                                                $show = 1;
+                                                $edit = 1;
+                                                $delete = 1;
+                                                $send = 1;
+                                            } else{
+                                                $show = 1;
+                                            }
                                         }
-                                    }
                                 @endphp
                                 @if($show == 1)
                                     <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
