@@ -37,107 +37,91 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">Reference No</th>
-{{--                        <th class="wd-15p">Department</th>--}}
                         <th class="wd-25p">Classification</th>
                         <th class="wd-25p">File No</th>
                         <th class="wd-25p">subject</th>
                         <th class="wd-25p">Created By</th>
-
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($documents as $document)
-                            <tr>
-                                <td>{{$document->reference_id}}</td>
-{{--                                <td>{{$document->department->name}}</td>--}}
-                                <td>{{$document->classification->name}}</td>
-                                <td>{{$document->file->name}}</td>
-                                <td>{{$document->subject}}</td>
-                                <td>{{$document->user->name}}</td>
 
-                                <td>
-
-
-
-                                    @php
-                                        $crud = 'documents';
-                                        $row = $document->id;
-                                        $show = 0;
-                                        $edit = 0;
-                                        $delete = 0;
-                                        $send = 0;
-                                        $approve = 0;
-                                        $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
-                                        if (strpos($user, "Director") !== false) {
-                                              if ($document->signing_authority_id == $document->in_dept)
-                                            {
-                                                $show = 1;
-                                                $edit = 1;
-                                                $delete = 1;
-                                                $approve = 1;
-                                            }
-                                            else{
-                                                $show = 1;
-                                            }
+                        <tr>
+                            <td>{{$document->reference_id}}</td>
+                            <td>{{$document->classification->name}}</td>
+                            <td>{{$document->file->name}}</td>
+                            <td>{{$document->subject}}</td>
+                            <td>{{$document->user->name}}</td>
+                            <td>
+                                @php
+                                    $crud = 'documents';
+                                    $row = $document->id;
+                                    $show = 0;
+                                    $edit = 0;
+                                    $delete = 0;
+                                    $send = 0;
+                                    $approve = 0;
+                                    $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
+                                    if (strpos($user, "Director") !== false) {
+                                        if ($document->signing_authority_id == $document->in_dept) {
+                                            $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $approve = 1;
+                                        }else{
+                                            $show = 1;
                                         }
-                                        elseif (strpos($user, "Clerk") !== false) {
-                                            if ($document->created_by == $document->in_dept)
-                                            {
-                                                $show = 1;
-                                                $edit = 1;
-                                                $delete = 1;
-                                                $send = 1;
-                                            }
-                                            else{
-                                                $show = 1;
-                                            }
+                                    }
+                                    elseif (strpos($user, "Clerk") !== false) {
+                                        if ($document->created_by == $document->in_dept) {
+                                            $show = 1;
+                                            $edit = 1;
+                                            $delete = 1;
+                                            $send = 1;
+                                        } else{
+                                            $show = 1;
                                         }
+                                    }
+                                @endphp
+                                @if($show == 1)
+                                    <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
+                                @endif
+                                @if($edit == 1)
+                                    <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>
+                                @endif
+                                @if($delete == 1)
+                                    <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color:white;">
+                                            <i data-feather="trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                                @if($send == 1)
+                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                        @method('GET')
+                                        @csrf
+                                        <input type="hidden" name="docID" value="{{ $document->id }}">
+                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
+                                            <i data-feather="send"></i>
+                                        </button>
+                                    </form>
+                                @endif
 
-
-                                    @endphp
-                                    @if($show == 1)
-                                        <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show"><i data-feather="eye"></i></a>
-                                    @endif
-                                    @if($edit == 1)
-                                        <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i data-feather="edit"></i></a>
-                                    @endif
-                                    @if($delete == 1)
-                                        {{--    onsubmit="return confirm(' ! WARNING ! If you Press OK it can not be recovered?');"--}}
-                                        <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color:white;">
-                                                <i data-feather="trash"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                    @if($send == 1)
-                                        <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
-                                            @method('GET')
-                                            @csrf
-                                            <input type="hidden" name="docID" value="{{ $document->id }}">
-                                            <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color:white;">
-                                                <i data-feather="send"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-
-                                    @if($approve == 1)
-                                        <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
-                                            @method('GET')
-                                            @csrf
-                                            <input type="hidden" name="docID" value="{{ $document->id }}">
-                                            <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Approve" style="color:white;">
-                                                <i data-feather="check"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-
-                                        {{--                                    <a href="{{ route('sendDocToSup') }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Send"><i data-feather="send"></i></a>--}}
-
-                                </td>
-                            </tr>
+                                @if($approve == 1)
+                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+                                        @method('GET')
+                                        @csrf
+                                        <input type="hidden" name="docID" value="{{ $document->id }}">
+                                        <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Approve" style="color:white;">
+                                            <i data-feather="check"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
