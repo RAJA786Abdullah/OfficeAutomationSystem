@@ -87,6 +87,25 @@
         .swal-button--confirm {
             background: #7367f0;
         }
+        .loginBackground{
+            background-image: url('/app-assets/images/pages/back2.jpg');
+            /* Control the height of the image */
+            min-height: 380px;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .loginCard{
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(86, 86, 86, 0.5);
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+        }
     </style>
     @yield('css')
 

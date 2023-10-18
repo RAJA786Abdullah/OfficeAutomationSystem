@@ -46,33 +46,42 @@
                     </thead>
                     <tbody>
                     @foreach($documents as $document)
-
-                        <tr>
-                            <td>{{$document->reference_id}}</td>
-                            <td>{{$document->classification->name}}</td>
-                            <td>{{$document->file->name}}</td>
-                            <td>{{$document->subject}}</td>
-                            <td>{{$document->user->name}}</td>
-                            <td>
-                                @php
-                                    $crud = 'documents';
-                                    $row = $document->id;
-                                    $show = 0;
-                                    $edit = 0;
-                                    $delete = 0;
-                                    $send = 0;
-                                    $approve = 0;
-                                    $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
-                                    if (strpos($user, "Director") !== false) {
-                                        if ($document->signing_authority_id == $document->in_dept) {
+                            <tr>
+                                <td>{{$document->reference_id}}</td>
+{{--                                <td>{{$document->department->name}}</td>--}}
+                                <td>{{$document->classification->name}}</td>
+                                <td>{{$document->file->name}}</td>
+                                <td>{{$document->subject}}</td>
+                                <td>{{$document->user->name}}</td>
+                                <td>
+                                    @php
+                                        $crud = 'documents';
+                                        $row = $document->id;
+                                        $show = 0;
+                                        $edit = 0;
+                                        $delete = 0;
+                                        $send = 0;
+                                        $approve = 0;
+                                        $user = \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName;
+                                        if (strpos($user, "Admin") !== false){
                                             $show = 1;
                                             $edit = 1;
                                             $delete = 1;
+                                            $send = 1;
                                             $approve = 1;
-                                        }else{
-                                            $show = 1;
                                         }
-                                    }
+                                        elseif (strpos($user, "Director") !== false) {
+                                              if ($document->signing_authority_id == $document->in_dept)
+                                            {
+                                                $show = 1;
+                                                $edit = 1;
+                                                $delete = 1;
+                                                $approve = 1;
+                                            }
+                                            else{
+                                                $show = 1;
+                                            }
+                                        }
                                     elseif (strpos($user, "Clerk") !== false) {
                                         if ($document->created_by == $document->in_dept) {
                                             $show = 1;
@@ -160,7 +169,6 @@
                     }
                 });
         }
-
         function sendDocAlert() {
             swal({
                 title: "Are you sure?",
@@ -188,7 +196,6 @@
                     }
                 });
         }
-
     </script>
 @endsection
 
