@@ -275,7 +275,7 @@ class DocumentController extends Controller
     public static function sendDocToSup(Request $request)
     {
         $document = Document::find($request->id);
-        $document->update(['in_dept' => $document->signing_authority_id]);
+        $document->update(['in_dept' => $document->signing_authority_id, 'is_draft' => 0]);
 
         $request->session()->flash('message', 'Document Send successfully!');
 
