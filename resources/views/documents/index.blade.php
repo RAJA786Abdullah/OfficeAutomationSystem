@@ -120,7 +120,8 @@
                                 @endif
 
                                 @if($approve == 1)
-                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">
+{{--                                    <form action="{{ route('sendDocToSup',$document->id ) }}" method="POST" style="display: inline-block;" class="sendDoc">--}}
+                                    <form action="#" method="POST" style="display: inline-block;" class="sendDoc">
                                         @method('GET')
                                         @csrf
                                         <input type="hidden" name="docID" value="{{ $document->id }}">

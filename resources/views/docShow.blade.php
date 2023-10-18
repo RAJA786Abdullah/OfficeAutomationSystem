@@ -130,34 +130,34 @@
                         </div>
                     </dl>
 
-                    <dl>
-                        <form method="POST" action="{{route('remarks.store')}}">
-                            <input type="hidden" name="document_id" value="{{ $document->id }}">
-                            @csrf
-                            <div class="row mt-2">
-                                <div class="col-7">
-                                    <label for="remark" class="text-black fs-5">Add Remarks</label>
-                                    <textarea class="mt-2 form-control" name="remark" id="remark" cols="60" rows="5" required> {{ old('remark') }}</textarea>
-                                    @if($errors->has('remark'))
-                                        <div class="text-danger">
-                                            {{ $errors->first('remark') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-5">
-                                    <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>
-                                    <select name="toUser_id" class="form-select selectTwo">
-                                        <option disabled>Select User</option>
-                                        @foreach ($departmentUsers as $departmentUser)
-                                            <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>
-                                        @endforeach
-                                    </select>
+{{--                    <dl>--}}
+{{--                        <form method="POST" action="{{route('remarks.store')}}">--}}
+{{--                            <input type="hidden" name="document_id" value="{{ $document->id }}">--}}
+{{--                            @csrf--}}
+{{--                            <div class="row mt-2">--}}
+{{--                                <div class="col-7">--}}
+{{--                                    <label for="remark" class="text-black fs-5">Add Remarks</label>--}}
+{{--                                    <textarea class="mt-2 form-control" name="remark" id="remark" cols="60" rows="5" required> {{ old('remark') }}</textarea>--}}
+{{--                                    @if($errors->has('remark'))--}}
+{{--                                        <div class="text-danger">--}}
+{{--                                            {{ $errors->first('remark') }}--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                                <div class="col-5">--}}
+{{--                                    <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>--}}
+{{--                                    <select name="toUser_id" class="form-select selectTwo">--}}
+{{--                                        <option disabled>Select User</option>--}}
+{{--                                        @foreach ($departmentUsers as $departmentUser)--}}
+{{--                                            <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
 
-                                    <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </dl>
+{{--                                    <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    </dl>--}}
                 </div>
             </div>
         </div>
