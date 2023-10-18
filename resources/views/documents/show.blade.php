@@ -104,7 +104,7 @@
                                     <?php
                                     $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
                                     $attachmentPath = public_path('storage/attachments/' . $attachment->path);
-                                    $pdfPath = public_path('storage/attachments/' . $attachment->name . '.pdf');
+                                    $pdfPath = public_path('storage/attachments/' . $attachment->path . '.pdf');
                                     ?>
                                 @if (file_exists($attachmentPath))
                                     @switch($fileExtension)
@@ -118,6 +118,7 @@
                                                     // Handle the exception, e.g., log the error.
                                                 }
                                             @endphp
+                                            <iframe src="{{ asset('storage/attachments/' . $attachment->path . '.pdf') }}" width="100%" height="900"></iframe>
                                             @break
                                         @case('docx')
                                             @php
