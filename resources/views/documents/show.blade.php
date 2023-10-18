@@ -1,7 +1,9 @@
 @extends('layouts.nav')
 @section('title', 'Document Show')
 @section('app-content', 'app-content')
-
+@php
+    use PhpOffice\PhpSpreadsheet\IOFactory;
+@endphp
 @section('main-content')
     <div class="content-header row">
         <div class="content-header-left col-md-9 col-12 mb-2">
@@ -98,36 +100,49 @@
 
                     <dl>
                         <div class="col-md-12">
-                            @foreach($document->attachments as $attachment)
-                                @php
+                            @foreach ($document->attachments as $attachment)
+                                    <?php
                                     $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
-                                    $attachmentPath = asset('storage/attachments/'.$attachment->path);
-                                @endphp
-                                @if($fileExtension == 'xlsx')
-                                    <a href="{{ $attachmentPath }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }}
+                                    $attachmentPath = public_path('storage/attachments/' . $attachment->path);
+                                    $pdfPath = public_path('storage/attachments/' . $attachment->name . '.pdf');
+                                    ?>
+                                @if (file_exists($attachmentPath))
+                                    @switch($fileExtension)
+                                        @case('xlsx')
+                                            @php
+                                                try {
+                                                    $spreadsheet = IOFactory::load($attachmentPath);
+                                                    $pdfWriter = IOFactory::createWriter($spreadsheet, 'Tcpdf');
+                                                    $pdfWriter->save($pdfPath);
+                                                } catch (Exception $e) {
+                                                    // Handle the exception, e.g., log the error.
+                                                }
+                                            @endphp
+                                            @break
+                                        @case('docx')
+                                            @php
+                                                try {
+                                                    $phpWord = IOFactory::load($attachmentPath);
+                                                    $pdfWriter = IOFactory::createWriter($phpWord, 'PDF');
+                                                    $pdfWriter->save($pdfPath);
+                                                } catch (Exception $e) {
+                                                    // Handle the exception, e.g., log the error.
+                                                }
+                                            @endphp
+                                            @break
+                                        @default
+                                            <a href="{{ asset('storage/attachments/' . $attachment->name) }}" class="btn btn-primary" download>
+                                                Download {{ $attachment->name }}
+                                            </a>
+                                            <p>This file type is not supported for direct display.</p>
+                                    @endswitch
+
+                                    <a href="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" class="btn btn-primary" download>
+                                        Download {{ $attachment->name }} PDF
                                     </a>
-                                    <iframe src="https://docs.google.com/gview?url=https://officeautomationsystem.app/storage/attachments/{{$attachment['path']}}&embedded=true" style="width: 100%; min-height: 562px;"></iframe>
-                                @elseif($fileExtension == 'pdf')
-                                    <a href="{{ $attachmentPath }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }}
-                                    </a>
-                                    <object data="{{ $attachmentPath }}" type="application/pdf" width="100%" height="900"></object>
-                                @elseif(in_array($fileExtension, ['jpg', 'jpeg', 'png']))
-                                    <a href="{{ $attachmentPath }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }}
-                                    </a>
-                                    <img src="{{ $attachmentPath }}" width="100%" />
-                                @elseif($fileExtension == 'docx')
-                                    <a href="{{ $attachmentPath }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }}
-                                    </a>
-                                    <iframe src="https://officeautomationsystem.app/storage/attachments/{{$attachment['path']}}" frameborder="0" style="width: 100%; min-height: 562px;"></iframe>
+                                    <object data="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" type="application/pdf" width="100%" height="900"></object>
                                 @else
-                                    <a href="{{ $attachmentPath }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }}
-                                    </a>
-                                    <p>This file type is not supported for direct display.</p>
+                                    <p>Error: File not found at {{ $attachmentPath }}</p>
                                 @endif
                             @endforeach
                         </div>
