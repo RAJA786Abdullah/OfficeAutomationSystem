@@ -137,7 +137,6 @@
                                             </a>
                                             <p>This file type is not supported for direct display.</p>
                                     @endswitch
-
                                     <a href="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" class="btn btn-primary" download>
                                         Download {{ $attachment->name }} PDF
                                     </a>
@@ -179,7 +178,6 @@
                             </form>
                         </dl>
                     @endif
-
                     @if($document->remarks)
                         @foreach($document->remarks as $remarks)
                             <h5>From : {{ $remarks->user->name  }}</h5>
