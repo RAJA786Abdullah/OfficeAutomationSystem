@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
         foreach ($aryUsers as $user) {
             DB::table('users')->insert([
                 'name' => $user['name'],
+                'userCode' => Str::uuid(),
                 'email' => $user['email'],
                 'status' => $user['status'],
                 'department_id' => $user['department_id'],
@@ -32,6 +34,8 @@ class UserSeeder extends Seeder
                 'is_signing_authority' => $user['is_signing_authority'],
                 'arm_designation' => $user['arm_designation'],
                 'password' => $user['password'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

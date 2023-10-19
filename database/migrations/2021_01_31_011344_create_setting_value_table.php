@@ -20,10 +20,9 @@ class CreateSettingValueTable extends Migration
 			$table->unsignedBigInteger('foreignID'); // userID or clientID
 			$table->text('settingValue')->nullable();
 			$table->timestamp('dateCreated')->useCurrent();
-			$table->unsignedBigInteger('createdByUserID');
+            $table->foreignId('createdByUserID')->constrained('users','userID');
 			$table->foreign('settingID')->references('settingID')->on('setting');
 			$table->foreign('settingTypeID')->references('settingTypeID')->on('settingType');
-			$table->foreign('createdByUserID')->references('userID')->on('users');
         });
     }
 
