@@ -31,70 +31,70 @@
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
-                        <div class="col-4">
-                            <label class="form-label required">{{ __('Classification') }}</label>
-                            <select name="classification_id" class="form-select">
-                                <option disabled>Select Classification</option>
-                                @foreach ($classifications as $classification)
-                                    <option value="{{ $classification->id }}" {{ old('classification_id') == $classification->id ? 'selected' : '' }}>{{ $classification->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @if($errors->has('classification_id'))
-                            <div class="text-danger">
-                                {{ $errors->first('classification_id') }}
-                            </div>
-                        @endif
-                        <div class="col-4">
-                            <label class="form-label required">{{ __('Document Type') }}</label>
-                            <select name="document_type_id" class="form-select">
-                                <option disabled>Select Document Type</option>
-                                @foreach ($documentTypes as $documentType)
-                                    <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @if($errors->has('document_type_id'))
-                            <div class="text-danger">
-                                {{ $errors->first('document_type_id') }}
-                            </div>
-                        @endif
-
-                        <div class="col-4">
-                            <label class="form-label required">{{ __('File') }}</label>
-                            <select name="file_id" class="form-select">
-                                <option disabled>Select File</option>
-                                @foreach ($files as $file)
-                                    <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file->name }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('file_id'))
-                                <div class="text-danger">
-                                    {{ $errors->first('file_id') }}
-                                </div>
-                            @endif
-                        </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <label class="form-label required">{{ __('Classification') }}</label>
+                        <select name="classification_id" class="form-select">
+                            <option disabled>Select Classification</option>
+                            @foreach ($classifications as $classification)
+                                <option value="{{ $classification->id }}" {{ old('classification_id') == $classification->id ? 'selected' : '' }}>{{ $classification->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Subject') }}</label>
-                        <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
-                    </div>
-                    @if($errors->has('subject'))
+                    @if($errors->has('classification_id'))
                         <div class="text-danger">
-                            {{ $errors->first('subject') }}
+                            {{ $errors->first('classification_id') }}
+                        </div>
+                    @endif
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <label class="form-label required">{{ __('Document Type') }}</label>
+                        <select name="document_type_id" class="form-select">
+                            <option disabled>Select Document Type</option>
+                            @foreach ($documentTypes as $documentType)
+                                <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if($errors->has('document_type_id'))
+                        <div class="text-danger">
+                            {{ $errors->first('document_type_id') }}
                         </div>
                     @endif
 
-                    <div class="col-12">
-                        <label class="form-label required">{{ __('Body') }}</label>
-                        <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <label class="form-label required">{{ __('File') }}</label>
+                        <select name="file_id" class="form-select">
+                            <option disabled>Select File</option>
+                            @foreach ($files as $file)
+                                <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file->name }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('file_id'))
+                            <div class="text-danger">
+                                {{ $errors->first('file_id') }}
+                            </div>
+                        @endif
                     </div>
-                    @if($errors->has('body'))
-                        <div class="text-danger">
-                            {{ $errors->first('body') }}
-                        </div>
-                    @endif
+                </div>
+
+                <div class="col-12 mt-1">
+                    <label class="form-label required">{{ __('Subject') }}</label>
+                    <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
+                </div>
+                @if($errors->has('subject'))
+                    <div class="text-danger">
+                        {{ $errors->first('subject') }}
+                    </div>
+                @endif
+
+                <div class="col-12 mt-1">
+                    <label class="form-label required">{{ __('Body') }}</label>
+                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
+                </div>
+                @if($errors->has('body'))
+                    <div class="text-danger">
+                        {{ $errors->first('body') }}
+                    </div>
+                @endif
 
                     <div class="col-12 mt-3">
                         <div class="card">

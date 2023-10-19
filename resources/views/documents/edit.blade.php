@@ -30,7 +30,7 @@
             <div class="card-body">
                 <div class="row g-2 align-items-center">
 
-                    <div class="col-4">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('Classification') }}</label>
                         <select name="classification_id" class="form-select">
                             <option disabled>Select Classification</option>
@@ -45,7 +45,7 @@
                         </div>
                     @endif
 
-                    <div class="col-4">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('Document Type') }}</label>
                         <select name="document_type_id" class="form-select">
                             <option disabled>Select Document Type</option>
@@ -60,7 +60,7 @@
                         </div>
                     @endif
 
-                    <div class="col-4">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('File') }}</label>
                         <select name="file_id" class="form-select">
                             <option disabled>Select File</option>
@@ -75,7 +75,9 @@
                         </div>
                     @endif
 
-                    <div class="col-12">
+                </div>
+                <div class="row g-2">
+                    <div class="col-12 mt-3">
                         <label class="form-label required">{{ __('Subject') }}</label>
                         <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject', $document->subject) }}">
                     </div>
