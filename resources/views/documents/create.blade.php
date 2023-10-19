@@ -1,8 +1,8 @@
 @extends('layouts.nav')
 @section('title', 'Document Create')
 @section('app-content', 'app-content')
-
 @section('main-content')
+<input type="hidden" name="annux_rows" id="annux_rows" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" />
 <div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
@@ -45,7 +45,6 @@
                             {{ $errors->first('classification_id') }}
                         </div>
                     @endif
-
                     <div class="col-12">
                         <label class="form-label required">{{ __('Document Type') }}</label>
                         <select name="document_type_id" class="form-select">
@@ -163,7 +162,7 @@
                                         <select name="user" class="form-select select2" style="width: 100%">
                                             <option disabled>Select User</option>
                                             @foreach ($users as $user)
-                                                <option value="{{ $user->name }}">{{ $user->name }}</option>
+                                                <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department->name   }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -224,6 +223,11 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @if ($errors->any())
+                                        @for($i = 0 ; $i <= old('annux_rows') ; $i++ )
+                                            {{ $i }}
+                                        @endfor
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -317,7 +321,6 @@
     <script>
         $(document).ready(function() {
             CKEDITOR.replace('body');
-
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();
@@ -397,7 +400,6 @@
                 $("#info").val(appendedValue);
             }
         }
-
         var annux_rows = {{ old('annux_rows') ? old('annux_rows') : 0 }};
         function addNewAnnux(){
             annux_rows +=1;
@@ -417,6 +419,7 @@
                 '</td>'+
                 '</tr>';
             $('#annuxFields').append(annuxField);
+            $('#annux_rows').val(annux_rows);
         }
         function bindRowRemoveClick(thisElem) {
             $(thisElem).closest('tr').remove();

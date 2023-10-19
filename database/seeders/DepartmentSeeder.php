@@ -16,7 +16,7 @@ class DepartmentSeeder extends Seeder
     {
         $aryDepartments = [
             ['name' => 'IT', 'created_at' => Carbon::now()],
-            ['name' => 'T&R', 'created_at' => Carbon::now()],
+            ['name' => 'Legal', 'created_at' => Carbon::now()],
             ['name' => 'HR', 'created_at' => Carbon::now()],
             ['name' => 'Security', 'created_at' => Carbon::now()]
         ];

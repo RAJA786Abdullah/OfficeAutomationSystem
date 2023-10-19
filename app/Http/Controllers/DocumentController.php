@@ -36,8 +36,8 @@ class DocumentController extends Controller
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
-        $departments = Department::all();
-        $users = User::all();
+        $departments = Department::where('name', '!=', $user->department->name)->get();
+        $users = User::where('department_id', '!=', $dept_id)->get();
         $files = Files::all();
         $documents = Document::all();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
@@ -45,7 +45,6 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-//        DB::beginTransaction();
         try {
             $userID = Auth::id();
             $document = Document::create([
