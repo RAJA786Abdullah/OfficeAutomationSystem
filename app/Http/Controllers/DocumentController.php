@@ -36,8 +36,10 @@ class DocumentController extends Controller
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
-        $departments = Department::where('name', '!=', $user->department->name)->get();
-        $users = User::where('department_id', '!=', $dept_id)->get();
+//        $departments = Department::where('name', '!=', $user->department->name)->get();
+        $departments = Department::all();
+//        $users = User::where('department_id', '!=', $dept_id)->get();
+        $users = User::all();
         $files = Files::all();
         $documents = Document::all();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));

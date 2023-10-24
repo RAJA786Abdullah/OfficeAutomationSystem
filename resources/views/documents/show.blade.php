@@ -27,14 +27,13 @@
         <div class="card p-5">
             <div class="card-header">
                 <h3 class="mb-0 card-title"><i class="fa fa-user"></i> <b> {{\App\Models\Document::documentTitle($document->id)}} </b></h3>
-                @can('user_update')
+                @can('documents_update')
                     <div class="d-flex justify-content-between">
                         <form action="{{ route('printDocument') }}" method="post">
                             @csrf
                             <input type="hidden" name="documentID" value="{{ $document->id }}">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print Document</button>
                         </form>
-                        {{--                    <a href="{{ route('users.edit', $document->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;Edit Document</a>--}}
                     </div>
                 @endcan
             </div>

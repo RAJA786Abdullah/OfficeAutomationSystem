@@ -160,7 +160,7 @@
         function sendDocAlert() {
             swal({
                 title: "Are you sure?",
-                text: "Once you send the Document, you will be unable to edit or delete the document!",
+                text: "Once you send the Document, you will not be able to edit or delete the document!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

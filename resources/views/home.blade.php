@@ -37,34 +37,52 @@
                 @php
                     $count = 0;
                 @endphp
-                @foreach($allDocuments as  $allDocument)
-                    @foreach($userDocuments as $document)
-                        @if ($allDocument->id == $document)
-                            @php
-                                $doc = \App\Models\Document::dashboardDocumentTitle($document);
-                                $count++;
-                            @endphp
-{{--                            <a href="{{ route('documents.show', $allDocument->id) }}" class=" text-primary mt-1">--}}
-{{--                                <b>{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</b>--}}
-{{--                            </a><br>--}}
-
-{{--                        <div class="row">--}}
-{{--                            <div class="col-1">--}}
-{{--                                {{ $count }}--}}
-{{--                            </div>--}}
-{{--                            <div class="col-11" style="margin-left: ">--}}
-{{--                                <u><b><a href="{{ route('documents.show', $allDocument->id) }}" class="text-primary text-decoration-none">{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</a></b></u>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-                            <span class="">{{ $count }}</span>
-                            <span style="padding-left: 10px" ><u><b><a href="{{ route('docShow', $allDocument->id) }}" class="text-primary text-decoration-none">{{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}</a></b></u></span>
-                            <br>
-
-{{--                            {{ $count }} - <b><h4><u><a href="{{ route('documents.show', $allDocument->id) }}" class="text-primary text-decoration-none">{{ $doc['subject'] . ' - ' . $doc['docTitle'] }}</a></u></h4></b>--}}
-{{--                            <b><h4><a href="{{ route('documents.show', $allDocument->id) }}">{{ $doc['subject'] . ' - ' . $doc['docTitle'] }}</a></h4></b>--}}
-                        @endif
-                    @endforeach
-                @endforeach
+                <div class="table-responsive-sm">
+                    <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
+                        <thead>
+                        <tr>
+                            <th class="wd-15p">#</th>
+                            <th class="wd-25p">Subject</th>
+                            <th class="wd-25p">Print</th>
+                            <th class="wd-25p">Reply</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($allDocuments as  $allDocument)
+                            @foreach($userDocuments as $document)
+                                @if ($allDocument->id == $document)
+                                    @php
+                                        $doc = \App\Models\Document::dashboardDocumentTitle($document);
+                                        $count++;
+                                    @endphp
+                                    <tr>
+                                        <td><span class="">{{ $count }}</span></td>
+                                        <td>
+                                            <span style="padding-left: 10px" >
+                                                <b>
+                                                    <a href="{{ route('docShow', $allDocument->id) }}" class="text-primary text-decoration-none">
+                                                        {{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}
+                                                    </a>
+                                                </b>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <form action="{{ route('printDocument') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="documentID" value="{{ $allDocument->id }}">
+                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td>Reply</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

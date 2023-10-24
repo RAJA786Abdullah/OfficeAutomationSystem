@@ -49,8 +49,8 @@ class  HomeController extends Controller
                 }
             }
         }
-        $allDocuments = Document::all();
-//        dd($allDocuments,$userDocuments);
+        $allDocuments = Document::orderBy('id', 'desc')->get();
+//        $allDocuments = Document::all();
         return view('home', compact('userDocuments', 'allDocuments'));
     }
 
