@@ -49,7 +49,8 @@ class DocumentController extends Controller
     {
         try {
             $userID = Auth::id();
-            $document = Document::create([
+
+            $commonFields = [
                 'classification_id' => $request->input('classification_id'),
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
@@ -59,8 +60,16 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
-                'in_dept' => Auth::id()
-            ]);
+                'in_dept' => Auth::id(),
+            ];
+
+            if ($request->reference) {
+                $commonFields['reference'] = $request->input('reference');
+            } elseif ($request->reference_id) {
+                $commonFields['reference_id'] = $request->input('reference_id');
+            }
+
+            $document = Document::create($commonFields);
 
             $info = $request->input('info');
             $to = $request->input('to');
@@ -89,13 +98,6 @@ class DocumentController extends Controller
                         'userID' => $userID,
                     ]);
                 }
-            }
-
-            if($request->reference){
-                dd('this is reference',$request->reference);
-            }
-            elseif($request->reference_id){
-                dd('this is reference ID',$request->reference_id);
             }
 
             if ($request->name) {
