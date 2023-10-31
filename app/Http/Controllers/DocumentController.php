@@ -22,10 +22,10 @@ class DocumentController extends Controller
     public function index()
     {
         $userDepID = Auth::user()->department_id;
-        $userID = Auth::id();
-//        $documents = Document::where('department_id', $userDepID)->where('created_by', $userID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+
         return view('documents.index', compact('documents'));
+//        return view('documents.index', compact('documents', 'canShow', 'canEdit', 'canDelete', 'canSend', 'canApprove'));
     }
 
     public function create()
@@ -279,9 +279,16 @@ class DocumentController extends Controller
     {
         $document = Document::find($request->id);
         $document->update(['in_dept' => $document->signing_authority_id, 'is_draft' => 0]);
-
         $request->session()->flash('message', 'Document Send successfully!');
-
         return redirect()->back();
     }
+
+    public static function approveDoc(Request $request)
+    {
+        $document = Document::find($request->id);
+        $document->update(['out_dept' => 1]);
+        $request->session()->flash('message', 'Document Approved successfully!');
+        return redirect()->back();
+    }
+
 }
