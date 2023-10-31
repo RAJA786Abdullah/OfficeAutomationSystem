@@ -108,12 +108,12 @@
         }
         #watermark {
             position: fixed;
-            bottom: 300px;
-            left: 300px;
-            z-index: 0;
-            font-size:50px;
+            bottom: 350px;
+            left: 250px;
+            z-index: 99;
+            font-size:60px;
             color: black;
-            transform:rotate(-20deg);
+            transform:rotate(-30deg);
             opacity: 0.2;"
         }
     </style>
