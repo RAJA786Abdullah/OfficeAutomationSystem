@@ -96,211 +96,208 @@
                     </div>
                 @endif
 
-                    <div class="col-12 mt-3">
-                        <div class="card">
-                            <div class="col-12">
-                                <label class="form-label required fs-4">{{ __('Signing Authority') }}</label>
-                                @foreach($authorizedUsers as $index => $user)
-                                    <div class="form-check">
-                                        @if($index < 1)
-                                            <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}" checked>
-                                            <label class="form-check-label" for="user{{ $user->userID }}">
-                                                {{ $user->name }}
-                                            </label>
-                                        @else
-                                            <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}">
-                                            <label class="form-check-label" for="user{{ $user->userID }}">
-                                                {{ $user->name }}
-                                            </label>
-                                        @endif
-                                    </div>
-                                @endforeach
-                            </div>
+                <div class="col-12 mt-3">
+                    <div class="card">
+                        <div class="col-12">
+                            <label class="form-label required fs-4">{{ __('Signing Authority') }}</label>
+                            @foreach($authorizedUsers as $index => $user)
+                                <div class="form-check">
+                                    @if($index < 1)
+                                        <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}" checked>
+                                        <label class="form-check-label" for="user{{ $user->userID }}">
+                                            {{ $user->name }}
+                                        </label>
+                                    @else
+                                        <input class="form-check-input" type="radio" name="signing_authority_id" id="user{{ $user->userID }}" value="{{ $user->userID }}">
+                                        <label class="form-check-label" for="user{{ $user->userID }}">
+                                            {{ $user->name }}
+                                        </label>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    @if($errors->has('signing_authority_id'))
-                        <div class="text-danger">
-                            {{ $errors->first('signing_authority_id') }}
-                        </div>
-                    @endif
-
-
-                    <div class="col-12 mt-3">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="row justify-content-center">
-                                                <div class="col-auto">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
-                                                        <label class="form-check-label" for="departmentUser1">
-                                                            Directorate
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-auto" >
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
-                                                        <label class="form-check-label" for="departmentUser2">
-                                                            Users
-                                                        </label>
-                                                    </div>
+                </div>
+                @if($errors->has('signing_authority_id'))
+                    <div class="text-danger">
+                        {{ $errors->first('signing_authority_id') }}
+                    </div>
+                @endif
+                <div class="col-12 mt-3">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="row justify-content-center">
+                                            <div class="col-auto">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
+                                                    <label class="form-check-label" for="departmentUser1">
+                                                        Directorate
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div id="department">
-                                                <h5 class="card-title text-center mt-5">Directorate</h5>
-                                                <select name="department" class="form-select select2" style="width: 100%">
-                                                    <option disabled>Select Department</option>
-                                                    @foreach ($departments as $department)
-                                                        <option value="{{ $department->name }}">{{ $department->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div id="user" style="display: none;">
-                                                <h5 class="card-title text-center mt-5">Users</h5>
-                                                <select name="user" class="form-select select2" style="width: 100%">
-                                                    <option disabled>Select User</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department->name   }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="col-auto" >
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
+                                                    <label class="form-check-label" for="departmentUser2">
+                                                        Users
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
-                                            <div class="btn-group-vertical">
-                                                <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickTo()">To</button>
-                                                <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickInfo()">Info</button>
-                                                <button type="button" class="btn btn-dark btn-rounded mt-2" disabled>Copy</button>
-                                            </div>
+                                        <div id="department">
+                                            <h5 class="card-title text-center mt-5">Directorate</h5>
+                                            <select name="department" class="form-select select2" style="width: 100%">
+                                                <option disabled>Select Department</option>
+                                                @foreach ($departments as $department)
+                                                    <option value="{{ $department->name }}">{{ $department->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <label class="form-label fw-bolder fs-5">{{ __('To') }}
-                                                <textarea class="form-control" rows="4" name="to" id="to" > {{ old('to') }}</textarea>
-                                                @if($errors->has('to'))
-                                                    <div class="text-danger">
-                                                        {{ $errors->first('to') }}
-                                                    </div>
-                                                @endif
-                                            </label>
-                                            <label class="form-label fw-bolder fs-5">{{ __('Info') }}
-                                                <textarea class="form-control mt-2" rows="4" name="info" id="info" > {{ old('info') }}</textarea>
-                                                @if($errors->has('info'))
-                                                    <div class="text-danger">
-                                                        {{ $errors->first('info') }}
-                                                    </div>
-                                                @endif
-                                            </label>
-                                            <label class="form-label fw-bolder fs-5">{{ __('ID') }}
-                                                <p class="form-control border-primary text-black fs-5 mt-2" id="copy" disabled>{{ Auth::user()->department->name }}</p>
-                                            </label>
+                                        <div id="user" style="display: none;">
+                                            <h5 class="card-title text-center mt-5">Users</h5>
+                                            <select name="user" class="form-select select2" style="width: 100%">
+                                                <option disabled>Select User</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department->name   }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="card d-flex justify-content-center align-items-center" style="height: 100%;">
+                                        <div class="btn-group-vertical">
+                                            <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickTo()">To</button>
+                                            <button type="button" class="btn btn-dark btn-rounded mt-2" onclick="clickInfo()">Info</button>
+                                            <button type="button" class="btn btn-dark btn-rounded mt-2" disabled>Copy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <label class="form-label fw-bolder fs-5">{{ __('To') }}
+                                            <textarea class="form-control" rows="4" name="to" id="to" > {{ old('to') }}</textarea>
+                                            @if($errors->has('to'))
+                                                <div class="text-danger">
+                                                    {{ $errors->first('to') }}
+                                                </div>
+                                            @endif
+                                        </label>
+                                        <label class="form-label fw-bolder fs-5">{{ __('Info') }}
+                                            <textarea class="form-control mt-2" rows="4" name="info" id="info" > {{ old('info') }}</textarea>
+                                            @if($errors->has('info'))
+                                                <div class="text-danger">
+                                                    {{ $errors->first('info') }}
+                                                </div>
+                                            @endif
+                                        </label>
+                                        <label class="form-label fw-bolder fs-5">{{ __('ID') }}
+                                            <p class="form-control border-primary text-black fs-5 mt-2" id="copy" disabled>{{ Auth::user()->department->name }}</p>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="text-align: center; width:35%;">Name</th>
-                                                        <th style="text-align: center; width:60%;">File</th>
-                                                        <th style="text-align: center; width:1%;">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="annuxFields">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
-                                                        </div>
-                                                    </td>
+                                                    <th style="text-align: center; width:35%;">Name</th>
+                                                    <th style="text-align: center; width:60%;">File</th>
+                                                    <th style="text-align: center; width:1%;">Actions</th>
                                                 </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </thead>
+                                            <tbody id="annuxFields">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-sm btn-outline-primary" id="annuxBtn" type="button" value="{{ old('annux_rows') ? old('annux_rows') : 0}}" onclick="addNewAnnux()"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-12 mt-3">
-                        <div class="card">
-                            <div class="row justify-content-center my-1">
-                                <div class="col-auto">
-                                    <label class="form-check-label" for="referenceEnter">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="referenceSelection" id="referenceEnter" value="enter" checked>
-                                            Enter Reference Manually
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="form-check-label" for="referenceSelect">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="referenceSelection" id="referenceSelect" value="select">
-                                            Find Reference
-                                        </div>
-                                    </label>
-                                </div>
+                <div class="col-12 mt-3">
+                    <div class="card">
+                        <div class="row justify-content-center my-1">
+                            <div class="col-auto">
+                                <label class="form-check-label" for="referenceEnter">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="referenceSelection" id="referenceEnter" value="enter" checked>
+                                        Enter Reference Manually
+                                    </div>
+                                </label>
                             </div>
-                            <div class="row enterReference">
-                                <div class="card-header d-flex justify-content-center bg-primary">
-                                    <h4 class="card-title text-light">Enter Reference</h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <h5 class="card-title text-center mt-5">Reference</h5>
-                                    <input type="text" name="reference" id="reference" class="form-control form-control-lg">
-                                </div>
+                            <div class="col-auto">
+                                <label class="form-check-label" for="referenceSelect">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="referenceSelection" id="referenceSelect" value="select">
+                                        Find Reference
+                                    </div>
+                                </label>
                             </div>
-                            <div class="row selectReference" style="display: none;">
-                                <div class="card-header d-flex justify-content-center bg-primary">
-                                    <h4 class="card-title text-light">Select Reference</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="card-title text-center mt-5">Classifications</h5>
-                                    <select name="filter_classification" class="form-select select2" style="width: 100%">
-                                        <option value="">Select Classification</option>
-                                        @foreach ($classifications as $classification)
-                                            <option value="{{ $classification->id }}">{{ $classification->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="card-title text-center mt-5">Departments</h5>
-                                    <select name="filter_department" class="form-select select2" style="width: 100%">
-                                        <option value="">Select Department</option>
-                                        @foreach ($departments as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="card-title text-center mt-5">Files</h5>
-                                    <select name="filter_file" class="form-select select2" style="width: 100%">
-                                        <option value="">Select File</option>
-                                        @foreach ($files as $file)
-                                            <option value="{{ $file->id }}">{{ $file->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="card-title text-center mt-5">References</h5>
-                                    <select name="reference_id" class="form-select selectTwo" id="reference_id" style="width: 100%">
-                                        <option value="">Select Reference</option>
-                                        @foreach ($documents as $document)
-                                            <option value="{{ $document->id }}">{{ \App\Models\Document::documentTitle($document->id) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="row enterReference">
+                            <div class="card-header d-flex justify-content-center bg-primary">
+                                <h4 class="card-title text-light">Enter Reference</h4>
+                            </div>
+                            <div class="col-md-12">
+                                <h5 class="card-title text-center mt-5">Reference</h5>
+                                <input type="text" name="reference" id="reference" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row selectReference" style="display: none;">
+                            <div class="card-header d-flex justify-content-center bg-primary">
+                                <h4 class="card-title text-light">Select Reference</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title text-center mt-5">Classifications</h5>
+                                <select name="filter_classification" class="form-select select2" style="width: 100%">
+                                    <option value="">Select Classification</option>
+                                    @foreach ($classifications as $classification)
+                                        <option value="{{ $classification->id }}">{{ $classification->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title text-center mt-5">Departments</h5>
+                                <select name="filter_department" class="form-select select2" style="width: 100%">
+                                    <option value="">Select Department</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title text-center mt-5">Files</h5>
+                                <select name="filter_file" class="form-select select2" style="width: 100%">
+                                    <option value="">Select File</option>
+                                    @foreach ($files as $file)
+                                        <option value="{{ $file->id }}">{{ $file->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title text-center mt-5">References</h5>
+                                <select name="reference_id" class="form-select selectTwo" id="reference_id" style="width: 100%">
+                                    <option value="">Select Reference</option>
+                                    @foreach ($documents as $document)
+                                        <option value="{{ $document->id }}">{{ \App\Models\Document::documentTitle($document->id) }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -315,7 +312,6 @@
     <!--/ Page layout -->
 </div>
 @endsection
-
 @section('js')
     <script>
         $(document).ready(function() {
