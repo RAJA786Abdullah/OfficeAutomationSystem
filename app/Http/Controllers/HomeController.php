@@ -22,10 +22,10 @@ class  HomeController extends Controller
 
         $userDepName = Auth::user()->department->name;
 
-        $recipientsGrouped = Recipient::with(['user' => function($query){
-            $query->groupBy('department_id');
-        }])->get();
-
+//        $recipientsGrouped = Recipient::with(['user' => function($query){
+//            $query->groupBy('department_id');
+//        }])->get();
+        $recipientsGrouped = Recipient::all()->groupBy('department_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
 

@@ -19,9 +19,9 @@
 {{--        </div>--}}
 {{--    </div>--}}
 {{--</div>--}}
-<div class="content-body">
+<div class="content-body opacity">
     <!-- Page layout -->
-    <div class="card">
+    <div class="card ">
         <div class="card-header pb-0 d-flex justify-content-start">
             <a class="btn btn-primary btn-sm" href="#" role="button">Received Document</a>
             <a class="btn btn-primary btn-sm" style="margin-left: 10px" href="#" role="button">Sent Document</a>
