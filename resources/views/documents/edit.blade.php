@@ -29,7 +29,6 @@
             @csrf
             <div class="card-body">
                 <div class="row g-2 align-items-center">
-
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('Classification') }}</label>
                         <select name="classification_id" class="form-select">
