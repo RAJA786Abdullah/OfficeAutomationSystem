@@ -3,93 +3,75 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-<div class="content-header row">
-    <div class="content-header-left col-md-9 col-12 mb-2">
-        <div class="row breadcrumbs-top">
-            <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Documents</h2>
-                <div class="breadcrumb-wrapper">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item active">Documents
-                        </li>
-                    </ol>
+    <div class="content-header row">
+        <div class="content-header-left col-md-9 col-12 mb-2">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="content-header-title float-start mb-0">Documents</h2>
+                    <div class="breadcrumb-wrapper">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Documents
+                            </li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="content-body">
-    <!-- Page layout -->
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">Document</h4>
-            @can('documents_create')
-                <a href="{{route('documents.create')}}" class="btn btn-primary ml-auto">
-                    <i class="fa fa-plus"></i>&ensp;Add Document
-                </a>
-            @endcan
-        </div>
-        <div class="card-body">
-            <div class="table-responsive-sm">
-                <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
-                    <thead>
-                    <tr>
-                        <th class="wd-15p">Reference No</th>
-                        <th class="wd-25p">Classification</th>
-                        <th class="wd-25p">File No</th>
-                        <th class="wd-25p">subject</th>
-                        <th class="wd-25p">Created By</th>
-                        <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($documents as $document)
-                        @php
-                            $crud = 'documents';
-                            $row = $document->id;
-                            $user = \Illuminate\Support\Facades\Auth::user();
-                            $userID = \Illuminate\Support\Facades\Auth::id();
-                            $userRole = $user->roles[0]->roleName;
-
-                            $canShow = false;
-                            $canEdit = false;
-                            $canDelete = false;
-                            $canSend = false;
-                            $canApprove = false;
-                            $isRow = false;
-
-                            if (strpos($userRole, "Admin") !== false) {
-                                // User has admin role, so they can do everything.
-                                $canShow = $canEdit = $canDelete = $canSend = $canApprove = true;
-                            } else {
-                                if ($document['is_draft'] == 1 && $document['created_by'] == $userID) {
-                                    // Document is a draft, and the current user created it, so they can perform specific actions.
-                                    $canShow = $canEdit = $canDelete = $canSend = $isRow = true;
-                                } elseif ($document['is_draft'] == 0) {
-                                    // Document is not a draft.
-                                    if ($userID == $document['in_dept'] && $document['out_dept'] == '') {
-                                        // User is in the same department, and there's no outgoing department set.
-                                        if ($document['signing_authority_id'] == $userID) {
-                                            // User has signing authority, so they can approve the document.
-                                            $canShow = $canEdit = $canDelete  = $canApprove = $isRow = true;
-                                        } else {
-                                            // User can edit, delete, and send the document.
-                                            $canShow = $canEdit = $canDelete  = $canSend = $isRow = true;
-                                        }
+    <div class="content-body">
+        <!-- Page layout -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Add Document</h4>
+                @can('documents_create')
+                    <a href="{{route('documents.create')}}" class="btn btn-primary ml-auto">
+                        <i class="fa fa-plus"></i>&ensp;Add Document
+                    </a>
+                @endcan
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                    <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
+                        <thead>
+                        <tr>
+                            <th class="wd-15p">Reference No</th>
+                            <th class="wd-25p">Classification</th>
+                            <th class="wd-25p">File No</th>
+                            <th class="wd-25p">subject</th>
+                            <th class="wd-25p">Created By</th>
+                            <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($documents as $document)
+                            @php
+                                $crud = 'documents';
+                                $row = $document->id;
+                                $user = \Illuminate\Support\Facades\Auth::user();
+                                $userRole = $user->roles[0]->roleName;
+                                $canShow = false;
+                                $canEdit = false;
+                                $canDelete = false;
+                                $canSend = false;
+                                $canApprove = false;
+                                if (strpos($userRole, "Admin") !== false){
+                                    $canShow = $canEdit = $canDelete = $canSend = $canApprove = true;
+                                } elseif (strpos($userRole, "Director") !== false){
+                                    if ($document->signing_authority_id == $document->in_dept) {
+                                        $canShow = $canEdit = $canDelete = $canApprove = true;
                                     } else {
-                                        // User is not in the same department or there is an outgoing department, so they can only view the document.
-                                        $canShow = $isRow = true;
+                                        $canShow = true;
                                     }
-                                } elseif ($document['out_dept'] != '') {
-                                    // There is an outgoing department, so the user can only view the document.
-                                    $canShow = $isRow = true;
+                                } elseif (strpos($userRole, "Clerk") !== false) {
+                                    if ($document->created_by == $document->in_dept) {
+                                        $canShow = $canEdit = $canDelete = $canSend = true;
+                                    } else {
+                                        $canShow = true;
+                                    }
                                 }
-                            }
-
-                        @endphp
-                        @if($isRow)
+                            @endphp
                             <tr>
                                 <td>{{ $document->reference_id }}</td>
                                 <td>{{ $document->classification->name }}</td>
@@ -126,26 +108,26 @@
                                         </form>
                                     @endif
                                     @if ($canApprove)
-                                        <form action="{{ route('approveDoc', $document->id) }}" method="GET" style="display: inline-block" class="approveDoc">
+                                        <form action="{{ route('sendDocToSup', $document->id) }}" method="GET" style="display: inline-block" class="sendDoc">
                                             @csrf
                                             <input type="hidden" name="docID" value="{{ $document->id }}">
-                                            <button type="button" class="btn btn-sm btn-success" onclick="approveDocAlert()" data-toggle="tooltip" title="Approve" style="color: white;">
+                                            <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Approve" style="color: white;">
                                                 <i data-feather="check"></i>
                                             </button>
                                         </form>
                                     @endif
                                 </td>
                             </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table-wrapper -->
             </div>
-            <!-- table-wrapper -->
         </div>
+        <!--/ Page layout -->
     </div>
-    <!--/ Page layout -->
-</div>
 @endsection
 @section('js')
     <script>
@@ -178,7 +160,7 @@
         function sendDocAlert() {
             swal({
                 title: "Are you sure?",
-                text: "Once you send the Document, you will not be able to edit or delete the document!",
+                text: "Once you send the Document, you will be unable to edit or delete the document!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -202,34 +184,5 @@
                     }
                 });
         }
-
-        function approveDocAlert() {
-            swal({
-                title: "Are you sure?",
-                text: "Once you approve the Document, you will not be able to edit or delete the document!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willSend) => {
-                    if (willSend) {
-                        swal("Document approved successfully!", {
-                            icon: "success",
-                        });
-
-                        // Find and submit the form with class 'sendDoc'
-                        $('.approveDoc').submit();
-                    } else {
-                        swal({
-                            title: "You can update your document!",
-                            buttons: true,
-                            confirmButtonText: 'shukria',
-                            confirmButton: true,
-                            confirmButtonColor: '#7367f0'
-                        });
-                    }
-                });
-        }
     </script>
 @endsection
-
