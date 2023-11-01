@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'Department Create')
+@section('title', 'Directorate Create')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -7,12 +7,12 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Add Department</h2>
+                <h2 class="content-header-title float-start mb-0">Add Directorate</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('departments.index')}}">Departments</a>
+                        <li class="breadcrumb-item"><a href="{{route('departments.index')}}">Directorates</a>
                         </li>
-                        <li class="breadcrumb-item active">Add Department
+                        <li class="breadcrumb-item active">Add Directorate
                         </li>
                     </ol>
                 </div>
@@ -25,15 +25,15 @@
     <div class="card">
         @include('partials.message')
         <div class="card-header">
-            <h4 class="card-title">Add Department</h4>
+            <h4 class="card-title">Add Directorate</h4>
         </div>
         <form method="POST" action="{{route('departments.store')}}">
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <label class="form-label required">{{ __('Department Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Document Name') }}" value="{{ old('name')}}" />
+                        <label class="form-label required">{{ __('Directorate Name') }}</label>
+                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Directorate Name') }}" value="{{ old('name')}}" />
                     </div>
                     @if($errors->has('name'))
                         <div class="text-danger">

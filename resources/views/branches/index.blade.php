@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'Branches')
+@section('title', 'Regional Offices')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -7,12 +7,12 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Branches</h2>
+                <h2 class="content-header-title float-start mb-0">Regional Offices</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">Branches
+                        <li class="breadcrumb-item active">Regional Offices
                         </li>
                     </ol>
                 </div>
@@ -24,10 +24,10 @@
     <!-- Page layout -->
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Add Branch</h4>
+            <h4 class="card-title">Add Regional Office</h4>
             @can('branch_create')
                 <a href="{{route('branches.create')}}" class="btn btn-primary ml-auto">
-                    <i class="fa fa-plus"></i>&ensp;Add Branch
+                    <i class="fa fa-plus"></i>&ensp;Add Regional Office
                 </a>
             @endcan
         </div>
@@ -37,8 +37,8 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">SrNo.</th>
-                        <th class="wd-25p">Branch Name</th>
-                        <th class="wd-25p">Branch Location</th>
+                        <th class="wd-25p">Regional Office Name</th>
+                        <th class="wd-25p">Regional Office Location</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>

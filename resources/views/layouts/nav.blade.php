@@ -70,7 +70,7 @@
                 @can('branch_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'branches.index'|| request()->route()->action['as'] == 'branches.create' || request()->route()->action['as'] == 'branches.edit' || request()->route()->action['as'] == 'branches.show') active @endif" href="{{route('branches.index')}}">
-                            <i class="ti ti-binary-tree"></i></i><span class="menu-title text-truncate" data-i18n="Branches">Branches</span>
+                            <i class="ti ti-binary-tree"></i></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
                         </a>
                     </li>
                 @endcan
@@ -79,7 +79,7 @@
                 @can('department_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'departments.index'|| request()->route()->action['as'] == 'departments.create' || request()->route()->action['as'] == 'departments.edit' || request()->route()->action['as'] == 'departments.show') active @endif" href="{{route('departments.index')}}">
-                            <i class="ti ti-building"></i><span class="menu-title text-truncate" data-i18n="Departments">Departments</span>
+                            <i class="ti ti-building"></i><span class="menu-title text-truncate" data-i18n="Directorate">Directorate</span>
                         </a>
                     </li>
                 @endcan

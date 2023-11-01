@@ -1,5 +1,5 @@
 @extends('layouts.nav')
-@section('title', 'Departments')
+@section('title', 'Directorates')
 @section('app-content', 'app-content')
 
 @section('main-content')
@@ -7,12 +7,12 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-start mb-0">Departments</h2>
+                <h2 class="content-header-title float-start mb-0">Directorates</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">Departments
+                        <li class="breadcrumb-item active">Directorates
                         </li>
                     </ol>
                 </div>
@@ -24,10 +24,10 @@
     <!-- Page layout -->
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Add Department</h4>
+            <h4 class="card-title">Add Directorate</h4>
             @can('department_create')
                 <a href="{{route('departments.create')}}" class="btn btn-primary ml-auto">
-                    <i class="fa fa-plus"></i>&ensp;Add Department
+                    <i class="fa fa-plus"></i>&ensp;Add Directorate
                 </a>
             @endcan
         </div>
@@ -37,7 +37,7 @@
                     <thead>
                     <tr>
                         <th class="wd-15p">SrNo.</th>
-                        <th class="wd-25p">Department Name</th>
+                        <th class="wd-25p">Directorate Name</th>
                         <th class="wd-15p">Date Created</th>
                         <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
                     </tr>
