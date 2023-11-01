@@ -106,19 +106,19 @@
             backdrop-filter: blur(9px);
             -webkit-backdrop-filter: blur(9px);
         }
-        #watermark {
-            position: fixed;
-            bottom: 350px;
-            left: 250px;
-            z-index: -1;
-            font-size:60px;
-            color: black;
-            transform:rotate(-30deg);
-            opacity: 0.7;"
-        }
-        .opacity{
-            opacity: 0.8;
-        }
+        /*#watermark {*/
+        /*    position: fixed;*/
+        /*    bottom: 350px;*/
+        /*    left: 250px;*/
+        /*    z-index: -1;*/
+        /*    font-size:60px;*/
+        /*    color: black;*/
+        /*    transform:rotate(-30deg);*/
+        /*    opacity: 0.7;"*/
+        /*}*/
+        /*.opacity{*/
+        /*    opacity: 0.8;*/
+        /*}*/
     </style>
     @yield('css')
 
@@ -129,7 +129,7 @@
 <body class="vertical-layout vertical-menu-modern navbar-floating footer-static @yield('body-class')" data-open="click" data-menu="vertical-menu-modern" data-col="">
 @yield('nav')
 <!-- app-content-->
-<div class="app-content content" style="z-index: 999">
+<div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         @yield('main-content')
