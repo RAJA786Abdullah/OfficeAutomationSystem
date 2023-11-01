@@ -10,6 +10,7 @@ use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class  HomeController extends Controller
@@ -19,13 +20,12 @@ class  HomeController extends Controller
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $userDocuments = [];
 
-//        $userID =Auth::id();
-//        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
-//        $userDepID = Auth::user()->department_id;
-//        $userDepName = Department::where('id',$userDepID)->pluck('name')->first();
-
         $userDepName = Auth::user()->department->name;
-        $recipientsGrouped = Recipient::all()->groupBy('document_id');
+
+//        $recipientsGrouped = Recipient::with(['user' => function($query){
+//            $query->groupBy('department_id');
+//        }])->get();
+        $recipientsGrouped = Recipient::all()->groupBy('department_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
 
@@ -49,8 +49,7 @@ class  HomeController extends Controller
                 }
             }
         }
-        $allDocuments = Document::all();
-//        dd($allDocuments,$userDocuments);
+        $allDocuments = Document::orderBy('id', 'desc')->where('out_dept','!=',null)->get();
         return view('home', compact('userDocuments', 'allDocuments'));
     }
 

@@ -12,6 +12,7 @@ use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -37,6 +38,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
+        $request['userCode'] = Str::uuid();
         $request->merge([
                 'password' => Hash::make($request->password)
             ]);
@@ -62,8 +64,6 @@ class UserController extends Controller
     {
         abort_if(Gate::denies('user_update'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $user->load('department', 'branch');
-
-
         $departments = Department::all();
         $branches = Branch::all();
 

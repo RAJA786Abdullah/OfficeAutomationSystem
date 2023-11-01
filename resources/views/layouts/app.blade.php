@@ -106,6 +106,19 @@
             backdrop-filter: blur(9px);
             -webkit-backdrop-filter: blur(9px);
         }
+        /*#watermark {*/
+        /*    position: fixed;*/
+        /*    bottom: 350px;*/
+        /*    left: 250px;*/
+        /*    z-index: -1;*/
+        /*    font-size:60px;*/
+        /*    color: black;*/
+        /*    transform:rotate(-30deg);*/
+        /*    opacity: 0.7;"*/
+        /*}*/
+        /*.opacity{*/
+        /*    opacity: 0.8;*/
+        /*}*/
     </style>
     @yield('css')
 
@@ -117,10 +130,10 @@
 @yield('nav')
 <!-- app-content-->
 <div class="app-content content">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    @yield('main-content')
-    @include('partials.message')
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        @yield('main-content')
+        @include('partials.message')
 </div>
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>

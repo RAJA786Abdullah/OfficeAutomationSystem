@@ -132,7 +132,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Old Password') }}</label>
-                        <input type="password" name="oldPassword" class="form-control form-control-lg @error('oldPassword') is-invalid @enderror" placeholder="********" value="{{ __('Old Password') }}">
+                        <input type="password" name="oldPassword" class="form-control form-control-lg @error('oldPassword') is-invalid @enderror" placeholder="********">
                         @if($errors->has('oldPassword'))
                             <div class="text-danger">
                                 {{ $errors->first('oldPassword') }}
@@ -141,7 +141,7 @@
                     </div>
                     <div class="col-12">
                         <label class="form-label required">{{ __('Password') }}</label>
-                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="********" value="{{ __('Password') }}">
+                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="********">
                         @if($errors->has('password'))
                             <div class="text-danger">
                                 {{ $errors->first('password') }}
@@ -150,7 +150,7 @@
                     </div>
                     <div class="col-12">
                         <label class="form-label required">{{ __('Password confirmation') }}</label>
-                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="********" value="{{ __('Password confirmation') }}">
+                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="********">
                         @if($errors->has('confirmPassword'))
                             <div class="text-danger">
                                 {{ $errors->first('confirmPassword') }}

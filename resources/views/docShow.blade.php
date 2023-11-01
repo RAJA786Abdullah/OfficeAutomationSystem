@@ -38,9 +38,9 @@
             </div>
             <div class="card-body" >
                 <div class="col-md-12">
-                    <h3 class="text-center">{{ strtoupper($document->classification->name) }}</h3>
-                    <h3 class="text-center">{{ strtoupper($document->documentType->name) }}</h3>
-                    <h3 class="text-center">{{ '('.strtoupper($document->department->name) .')' }}</h3>
+                    <h3 class="text-center">{{strtoupper($document->classification->name)}}</h3>
+                    <h3 class="text-center">{{strtoupper($document->documentType->name)}}</h3>
+                    <h3 class="text-center">{{strtoupper($document->department->name) }}</h3>
                     <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
 
                     <dl class="row">

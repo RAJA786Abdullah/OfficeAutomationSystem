@@ -117,7 +117,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Password') }}</label>
-                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" autocomplete="new-password">
+                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="****">
                     </div>
                     @if($errors->has('password'))
                         <div class="text-danger">
@@ -127,7 +127,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Password confirmation') }}</label>
-                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="{{ __('Password confirmation') }}" autocomplete="new-password">
+                        <input type="password" name="confirmPassword" class="form-control form-control-lg @error('confirmPassword') is-invalid @enderror" placeholder="****">
                     </div>
                     @if($errors->has('confirmPassword'))
                         <div class="text-danger">

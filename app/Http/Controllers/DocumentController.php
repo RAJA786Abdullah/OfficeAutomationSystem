@@ -22,10 +22,10 @@ class DocumentController extends Controller
     public function index()
     {
         $userDepID = Auth::user()->department_id;
-        $userID = Auth::id();
-//        $documents = Document::where('department_id', $userDepID)->where('created_by', $userID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+
         return view('documents.index', compact('documents'));
+//        return view('documents.index', compact('documents', 'canShow', 'canEdit', 'canDelete', 'canSend', 'canApprove'));
     }
 
     public function create()
@@ -36,8 +36,10 @@ class DocumentController extends Controller
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
-        $departments = Department::where('name', '!=', $user->department->name)->get();
-        $users = User::where('department_id', '!=', $dept_id)->get();
+//        $departments = Department::where('name', '!=', $user->department->name)->get();
+        $departments = Department::all();
+//        $users = User::where('department_id', '!=', $dept_id)->get();
+        $users = User::all();
         $files = Files::all();
         $documents = Document::all();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
@@ -47,7 +49,8 @@ class DocumentController extends Controller
     {
         try {
             $userID = Auth::id();
-            $document = Document::create([
+
+            $commonFields = [
                 'classification_id' => $request->input('classification_id'),
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
@@ -57,8 +60,16 @@ class DocumentController extends Controller
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => 1,
-                'in_dept' => Auth::id()
-            ]);
+                'in_dept' => Auth::id(),
+            ];
+
+            if ($request->reference) {
+                $commonFields['reference'] = $request->input('reference');
+            } elseif ($request->reference_id) {
+                $commonFields['reference_id'] = $request->input('reference_id');
+            }
+
+            $document = Document::create($commonFields);
 
             $info = $request->input('info');
             $to = $request->input('to');
@@ -87,13 +98,6 @@ class DocumentController extends Controller
                         'userID' => $userID,
                     ]);
                 }
-            }
-
-            if($request->reference){
-                dd('this is reference',$request->reference);
-            }
-            elseif($request->reference_id){
-                dd('this is reference ID',$request->reference_id);
             }
 
             if ($request->name) {
@@ -275,9 +279,16 @@ class DocumentController extends Controller
     {
         $document = Document::find($request->id);
         $document->update(['in_dept' => $document->signing_authority_id, 'is_draft' => 0]);
-
         $request->session()->flash('message', 'Document Send successfully!');
-
         return redirect()->back();
     }
+
+    public static function approveDoc(Request $request)
+    {
+        $document = Document::find($request->id);
+        $document->update(['out_dept' => 1]);
+        $request->session()->flash('message', 'Document Approved successfully!');
+        return redirect()->back();
+    }
+
 }

@@ -51,7 +51,7 @@
                     <u>
                         {{ strtoupper(trim($document->classification->name)) }} <br>
                         {{ strtoupper(trim($document->documentType->name))  }} <br>
-                        {{ '('.strtoupper(trim($document->department->name)) .')' }}
+                        {{'('.strtoupper(trim($document->department->name)).')'}}
                     </u>
                 </h3>
 
