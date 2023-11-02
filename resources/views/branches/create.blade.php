@@ -45,7 +45,9 @@
                         <label class="form-label required">{{ __('Location') }}</label>
                         <select name="location" id="location" class="form-select @error('location') is-invalid @enderror">
                             <option value="">Select Location</option>
+                            <option value="Quetta">Quetta</option>
                             <option value="Lahore">Lahore</option>
+                            <option value="Faisalabad">Faisalabad</option>
                             <option value="Islamabad">Islamabad</option>
                             <option value="Karachi">Karachi</option>
                             <option value="Peshawar">Peshawar</option>

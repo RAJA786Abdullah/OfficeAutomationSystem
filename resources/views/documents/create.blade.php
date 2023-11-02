@@ -36,7 +36,7 @@
                         <select name="classification_id" class="form-select">
                             <option disabled>Select Classification</option>
                             @foreach ($classifications as $classification)
-                                <option value="{{ $classification->id }}" {{ old('classification_id') == $classification->id ? 'selected' : '' }}>{{ $classification->name }}</option>
+                                <option value="{{ $classification->id }}" {{ old('classification_id') == $classification->id ? 'selected' : '' }}>{{ $classification?->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -50,7 +50,7 @@
                         <select name="document_type_id" class="form-select">
                             <option disabled>Select Document Type</option>
                             @foreach ($documentTypes as $documentType)
-                                <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType->name }}</option>
+                                <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType?->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -65,7 +65,7 @@
                         <select name="file_id" class="form-select">
                             <option disabled>Select File</option>
                             @foreach ($files as $file)
-                                <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file->name }}</option>
+                                <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file?->name }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('file_id'))
@@ -152,7 +152,7 @@
                                             <select name="department" class="form-select select2" style="width: 100%">
                                                 <option disabled>Select Department</option>
                                                 @foreach ($departments as $department)
-                                                    <option value="{{ $department->name }}">{{ $department->name }}</option>
+                                                    <option value="{{ $department?->name }}">{{ $department?->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -161,7 +161,7 @@
                                             <select name="user" class="form-select select2" style="width: 100%">
                                                 <option disabled>Select User</option>
                                                 @foreach ($users as $user)
-                                                    <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department->name   }}</option>
+                                                    <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department?->name   }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -195,7 +195,7 @@
                                             @endif
                                         </label>
                                         <label class="form-label fw-bolder fs-5">{{ __('ID') }}
-                                            <p class="form-control border-primary text-black fs-5 mt-2" id="copy" disabled>{{ Auth::user()->department->name }}</p>
+                                            <p class="form-control border-primary text-black fs-5 mt-2" id="copy" disabled>{{ Auth::user()->department?->name }}</p>
                                         </label>
                                     </div>
                                 </div>

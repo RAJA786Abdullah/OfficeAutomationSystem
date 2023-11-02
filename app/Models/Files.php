@@ -9,7 +9,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Files extends Model implements Auditable
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];

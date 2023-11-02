@@ -46,8 +46,9 @@
                             <select name="location" id="location"
                                     class="form-select @error('location') is-invalid @enderror">
                                 <option value="">Select Location</option>
-    {{--                            <option value="Quetta" @if($branch->location == 'Quetta') selected @endif>Quetta</option>--}}
+                                <option value="Quetta" @if($branch->location == 'Quetta') selected @endif>Quetta</option>
                                 <option value="Lahore" @if($branch->location == 'Lahore') selected @endif>Lahore</option>
+                                <option value="Faisalabad" @if($branch->location == 'Faisalabad') selected @endif>Faisalabad</option>
                                 <option value="Islamabad" @if($branch->location == 'Islamabad') selected @endif>Islamabad</option>
                                 <option value="Karachi" @if($branch->location == 'Karachi') selected @endif>Karachi</option>
                                 <option value="Peshawar" @if($branch->location == 'Peshawar') selected @endif>Peshawar</option>
