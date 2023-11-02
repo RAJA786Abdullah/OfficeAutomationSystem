@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('status')->default(1);
             $table->ipAddress('lastLoginIP')->nullable();
             $table->string('password');
-            $table->foreignId('department_id')->constrained('departments','id');
-            $table->foreignId('branch_id')->constrained('branches','id');
+            $table->foreignId('department_id')->nullable()->constrained('departments','id');
+            $table->foreignId('branch_id')->nullable()->constrained('branches','id');
             $table->boolean('is_signing_authority')->default(0);
             $table->string('arm_designation')->nullable();
             $table->timestamps();

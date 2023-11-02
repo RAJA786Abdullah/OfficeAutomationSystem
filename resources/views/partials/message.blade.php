@@ -14,6 +14,6 @@
         </div>
     </div>
 @endif
-@if(Auth::user())
-<div id="watermark">{{\Illuminate\Support\Facades\Auth::user()->userCode}}</div>
-@endif
+{{--@if(Auth::user())--}}
+{{--<div id="watermark">{{\Illuminate\Support\Facades\Auth::user()->userCode}}</div>--}}
+{{--@endif--}}

@@ -20,7 +20,7 @@ class  HomeController extends Controller
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $userDocuments = [];
 
-        $userDepName = Auth::user()->department->name;
+        $userDepName = Auth::user()->department?->name;
 
 //        $recipientsGrouped = Recipient::with(['user' => function($query){
 //            $query->groupBy('department_id');
