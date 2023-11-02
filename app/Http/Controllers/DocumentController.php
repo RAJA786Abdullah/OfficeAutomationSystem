@@ -49,6 +49,16 @@ class DocumentController extends Controller
     {
         try {
             $userID = Auth::id();
+            $lastDocument = Document::where('department_id', auth()->user()->department_id)
+                ->latest()
+                ->first();
+            if ($lastDocument) {
+                $uniqueIdentifier = $lastDocument->document_unique_identifier;
+                $dui = ++$uniqueIdentifier;
+            }
+            else{
+                $dui = 1;
+            }
 
             $commonFields = [
                 'classification_id' => $request->input('classification_id'),
@@ -59,7 +69,7 @@ class DocumentController extends Controller
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
-                'document_unique_identifier' => 1,
+                'document_unique_identifier' => $dui,
                 'in_dept' => Auth::id(),
             ];
 

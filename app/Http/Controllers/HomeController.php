@@ -21,16 +21,13 @@ class  HomeController extends Controller
         $userDocuments = [];
 
         $userDepName = Auth::user()->department?->name;
-
-//        $recipientsGrouped = Recipient::with(['user' => function($query){
-//            $query->groupBy('department_id');
-//        }])->get();
         $recipientsGrouped = Recipient::all()->groupBy('department_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
 
         foreach ($last10Groups as $documentId => $recipients)
         {
+
             $names = $recipients->pluck('name')->toArray();
             $types = $recipients->pluck('type')->toArray();
 
