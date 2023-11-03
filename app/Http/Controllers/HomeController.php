@@ -19,12 +19,7 @@ class  HomeController extends Controller
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $userDocuments = [];
-
         $userDepName = Auth::user()->department?->name;
-
-//        $recipientsGrouped = Recipient::with(['user' => function($query){
-//            $query->groupBy('department_id');
-//        }])->get();
         $recipientsGrouped = Recipient::all()->groupBy('department_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
@@ -33,10 +28,11 @@ class  HomeController extends Controller
         {
             $names = $recipients->pluck('name')->toArray();
             $types = $recipients->pluck('type')->toArray();
+            $documentID = $recipients->pluck('document_id')->toArray();
 
-            $pairs = array_map(function ($name, $type) use ($documentId) {
-                return ['document_id' => $documentId, 'name' => $name, 'type' => $type];
-            }, $names, $types);
+            $pairs = array_map(function ($name, $type, $documentID) use ($documentId) {
+                return ['document_id' => $documentID, 'name' => $name, 'type' => $type];
+            }, $names, $types, $documentID);
             $nameTypePairsResult[] = $pairs;
         }
         foreach ($nameTypePairsResult as $results)
