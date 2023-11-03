@@ -31,6 +31,7 @@ class DocumentController extends Controller
     public function create()
     {
         $userID = Auth::id();
+        $depID =  Auth::user()->department_id;
         $user = User::where('userID', $userID)->first();
         $dept_id = $user->department_id;
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
@@ -40,7 +41,7 @@ class DocumentController extends Controller
         $departments = Department::all();
 //        $users = User::where('department_id', '!=', $dept_id)->get();
         $users = User::all();
-        $files = Files::all();
+        $files = Files::where('department_id', $depID)->get();
         $documents = Document::all();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
     }
