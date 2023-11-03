@@ -25,8 +25,8 @@ class StoreDocumentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:document_types',
-            'code' => 'required',
+            'name' => 'required',
+            'code' => 'required|unique:document_types',
             'department_id' => 'required'
         ];
     }
@@ -35,8 +35,8 @@ class StoreDocumentTypeRequest extends FormRequest
     {
         return [
             'name.required' => 'Document Type is required',
-            'name.unique' => 'Document Type already exist',
             'code.required' => 'Document Code is required',
+            'code.unique' => 'Document Code already exist',
             'department_id.required' => 'Department is required'
         ];
     }
