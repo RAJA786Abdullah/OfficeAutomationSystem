@@ -14,6 +14,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@tabler/icons": "^2.34.0"
+        "@tabler/icons": "^2.40.0",
+        "ckeditor": "^4.12.1"
     }
 }

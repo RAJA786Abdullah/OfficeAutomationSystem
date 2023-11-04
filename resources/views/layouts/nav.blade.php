@@ -61,7 +61,8 @@
                 @can('dashboard_read')
                 <li class=" nav-item" aria-haspopup="true">
                     <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'home') active @endif" href="{{route('home')}}">
-                        <i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                        <i class="fa fa-home"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
                     </a>
                 </li>
                 @endcan
@@ -70,7 +71,7 @@
                 @can('branch_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'branches.index'|| request()->route()->action['as'] == 'branches.create' || request()->route()->action['as'] == 'branches.edit' || request()->route()->action['as'] == 'branches.show') active @endif" href="{{route('branches.index')}}">
-                            <i class="ti ti-binary-tree"></i></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
+                            <i class="fa fa-building"></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
                         </a>
                     </li>
                 @endcan
@@ -79,7 +80,7 @@
                 @can('department_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'departments.index'|| request()->route()->action['as'] == 'departments.create' || request()->route()->action['as'] == 'departments.edit' || request()->route()->action['as'] == 'departments.show') active @endif" href="{{route('departments.index')}}">
-                            <i class="ti ti-building"></i><span class="menu-title text-truncate" data-i18n="Directorate">Directorate</span>
+                            <i class="fa fa-building-o"></i><span class="menu-title text-truncate" data-i18n="Directorate">Directorate</span>
                         </a>
                     </li>
                 @endcan
@@ -88,7 +89,7 @@
                 @can('files_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'files.index'|| request()->route()->action['as'] == 'files.create' || request()->route()->action['as'] == 'files.edit' || request()->route()->action['as'] == 'files.show') active @endif" href="{{route('files.index')}}">
-                            <i class="ti ti-briefcase"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
+                            <i class="fa fa-briefcase"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
                         </a>
                     </li>
                 @endcan
@@ -97,7 +98,7 @@
                 @can('classification_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'classifications.index'|| request()->route()->action['as'] == 'classifications.create' || request()->route()->action['as'] == 'classifications.edit' || request()->route()->action['as'] == 'classifications.show') active @endif" href="{{route('classifications.index')}}">
-                            <i class="ti ti-layout-grid"></i><span class="menu-title text-truncate" data-i18n="classifications">Classifications</span>
+                            <i class="fa fa-random"></i><span class="menu-title text-truncate" data-i18n="classifications">Classifications</span>
                         </a>
                     </li>
                 @endcan
@@ -115,7 +116,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.create' || request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
-                            <i class="ti ti-files"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
+                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
                         </a>
                     </li>
                 @endcan
@@ -127,19 +128,19 @@
                         <ul class="menu-content">
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'role.index' || request()->route()->action['as'] == 'role.create' || request()->route()->action['as'] == 'role.edit' || request()->route()->action['as'] == 'role.show' ) active @endif" href="{{route('role.index')}}">
-                                    <i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
+                                    <i class="fa fa-user-o"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
                                 </a>
                             </li>
 
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'users.index' || request()->route()->action['as'] == 'users.create' || request()->route()->action['as'] == 'users.edit' || request()->route()->action['as'] == 'users.show' ) active @endif" href="{{route('users.index')}}">
-                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
+                                    <i class="fa fa-users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
                                 </a>
                             </li>
 
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'audit.index' ) active @endif" href="{{route('audit.index')}}">
-                                    <i class="ti ti-history"></i><span class="menu-title text-truncate" data-i18n="Audit">Audit</span>
+                                    <i class="fa fa-history"></i><span class="menu-title text-truncate" data-i18n="Audit">Audit</span>
                                 </a>
                             </li>
 

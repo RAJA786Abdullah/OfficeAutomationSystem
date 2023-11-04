@@ -8,9 +8,7 @@
     <meta name="author" content="PIXINVENT">
     <title>@yield('title')</title>
 
-{{--    <link rel="apple-touch-icon" href="/app-assets/images/ico/apple-icon-120.png">--}}
     <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo/logoWhite.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- Select 2-->
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/select/select2.min.css">
@@ -36,8 +34,6 @@
     <!-- END: Page CSS-->
 
     <!---Font icons css-->
-    <link href="/assets/plugins/iconfonts/plugin.css" rel="stylesheet"/>
-    <link href="/assets/plugins/iconfonts/icons.css" rel="stylesheet"/>
     <link href="/assets/fonts/fonts/font-awesome.min.css" rel="stylesheet">
 
     <!-- Data table css -->
@@ -50,8 +46,6 @@
     <!---Sweetalert Css-->
     <link href="/assets/plugins/sweet-alert/jquery.sweet-modal.min.css" rel="stylesheet"/>
     <link href="/assets/plugins/sweet-alert/sweetalert.css" rel="stylesheet"/>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
@@ -140,7 +134,7 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
-        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2024 <a href="https://www.dhaquetta.org/" class="@yield('classFooter')">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
+        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2023 <a href="https://www.dhaquetta.org/" class="@yield('classFooter')">Defence Housing Authority</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span>
     </p>
 </footer>
 <!-- END: Footer-->
@@ -193,7 +187,7 @@
 <script src="/app-assets/sweetalert/sweetalert.min.js"></script>
 
 <!-- CK Editor-->
-<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+<script src="/app-assets/ckeditor/ckeditor.js"></script>
 
 <!-- BEGIN: Page JS-->
 {{--<script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>--}}

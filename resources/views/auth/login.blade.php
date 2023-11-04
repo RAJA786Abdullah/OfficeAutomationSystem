@@ -30,7 +30,7 @@
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label text-white" for="login-email">User Name</label>
                                 </div>
-                                <input class="form-control @error('email') is-invalid @enderror" id="login-email" type="text" name="email" value="{{ old('email') }}" placeholder="john@example.com" aria-describedby="login-email" autofocus="" tabindex="1" required autocomplete="email"/>
+                                <input class="form-control @error('email') is-invalid @enderror" id="login-email" type="text" name="email" value="{{ old('email') }}" placeholder="john123" aria-describedby="login-email" autofocus="" tabindex="1" required autocomplete="email"/>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
 {{--                                    @endif--}}
                                 </div>
                                 <div class="input-group input-group-merge form-password-toggle">
-                                    <input class="form-control form-control-merge @error('password') is-invalid @enderror" id="login-password" type="password" name="password" placeholder="············" aria-describedby="login-password" tabindex="2" required autocomplete="current-password" /><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    <input class="form-control form-control-merge @error('password') is-invalid @enderror" id="login-password" type="password" name="password" placeholder="" aria-describedby="login-password" tabindex="2" required autocomplete="current-password" /><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -63,7 +63,7 @@
 {{--                                    </div>--}}
 {{--                                </div>--}}
 {{--                            </div>--}}
-                            <button type="submit" class="btn btn-primary w-100 mt-1" tabindex="4">Sign in</button>
+                            <button type="submit" class="btn btn-primary w-100 mt-1" tabindex="3">Sign in</button>
                         </form>
                     </div>
                 </div>
