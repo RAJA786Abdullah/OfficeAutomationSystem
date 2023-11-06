@@ -6,11 +6,13 @@
             <div class="bookmark-wrapper d-flex align-items-center">
                 <ul class="nav navbar-nav d-xl-none">
                     <li class="nav-item">
-                        <a class="nav-link menu-toggle" href="{{route('home')}}"><i class="ficon" data-feather="menu"></i></a></li>
+                        <a class="nav-link menu-toggle" href="{{route('home')}}"><i class="ficon" data-feather="menu"></i></a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link nav-link-style"><i class="ficon" data-feather="sun"></i></a></li>
+                        <a class="nav-link nav-link-style"><i class="ficon" data-feather="sun"></i></a>
+                    </li>
                 </ul>
             </div>
             <ul class="nav navbar-nav align-items-center ms-auto">
@@ -49,6 +51,7 @@
                             <img src="/app-assets/images/logo/logoWhite.jpg" width="40px" height="40px" alt="logo">
                         </span>
                         <h2 class="brand-text">O A S</h2>
+                        <p>v1.0</p>
                     </a></li>
                 <li class="nav-item nav-toggle">
                     <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a>
@@ -155,6 +158,7 @@
                             {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
                             {{--                        </li>--}}
                         </ul>
+                        <p class="position-fixed bottom-0 ms-3">Version 1.0</p>
                     </li>
                 @endcan
             </ul>
