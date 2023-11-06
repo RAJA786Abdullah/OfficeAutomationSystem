@@ -33,7 +33,7 @@
             <div class="card-body">
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
-                        <label class="form-label required">{{ __('User Name') }}</label>
+                        <label class="form-label required">{{ __('Name') }}</label>
                         <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ old('name',$user->name)}}" required>
                         @if($errors->has('name'))
                             <div class="text-danger">
@@ -50,6 +50,7 @@
                     <div class="col-12">
                         <label class="form-label required">{{ __('User Name') }}</label>
                         <input type="text" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ old('email',$user->email)}}" required>
+                        <label class="form-label">{{ __('User Name will be used for login username') }}</label>
                         @if($errors->has('email'))
                             <div class="text-danger">
                                 {{ $errors->first('email') }}
