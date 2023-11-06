@@ -22,7 +22,7 @@
                 </div>
                 <div class="d-flex col-lg-4 col-lg-4 align-items-center auth-bg px-2 my-5">
                     <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto loginCard">
-                        <h2 class="card-title fw-bold mb-1 text-white">Office Automation System</h2>
+                        <h2 class="card-title fw-bold mb-1 text-white d-inline-block">Office Automation System</h2><sup class="d-inline-block text-white fa-1x">version 1.0</sup>
                         <p class="card-text mb-2 text-white"><i>Please login to your account.</i></p>
                         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
                             @csrf
@@ -30,7 +30,7 @@
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label text-white" for="login-email">User Name</label>
                                 </div>
-                                <input class="form-control @error('email') is-invalid @enderror" id="login-email" type="text" name="email" value="{{ old('email') }}" placeholder="john123" aria-describedby="login-email" autofocus="" tabindex="1" required autocomplete="email"/>
+                                <input class="form-control @error('email') is-invalid @enderror" id="login-email" type="text" name="email" value="{{ old('email') }}" placeholder="username123" aria-describedby="login-email" autofocus="" tabindex="1" required autocomplete="email"/>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
 {{--                                    @endif--}}
                                 </div>
                                 <div class="input-group input-group-merge form-password-toggle">
-                                    <input class="form-control form-control-merge @error('password') is-invalid @enderror" id="login-password" type="password" name="password" placeholder="" aria-describedby="login-password" tabindex="2" required autocomplete="current-password" /><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    <input class="form-control form-control-merge @error('password') is-invalid @enderror" id="login-password" type="password" name="password" placeholder="Password" aria-describedby="login-password" tabindex="2" required autocomplete="current-password" /><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
