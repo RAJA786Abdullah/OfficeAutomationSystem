@@ -33,7 +33,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col-12">
                         <label class="form-label required">{{ __('Regional Office Name') }}</label>
-                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Regional Office Name') }}" value="{{ old('name')}}" />
+                        <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" placeholder="{{ __('Regional Office Name') }}" value="{{ old('name')}}" autofocus required />
                     </div>
                     @if($errors->has('name'))
                         <div class="text-danger">

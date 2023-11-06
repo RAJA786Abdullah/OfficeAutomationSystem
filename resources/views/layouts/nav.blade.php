@@ -22,6 +22,8 @@
                         <span class="avatar"><img src="/app-assets/images/logo/logoWhite.jpg" width="30px" height="30px" alt="logo"><span class="avatar-status-online"></span></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                        <a class="dropdown-item" href="/app-assets/user-manual.pdf" download><i class="me-50 fa fa-file-o"></i>User Manual</a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('profile.show') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                         <div class="dropdown-divider"></div>
 {{--                        <a class="dropdown-item" href="{{ route('settings.edit',Auth::id()) }}"><i class="me-50" data-feather="settings"></i> Settings</a>--}}
