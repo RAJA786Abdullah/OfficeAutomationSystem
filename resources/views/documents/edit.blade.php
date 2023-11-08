@@ -234,19 +234,20 @@
                                                             $rowID = $attachment->id;
                                                         @endphp
                                                     @endif
-                                                    <tr id="annux_rows_{{ $attachment->id }}">
+                                                    <tr id="annuxrows{{ $attachment->id }}">
                                                         <input type="hidden" name="ids[]" value="{{ $attachment->id }}">
                                                         <td>
-                                                            <input type="text" name="name[]" class="form-control" required placeholder="Name" value="{{ $attachment->name }}">
+                                                            <p>{{ $attachment->name }}</p>
+{{--                                                            <input type="text" name="name[]" class="form-control" required placeholder="Name" value="{{ $attachment->name }}">--}}
                                                         </td>
                                                         <td>
-                                                            <p>Previous File: {{ $attachment->path }}</p>
                                                             <input type="hidden" name="attachmentsHidden[]" value="{{$attachment->path}}">
-                                                            <input type="file" name="attachment[]" class="form-control" value="{{ $attachment->path }}" placeholder="{{ $attachment->path }}">
+                                                            <p>{{ $attachment->path }}</p>
+{{--                                                            <input type="file" name="attachment[]" class="form-control" value="{{ $attachment->path }}" placeholder="{{ $attachment->path }}">--}}
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <button class="btn btn-sm btn-outline-danger btnDelete" onclick="bindRowRemoveClick(this)" type="button"><i class="fa fa-trash"></i></button>
+                                                                <button class="btn btn-sm btn-outline-danger btnDelete" onclick="attachmentDelete({{$attachment->id}})" type="button"><i class="fa fa-trash"></i></button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -287,6 +288,29 @@
                 }
             });
         });
+
+        function attachmentDelete(attachmentID) {
+        // Use an appropriate URL for your route, assuming it's a DELETE request
+        $.ajax({
+            url: "{{ route('ajax.handle',"attachmentDelete") }}",
+            method: 'post',
+            data: {
+                _token: "{{ csrf_token() }}",
+                attachmentID: attachmentID,
+            },
+            success: function(data) {
+                if (data) {
+                    window.location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle errors here
+                console.error('Failed to delete attachment: ' + error);
+            }
+        });
+    }
+
+
 
         function clickTo() {
             var appendedValue = '';

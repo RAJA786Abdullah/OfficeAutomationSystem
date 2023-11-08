@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -10,8 +11,9 @@ class AjaxController extends Controller
         return $this->$method($request->all());
     }
 
-    public function searchDashboardByDate($date){
-
-        return response()->json($date);
+    public function attachmentDelete($data){
+         Attachment::where('id',$data['attachmentID'])->delete();
+         return response()->json($data);
     }
+
 }

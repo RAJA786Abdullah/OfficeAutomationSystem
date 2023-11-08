@@ -229,37 +229,23 @@ class DocumentController extends Controller
                 ]);
             }
 
-            //update attachment table where document_id is the one in Request
             if ($request->name) {
-                $attachments = $document->load('attachments');
-                foreach($attachments->attachments as $attachment) {
-                    $attachment->delete();
-                }
-                $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
-                    foreach($request->file('attachment') as $file){
-                        $attachment->name = $name;
-                        // Handle file upload
-                        if ($request->hasFile('attachment') && count($request->file('attachment')) > 0) {
-                            $fileExtension = $file->getClientOriginalExtension();
-                            $fileName = $file->getClientOriginalName();
-                            $file->storeAs('public/attachments', $fileName);
-                            $attachment->type = $fileExtension;
-                            $attachment->path = $fileName;
-                        } elseif ($request->attachmentsHidden && isset($request->attachmentsHidden[$key])) {
-                            // Use the existing attachment path if provided
-                            $attachment->path = $request->attachmentsHidden[$key];
-                            $attachment->type = pathinfo($attachment->path, PATHINFO_EXTENSION);
-                        } else {
-                            dd('Error');
-                            // Handle validation error for attachments
-                        }
-                        // Associate the attachment with the document
-                        $attachment->document_id = $document->id;
-                        $attachment->save();
+                    $attachment = $request->file('attachment')[$key];
+                    if ($attachment) {
+                        $fileExtension = $attachment->getClientOriginalExtension();
+                        $fileName = $attachment->getClientOriginalName();
+                        $attachment->storeAs('public/attachments', $fileName);
+                        Attachment::create([
+                            'name' => $name,
+                            'type' => $fileExtension,
+                            'path' => $fileName, // Store the original filename
+                            'document_id' => $document->id,
+                        ]);
                     }
                 }
             }
+
             DB::commit();
             $request->session()->flash('message', 'Document Updated successfully!');
             return redirect()->route('documents.index');
@@ -269,10 +255,10 @@ class DocumentController extends Controller
         }
     }
 
-    public function destroy(Document $document)
+    public function destroy(Document $document, Request $request)
     {
+            dd($request->all());
         try {
-
             $document->delete();
             $document->load(['attachments','recipients','remarks']);
             $document->attachments()->delete();
