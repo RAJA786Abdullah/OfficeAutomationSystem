@@ -24,17 +24,18 @@ class  HomeController extends Controller
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
 
-        foreach ($last10Groups as $documentId => $recipients)
+        foreach ($last10Groups as $recipients)
         {
             $names = $recipients->pluck('name')->toArray();
             $types = $recipients->pluck('type')->toArray();
             $documentID = $recipients->pluck('document_id')->toArray();
 
-            $pairs = array_map(function ($name, $type, $documentID) use ($documentId) {
+            $pairs = array_map(function ($name, $type, $documentID)  {
                 return ['document_id' => $documentID, 'name' => $name, 'type' => $type];
             }, $names, $types, $documentID);
             $nameTypePairsResult[] = $pairs;
         }
+
         foreach ($nameTypePairsResult as $results)
         {
             foreach ($results as $result)

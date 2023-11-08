@@ -100,49 +100,7 @@
                     <dl>
                         <div class="col-md-12">
                             @foreach ($document->attachments as $attachment)
-                                    <?php
-                                    $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
-                                    $attachmentPath = public_path('storage/attachments/' . $attachment->path);
-                                    $pdfPath = public_path('storage/attachments/' . $attachment->path . '.pdf');
-                                    ?>
-                                @if (file_exists($attachmentPath))
-                                    @switch($fileExtension)
-                                        @case('xlsx')
-                                            @php
-                                                try {
-                                                    $spreadsheet = IOFactory::load($attachmentPath);
-                                                    $pdfWriter = IOFactory::createWriter($spreadsheet, 'Tcpdf');
-                                                    $pdfWriter->save($pdfPath);
-                                                } catch (Exception $e) {
-                                                    // Handle the exception, e.g., log the error.
-                                                }
-                                            @endphp
-                                            <iframe src="{{ asset('storage/attachments/' . $attachment->path . '.pdf') }}" width="100%" height="900"></iframe>
-                                            @break
-                                        @case('docx')
-                                            @php
-                                                try {
-                                                    $phpWord = IOFactory::load($attachmentPath);
-                                                    $pdfWriter = IOFactory::createWriter($phpWord, 'PDF');
-                                                    $pdfWriter->save($pdfPath);
-                                                } catch (Exception $e) {
-                                                    // Handle the exception, e.g., log the error.
-                                                }
-                                            @endphp
-                                            @break
-                                        @default
-                                            <a href="{{ asset('storage/attachments/' . $attachment->name) }}" class="btn btn-primary" download>
-                                                Download {{ $attachment->name }}
-                                            </a>
-                                            <p>This file type is not supported for direct display.</p>
-                                    @endswitch
-                                    <a href="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" class="btn btn-primary" download>
-                                        Download {{ $attachment->name }} PDF
-                                    </a>
-                                    <object data="{{ asset('storage/attachments/' . $attachment->name . '.pdf') }}" type="application/pdf" width="100%" height="900"></object>
-                                @else
-                                    <p>Error: File not found at {{ $attachmentPath }}</p>
-                                @endif
+                                <embed src="{{ asset('storage/attachments/' . $attachment->path ) }}" width="100%" height="800px" type="application/pdf">
                             @endforeach
                         </div>
                     </dl>
@@ -164,12 +122,14 @@
                                     </div>
                                     <div class="col-5">
                                         <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>
-                                        <select name="toUser_id" class="form-select selectTwo">
-                                            <option disabled>Select User</option>
-                                            @foreach ($departmentUsers as $departmentUser)
-                                                <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="hidden" name="toUser_id" value="{{ $document->created_by }}" >
+                                        <p>{{ $document->user->name }}</p>
+{{--                                        <select name="toUser_id" class="form-select selectTwo">--}}
+{{--                                            <option disabled>Select User</option>--}}
+{{--                                            @foreach ($departmentUsers as $departmentUser)--}}
+{{--                                                <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
 
                                         <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>
                                     </div>

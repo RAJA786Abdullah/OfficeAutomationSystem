@@ -29,7 +29,11 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            'password' => [
+                'required',
+                'min:8',
+                'regex:/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-=\|]/',
+            ],
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required',
             'is_signing_authority' => 'required',
@@ -43,6 +47,8 @@ class UserUpdateRequest extends FormRequest
             'name.required' => 'Name is required',
             'email.required' => 'User Name is required',
             'password.required' => 'Password is required',
+            'password.regex' => 'Special Characters required',
+            'password.min' => 'Minimum Eight Characters required',
             'confirmPassword.required' => 'Confirm Password is required',
             'roleID.required' => 'Role is required',
             'is_signing_authority.required' => 'Signing Authority is required',

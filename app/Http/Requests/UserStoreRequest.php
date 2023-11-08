@@ -19,7 +19,11 @@ class UserStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => "required|unique:users",
-            'password' => 'required',
+            'password' => [
+                'required',
+                'min:8',
+                'regex:/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-=\|]/',
+            ],
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required'
         ];
@@ -32,6 +36,8 @@ class UserStoreRequest extends FormRequest
             'email.required' => 'User Name is required',
             'email.unique' => 'User Name already exist',
             'password.required' => 'Password is required',
+            'password.regex' => 'Special Characters required',
+            'password.min' => 'Minimum Eight Characters required',
             'confirmPassword.required' => 'Confirm Password is required',
             'roleID.required' => 'Role is required'
         ];
