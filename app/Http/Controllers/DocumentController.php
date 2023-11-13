@@ -257,7 +257,6 @@ class DocumentController extends Controller
 
     public function destroy(Document $document, Request $request)
     {
-            dd($request->all());
         try {
             $document->delete();
             $document->load(['attachments','recipients','remarks']);
