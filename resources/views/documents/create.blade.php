@@ -88,7 +88,11 @@
 
                 <div class="col-12 mt-1">
                     <label class="form-label required">{{ __('Body') }}</label>
-                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
+                    <input type="hidden" name="editor_content" id="editor_content">
+                    <div id="toolbar-container"></div>
+                    <div id="editor" style="height: 10em; border-color: #9D9999">
+                    </div>
+{{--                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>--}}
                 </div>
                 @if($errors->has('body'))
                     <div class="text-danger">
@@ -314,8 +318,27 @@
 @endsection
 @section('js')
     <script>
-        $(document).ready(function() {
-            CKEDITOR.replace('body');
+
+            $(document).ready(function() {
+                $('form').submit(function() {
+                    // Get the CKEditor content and set it in the hidden input field
+                    $('#editor_content').val(CKEDITOR.instances.editor.getData());
+                });
+            });
+
+    $(document).ready(function() {
+            DecoupledEditor
+                .create( document.querySelector( '#editor' ) )
+                .then( editor => {
+                    // The toolbar needs to be explicitly appended.
+                    document.querySelector( '#toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
+                    window.editor = editor;
+                } )
+                .catch( error => {
+                    console.error( 'There was a problem initializing the editor.', error );
+                } );
+            // CKEDITOR.replace('body');
+
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();

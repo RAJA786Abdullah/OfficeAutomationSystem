@@ -193,7 +193,7 @@
 <script src="/app-assets/sweetalert/sweetalert.min.js"></script>
 
 <!-- CK Editor-->
-<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+<script src="/app-assets/ckeditor5/build/ckeditor.js"></script>
 
 <!-- BEGIN: Page JS-->
 {{--<script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>--}}
