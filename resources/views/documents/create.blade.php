@@ -323,7 +323,7 @@
 
             $(document).ready(function() {
                 $('form').submit(function(event) {
-                    event.preventDefault(); // Prevent the default form submission behavior
+                    // event.preventDefault(); // Prevent the default form submission behavior
                     // Get the CKEditor content and set it in the hidden input field
                     // $('#editor_content').val(CKEDITOR.instances.editor.getData());
                     var editorContent = window.editor.getData();
