@@ -321,8 +321,7 @@
 
             $(document).ready(function() {
                 $('form').submit(function(event) {
-                    // event.preventDefault(); // Prevent the default form submission behavior
-
+                    event.preventDefault(); // Prevent the default form submission behavior
                     // Get the CKEditor content and set it in the hidden input field
                     // $('#editor_content').val(CKEDITOR.instances.editor.getData());
                     var editorContent = window.editor.getData();
@@ -332,7 +331,12 @@
             });
 
     $(document).ready(function() {
-        DecoupledEditor.create( document.querySelector('#editor'))
+        DecoupledEditor.create( document.querySelector('#editor'), {
+                                table: {
+                                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                                }
+                            })
+
                         .then( editor => {
                             // The toolbar needs to be explicitly appended.
                             document.querySelector( '#toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
