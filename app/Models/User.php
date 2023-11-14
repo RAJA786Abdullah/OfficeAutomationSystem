@@ -84,5 +84,12 @@ class User extends Authenticatable implements AuditableContracts
         return $this->roles[0]->roleName === 'Admin';
     }
 
+//    public function isExecutive()
+//    {
+//        dd($this->roles);
+//            $a = $this->roles[0]->roleName === 'Executive';
+//            dd($a);
+////        return
+//    }
 
 }

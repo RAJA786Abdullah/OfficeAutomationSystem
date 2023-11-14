@@ -11,6 +11,7 @@ use App\Models\Document;
 use App\Models\DocumentType;
 use App\Models\Files;
 use App\Models\Recipient;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,6 @@ class DocumentController extends Controller
             $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }
         return view('documents.index', compact('documents'));
-//        return view('documents.index', compact('documents', 'canShow', 'canEdit', 'canDelete', 'canSend', 'canApprove'));
     }
 
     public function create()
@@ -40,13 +40,14 @@ class DocumentController extends Controller
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
-//        $departments = Department::where('name', '!=', $user->department->name)->get();
-        $departments = Department::all();
-//        $users = User::where('department_id', '!=', $dept_id)->get();
-        $users = User::all();
+        $departments = Department::where('name', '!=', $user->department->name)->get();
+        $users = User::where('department_id', '!=', $dept_id)->get();
         $files = Files::where('department_id', $depID)->get();
         $documents = Document::all();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
+        $executiveOffices = User::whereHas('roles', function ($q) {
+            $q->where('roleName', 'Executive');
+        })->get();
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents','executiveOffices'));
     }
 
     public function store(StoreDocumentRequest $request)
@@ -89,9 +90,8 @@ class DocumentController extends Controller
             $to = $request->input('to');
             $infoArray = preg_split('/\r\n|\r|\n/', $info);
             $toArray = preg_split('/\r\n|\r|\n/', $to);
-            $infoArray= array_map('trim', $infoArray);
-            $toArray= array_map('trim', $toArray);
-
+            $infoArray = array_map('trim', $infoArray);
+            $toArray = array_map('trim', $toArray);
             if ($infoArray){
                 foreach ($infoArray as $info){
                     Recipient::create([
@@ -105,12 +105,24 @@ class DocumentController extends Controller
 
             if($toArray){
                 foreach ($toArray as $to){
-                    Recipient::create([
-                        'name' => $to,
-                        'type' => 'to',
-                        'document_id' => $document->id,
-                        'userID' => $userID,
-                    ]);
+                    if ($to == 'All Dte'){
+                        $depts = Department::all();
+                        foreach ($depts as $dept){
+                            Recipient::create([
+                                'name' => $dept->name,
+                                'type' => 'to',
+                                'document_id' => $document->id,
+                                'userID' => $userID,
+                            ]);
+                        }
+                    }else {
+                        Recipient::create([
+                            'name' => $to,
+                            'type' => 'to',
+                            'document_id' => $document->id,
+                            'userID' => $userID,
+                        ]);
+                    }
                 }
             }
 

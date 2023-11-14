@@ -137,7 +137,7 @@
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="row justify-content-center">
-                                            <div class="col-auto">
+                                            <div class="d-flex">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
                                                     <label class="form-check-label" for="departmentUser1">
@@ -145,7 +145,17 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-auto" >
+
+                                            <div class="d-flex">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser3" value="executive">
+                                                    <label class="form-check-label" for="departmentUser3">
+                                                        Executive
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
                                                     <label class="form-check-label" for="departmentUser2">
@@ -158,11 +168,23 @@
                                             <h5 class="card-title text-center mt-5">Directorate</h5>
                                             <select name="department" class="form-select select2" style="width: 100%">
                                                 <option disabled>Select Department</option>
+                                                <option value="All Dte">All Dte</option>
                                                 @foreach ($departments as $department)
                                                     <option value="{{ $department?->name }}">{{ $department?->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+
+                                        <div id="executive" style="display: none;">
+                                            <h5 class="card-title text-center mt-5">Executive</h5>
+                                            <select name="user" class="form-select select2" style="width: 100%">
+                                                <option disabled>Select Exec</option>
+                                                @foreach ($executiveOffices as $executiveOffice)
+                                                    <option value="{{ $executiveOffice->name }}">{{ $executiveOffice->name   }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                                         <div id="user" style="display: none;">
                                             <h5 class="card-title text-center mt-5">Users</h5>
                                             <select name="user" class="form-select select2" style="width: 100%">
@@ -332,27 +354,29 @@
                 });
             });
 
-    $(document).ready(function() {
-        DecoupledEditor.create( document.querySelector('#editor'), {
-                                table: {
-                                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-                                }
-                            })
-
-                        .then( editor => {
-                            // The toolbar needs to be explicitly appended.
-                            document.querySelector( '#toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
-                            window.editor = editor;
-                        })
-                        .catch( error => {
-                            console.error( 'There was a problem initializing the editor.', error );
-                        });
+            $(document).ready(function() {
+                DecoupledEditor.create(document.querySelector('#editor'), {
+                    table: {
+                        contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                    }
+                }).then(editor => {
+                        document.querySelector('#toolbar-container').appendChild(editor.ui.view.toolbar.element);
+                        window.editor = editor;
+                    }).catch(error => {
+                        console.error('There was a problem initializing the editor.', error);
+                    });
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();
+                    $('#executive').hide();
+                    $('#user').hide();
+                } else if(this.value === "executive"){
+                    $('#department').hide();
+                    $('#executive').show();
                     $('#user').hide();
                 } else {
                     $('#department').hide();
+                    $('#executive').hide();
                     $('#user').show();
                 }
             });
@@ -368,34 +392,64 @@
                 }
             });
         });
-        function clickTo() {
-            var appendedValue = '';
-            var departmentUser = $('input[name="departmentUser"]:checked').val();
-            var selectName = departmentUser === "department" ? "department" : "user";
-            var newValue = $("select[name='" + selectName + "']").val();
-            var infoCurrentValue = $("#info").val();
-            var toCurrentValue = $("#to").val();
-            if (infoCurrentValue.indexOf(newValue) !== -1) {
-                return swal({
-                    title: newValue + " Already exists in Info",
-                    icon: "warning",
-                });
-            }
-            if (toCurrentValue.indexOf(newValue) !== -1) {
-                return swal({
-                    title: newValue + " Already exists",
-                    icon: "warning",
-                });
-            } else {
-                if (!toCurrentValue || toCurrentValue.trim() === '')
-                {
-                    appendedValue =newValue
-                }else {
-                    appendedValue =toCurrentValue+'\n'+newValue;
+        // function clickTo() {
+        //     var appendedValue = '';
+        //     var departmentUser = $('input[name="departmentUser"]:checked').val();
+        //     var selectName = departmentUser === "department" ? "department" : "user";
+        //     var newValue = $("select[name='" + selectName + "']").val();
+        //     var infoCurrentValue = $("#info").val();
+        //     var toCurrentValue = $("#to").val();
+        //     console.log(toCurrentValue);
+        //
+        //     if (infoCurrentValue.indexOf(newValue) !== -1) {
+        //         return swal({
+        //             title: newValue + " Already exists in Info",
+        //             icon: "warning",
+        //         });
+        //     }
+        //     if (toCurrentValue.indexOf(newValue) !== -1) {
+        //         return swal({
+        //             title: newValue + " Already exists",
+        //             icon: "warning",
+        //         });
+        //     } else {
+        //         if (!toCurrentValue || toCurrentValue.trim() === '' || toCurrentValue === "All Dte")
+        //         {
+        //             appendedValue =newValue
+        //         }else {
+        //             appendedValue =toCurrentValue+'\n'+newValue;
+        //         }
+        //         $("#to").val(appendedValue);
+        //     }
+        // }
+            function clickTo() {
+                var appendedValue = '';
+                var departmentUser = $('input[name="departmentUser"]:checked').val();
+                var selectName = departmentUser === "department" ? "department" : "user";
+                var newValue = $("select[name='" + selectName + "']").val();
+                var infoCurrentValue = $("#info").val();
+                var toCurrentValue = $("#to").val();
+                if (infoCurrentValue.indexOf(newValue) !== -1) {
+                    return swal({
+                        title: newValue + " Already exists in Info",
+                        icon: "warning",
+                    });
                 }
-                $("#to").val(appendedValue);
+                if (toCurrentValue.indexOf(newValue) !== -1) {
+                    return swal({
+                        title: newValue + " Already exists",
+                        icon: "warning",
+                    });
+                } else {
+                    if (!toCurrentValue || toCurrentValue.trim() === '')
+                    {
+                        appendedValue =newValue
+                    }else {
+                        appendedValue =toCurrentValue+'\n'+newValue;
+                    }
+                    $("#to").val(appendedValue);
+                }
             }
-        }
         function clickInfo() {
             var appendedValue = '';
             var departmentUser = $('input[name="departmentUser"]:checked').val();
