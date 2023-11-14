@@ -18,8 +18,10 @@ class  HomeController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $userDocuments = [];
         $userDepName = Auth::user()->department?->name;
+        $userDepID = Auth::user()->department_id;
         $recipientsGrouped = Recipient::all()->groupBy('department_id');
         $last10Groups = $recipientsGrouped->take(-10);
         $nameTypePairsResult = [];
@@ -46,8 +48,20 @@ class  HomeController extends Controller
                 }
             }
         }
+        $allDocuments1 = Document::orderBy('id', 'desc')->where('out_dept','!=',null);
+        $notApprovedDocs = count(
+            Document::
+                where('department_id', $userDepID)
+                ->where('out_dept', '=', Null)
+                ->get()
+        );
+        $unread = count($allDocuments1->where('department_id',Auth::user()->department_id)->where('is_new',1)->where('department_id','!=',Auth::user()->department_id)->get());
+
+        $sent = count(Document::where('department_id',$userDepID)->get());
+        $received = count(Document::where('department_id','!=',$userDepID)->get());
+
         $allDocuments = Document::orderBy('id', 'desc')->where('out_dept','!=',null)->get();
-        return view('home', compact('userDocuments', 'allDocuments'));
+        return view('home', compact('userDocuments', 'allDocuments','notApprovedDocs','unread','sent','received'));
     }
 
     public function docShow(Request $request,$id)

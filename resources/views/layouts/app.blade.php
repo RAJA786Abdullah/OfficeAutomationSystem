@@ -113,6 +113,12 @@
         .content-body{
             opacity: 0.9;
         }
+
+        .custom-col {
+            margin-left: 5px;
+            padding: 0 10px; /* Adjust the padding as needed */
+            border-radius: 10px;
+        }
     </style>
     @yield('css')
 
@@ -187,11 +193,8 @@
 <script src="/app-assets/sweetalert/sweetalert.min.js"></script>
 
 <!-- CK Editor-->
-<<<<<<< HEAD
 <script src="/app-assets/ckeditor5/build/ckeditor.js"></script>
-=======
 <script src="/app-assets/ckeditor/ckeditor.js"></script>
->>>>>>> 7ead1b716c242139cb4509dda557d8cc076e169a
 
 <!-- BEGIN: Page JS-->
 {{--<script src="/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>--}}

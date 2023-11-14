@@ -29,7 +29,8 @@ return new class extends Migration
             $table->text('body');
             $table->integer('signing_authority_id');
             $table->foreignId('created_by')->constrained('users','userID');
-            $table->boolean('is_draft')->default('1');
+            $table->boolean('is_draft')->default(1);
+            $table->boolean('is_new')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
