@@ -217,8 +217,10 @@
             console.log('yes');
         }
 
+
         //DataTables
         $('table.display').DataTable({
+            "ordering": false,
             dom: 'lBfrtip',
             "pageLength": 50,
             buttons: [

@@ -24,7 +24,7 @@
     <!-- Page layout -->
     <div class="card">
         @include('partials.message')
-        <form method="POST" action="{{route('documents.update',$document->id)}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('documents.update',$document->id)}}" enctype="multipart/form-data" id="docUpdate">
             @method('PUT')
             @csrf
             <div class="card-body">
@@ -88,7 +88,9 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Body') }}</label>
-                        <textarea name="body" id="body" class="form-control">{{ $document->body }}</textarea>
+                        <input type="hidden" name="editor_content" id="editor_content">
+                        <div id="toolbar-container"></div>
+                        <div id="editor" style="height: 20em; border-color: #9D9999"></div>
                     </div>
                     @if($errors->has('body'))
                         <div class="text-danger">
@@ -123,8 +125,6 @@
                             {{ $errors->first('signing_authority_id') }}
                         </div>
                     @endif
-
-
                     <div class="col-12 mt-3">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
@@ -132,7 +132,7 @@
                                     <div class="col-md-4">
                                         <div class="card">
                                             <div class="row justify-content-center">
-                                                <div class="col-auto">
+                                                <div class="d-flex">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser1" value="department" checked>
                                                         <label class="form-check-label" for="departmentUser1">
@@ -140,7 +140,17 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-auto">
+
+                                                <div class="d-flex">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser3" value="executive">
+                                                        <label class="form-check-label" for="departmentUser3">
+                                                            Executive
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="departmentUser" id="departmentUser2" value="user">
                                                         <label class="form-check-label" for="departmentUser2">
@@ -153,17 +163,29 @@
                                                 <h5 class="card-title text-center mt-5">Directorate</h5>
                                                 <select name="department" class="form-select select2" style="width: 100%">
                                                     <option disabled>Select Department</option>
+                                                    <option value="All Dte">All Dte</option>
                                                     @foreach ($departments as $department)
-                                                        <option value="{{ $department->name }}">{{ $department->name }}</option>
+                                                        <option value="{{ $department?->name }}">{{ $department?->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
+
+                                            <div id="executive" style="display: none;">
+                                                <h5 class="card-title text-center mt-5">Executive</h5>
+                                                <select name="user" class="form-select select2" style="width: 100%">
+                                                    <option disabled>Select Exec</option>
+                                                    @foreach ($executiveOffices as $executiveOffice)
+                                                        <option value="{{ $executiveOffice->name }}">{{ $executiveOffice->name   }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
                                             <div id="user" style="display: none;">
                                                 <h5 class="card-title text-center mt-5">Users</h5>
                                                 <select name="user" class="form-select select2" style="width: 100%">
                                                     <option disabled>Select User</option>
                                                     @foreach ($users as $user)
-                                                        <option value="{{ $user->name }}">{{ $user->name }}</option>
+                                                        <option value="{{ $user->name }}">{{ $user->name . ' | ' . $user->department?->name   }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -275,18 +297,61 @@
 @endsection
 @section('js')
     <script>
+        {{--$(document).ready(function() {--}}
+        {{--    var bodyValue = @json($document->body);--}}
+        {{--    $('#editor').val(bodyValue);--}}
+
+        {{--});--}}
+
+
         $(document).ready(function() {
-            CKEDITOR.replace('body');
+            $('form').submit(function(event) {
+                var editorContent = window.editor.getData();
+                $('#editor_content').val(editorContent);
+                $('#docUpdate').submit()
+            });
+        });
+        $(document).ready(function() {
+            DecoupledEditor.create(document.querySelector('#editor'), {
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                }
+            }).then(editor => {
+                document.querySelector('#toolbar-container').appendChild(editor.ui.view.toolbar.element);
+                window.editor = editor;
+            }).catch(error => {
+                console.error('There was a problem initializing the editor.', error);
+            });
 
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();
+                    $('#executive').hide();
+                    $('#user').hide();
+                } else if(this.value === "executive"){
+                    $('#department').hide();
+                    $('#executive').show();
                     $('#user').hide();
                 } else {
                     $('#department').hide();
+                    $('#executive').hide();
                     $('#user').show();
                 }
             });
+        });
+        $(document).ready(function() {
+            var bodyValue = @json($document->body);
+            // Wait until CKEditor is initialized
+            if (editor) {
+                editor.setData(bodyValue);
+            } else {
+                // If CKEditor is not yet initialized, set a timeout to try again
+                setTimeout(function() {
+                    if (editor) {
+                        editor.setData(bodyValue);
+                    }
+                }, 1000);
+            }
         });
 
         function attachmentDelete(attachmentID) {

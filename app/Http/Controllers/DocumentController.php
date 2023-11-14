@@ -23,10 +23,19 @@ class DocumentController extends Controller
     public function index()
     {
         if (Auth::user()->roles[0]->roleName == 'Admin'){
-            $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+            $documents = Document::with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
+                ->orderBy('id', 'desc')
+                ->get();
+
+//            $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }else{
             $userDepID = Auth::user()->department_id;
-            $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+            $documents = Document::where('department_id', $userDepID)
+                ->with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
+                ->orderBy('id', 'desc')
+                ->get();
+
+//            $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }
         return view('documents.index', compact('documents'));
     }
@@ -106,7 +115,8 @@ class DocumentController extends Controller
             if($toArray){
                 foreach ($toArray as $to){
                     if ($to == 'All Dte'){
-                        $depts = Department::all();
+                        $depts = Department::where('id', '!=', Auth::user()->department_id)->get();
+//                        $depts = Department::except(Auth::user()->department_id);
                         foreach ($depts as $dept){
                             Recipient::create([
                                 'name' => $dept->name,
@@ -196,7 +206,10 @@ class DocumentController extends Controller
         $departments = Department::all();
         $users = User::all();
         $files = Files::all();
-        return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos'));
+        $executiveOffices = User::whereHas('roles', function ($q) {
+            $q->where('roleName', 'Executive');
+        })->get();
+        return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos','executiveOffices'));
     }
 
     public function update(UpdateDocumentRequest $request, Document $document)
@@ -209,7 +222,7 @@ class DocumentController extends Controller
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
-                'body' => $request->input('body'),
+                'body' => $request->input('editor_content'),
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
@@ -236,12 +249,25 @@ class DocumentController extends Controller
             }
 
             foreach ($toArray as $to){
-                Recipient::create([
-                    'name' => $to,
-                    'type' => 'to',
-                    'document_id' => $document->id,
-                    'userID' => $userID,
-                ]);
+                if ($to == 'All Dte'){
+                    $depts = Department::where('id', '!=', Auth::user()->department_id)->get();
+//                        $depts = Department::except(Auth::user()->department_id);
+                    foreach ($depts as $dept){
+                        Recipient::create([
+                            'name' => $dept->name,
+                            'type' => 'to',
+                            'document_id' => $document->id,
+                            'userID' => $userID,
+                        ]);
+                    }
+                }else {
+                    Recipient::create([
+                        'name' => $to,
+                        'type' => 'to',
+                        'document_id' => $document->id,
+                        'userID' => $userID,
+                    ]);
+                }
             }
 
             if ($request->name) {
