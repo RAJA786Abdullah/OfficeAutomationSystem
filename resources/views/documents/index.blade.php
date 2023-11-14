@@ -32,11 +32,11 @@
                 @endcan
             </div>
             <div class="card-body">
-                <div class="table-responsive-sm">
-                    <table class="table mb-0 table-sm table-striped text-nowrap w-100 display">
+                <div class="table-responsive">
+                    <table class="table-responsive table mb-0 table-sm table-striped text-nowrap w-100 display">
                         <thead>
                         <tr>
-                            <th class="wd-15p">Reference No</th>
+                            <th class="wd-15p">Document No</th>
                             <th class="wd-25p">Classification</th>
                             <th class="wd-25p">File No</th>
                             <th class="wd-25p">subject</th>
@@ -62,7 +62,7 @@
 
                                 if (strpos($userRole, "Admin") !== false) {
                                     // User has admin role, so they can do everything.
-                                    $canShow = $canEdit = $canDelete = $canSend = $canApprove = true;
+                                    $canShow = $canEdit = $canDelete = $canSend = $canApprove = $isRow = true;
                                 } else {
                                     if ($document['is_draft'] == 1 && $document['created_by'] == $userID) {
                                         // Document is a draft, and the current user created it, so they can perform specific actions.
@@ -91,9 +91,9 @@
                             @endphp
                             @if($isRow)
                                 <tr>
-                                    <td>{{ $document->reference_id }}</td>
+                                    <td>{{ \App\Models\Document::documentTitle($document->id) }}</td>
                                     <td>{{ $document->classification->name }}</td>
-                                    <td>{{ $document->file->name }}</td>
+                                    <td>{{ $document->file->name }} | {{ $document->file->code }}</td>
                                     <td>{{ $document->subject }}</td>
                                     <td>{{ $document->user->name }}</td>
                                     <td>
@@ -103,7 +103,7 @@
                                             </a>
                                         @endif
                                         @if ($canEdit)
-                                            <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit">
+                                            <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Edit">
                                                 <i data-feather="edit"></i>
                                             </a>
                                         @endif
