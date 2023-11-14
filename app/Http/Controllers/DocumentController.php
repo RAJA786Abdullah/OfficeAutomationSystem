@@ -21,9 +21,12 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $userDepID = Auth::user()->department_id;
-        $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
-
+        if (Auth::user()->roles[0]->roleName == 'Admin'){
+            $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+        }else{
+            $userDepID = Auth::user()->department_id;
+            $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
+        }
         return view('documents.index', compact('documents'));
 //        return view('documents.index', compact('documents', 'canShow', 'canEdit', 'canDelete', 'canSend', 'canApprove'));
     }
