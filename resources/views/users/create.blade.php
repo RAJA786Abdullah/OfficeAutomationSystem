@@ -48,8 +48,8 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('User Name') }}</label><br>
-                        <label class="form-label required">{{ __('User Name will be used for login username') }}</label>
                         <input type="text" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="{{ __('User Name') }}" value="{{ old('email')}}" required>
+                        <label class="form-label">{{ __('User Name will be used for login username') }}</label>
                     </div>
                     @if($errors->has('email'))
                         <div class="text-danger">
@@ -90,7 +90,7 @@
 
                     <div class="col-12">
                         <label class="form-label required">{{ __('Role') }}</label>
-                        <select name="roleID[]" class="form-select selectTwo" multiple>
+                        <select name="roleID[]" class="form-select selectTwo">
                             <option disabled>Select Role</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->roleID }}" {{ old('roleID[]') == $role->roleID ? 'selected' : '' }}>{{ $role->roleName }}</option>

@@ -99,33 +99,7 @@
                     <dl>
                         <div class="col-md-12">
                             @foreach($document->attachments as $attachment)
-                                @php
-                                    $fileExtension = pathinfo($attachment['path'], PATHINFO_EXTENSION);
-                                    $contentType = \App\Models\Document::getContentType($fileExtension);
-                                    $content = Illuminate\Support\Facades\Storage::disk('attachments')->get($attachment['path']);
-                                @endphp
-
-                                @if($fileExtension == 'xlsx')
-                                    <iframe src="data:{{ $contentType }};base64,{{ base64_encode($content) }}" style="width:100%;height:500px;"></iframe>
-
-                                @elseif($fileExtension == 'pdf')
-
-                                    <div class="text-center mt-1 mb-1">
-                                        <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
-                                            Download {{ $attachment->name }}
-                                        </a>
-                                    </div>
-
-                                    <object data="data:{{ $contentType }};base64,{{ base64_encode($content) }}" width="100%" height="900"></object>
-                                @elseif($fileExtension == 'jpg' || $fileExtension == 'png')
-                                    <div class="text-center mt-1 mb-1">
-                                        <a href="{{ asset('storage/attachments/'.$attachment->path) }}" class="btn btn-primary" download>
-                                            Download {{ $attachment->name }}
-                                        </a>
-                                    </div>
-                                    <img width="100%" src="{{ asset('storage/attachments/'.$attachment->path) }}"/>
-                                @endif
-
+                                <embed src="{{ asset('storage/attachments/' . $attachment->path ) }}" width="100%" height="800px" type="application/pdf">
                             @endforeach
                         </div>
                     </dl>

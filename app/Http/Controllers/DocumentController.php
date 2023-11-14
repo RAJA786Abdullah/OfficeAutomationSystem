@@ -31,6 +31,7 @@ class DocumentController extends Controller
     public function create()
     {
         $userID = Auth::id();
+        $depID =  Auth::user()->department_id;
         $user = User::where('userID', $userID)->first();
         $dept_id = $user->department_id;
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
@@ -40,7 +41,7 @@ class DocumentController extends Controller
         $departments = Department::all();
 //        $users = User::where('department_id', '!=', $dept_id)->get();
         $users = User::all();
-        $files = Files::all();
+        $files = Files::where('department_id', $depID)->get();
         $documents = Document::all();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents'));
     }
@@ -49,6 +50,16 @@ class DocumentController extends Controller
     {
         try {
             $userID = Auth::id();
+            $lastDocument = Document::where('department_id', auth()->user()->department_id)
+                ->latest()
+                ->first();
+            if ($lastDocument) {
+                $uniqueIdentifier = $lastDocument->document_unique_identifier;
+                $dui = ++$uniqueIdentifier;
+            }
+            else{
+                $dui = 1;
+            }
 
             $commonFields = [
                 'classification_id' => $request->input('classification_id'),
@@ -59,7 +70,7 @@ class DocumentController extends Controller
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
-                'document_unique_identifier' => 1,
+                'document_unique_identifier' => $dui,
                 'in_dept' => Auth::id(),
             ];
 
@@ -218,37 +229,23 @@ class DocumentController extends Controller
                 ]);
             }
 
-            //update attachment table where document_id is the one in Request
             if ($request->name) {
-                $attachments = $document->load('attachments');
-                foreach($attachments->attachments as $attachment) {
-                    $attachment->delete();
-                }
-                $attachment = new Attachment();
                 foreach ($request->name as $key => $name) {
-                    foreach($request->file('attachment') as $file){
-                        $attachment->name = $name;
-                        // Handle file upload
-                        if ($request->hasFile('attachment') && count($request->file('attachment')) > 0) {
-                            $fileExtension = $file->getClientOriginalExtension();
-                            $fileName = $file->getClientOriginalName();
-                            $file->storeAs('public/attachments', $fileName);
-                            $attachment->type = $fileExtension;
-                            $attachment->path = $fileName;
-                        } elseif ($request->attachmentsHidden && isset($request->attachmentsHidden[$key])) {
-                            // Use the existing attachment path if provided
-                            $attachment->path = $request->attachmentsHidden[$key];
-                            $attachment->type = pathinfo($attachment->path, PATHINFO_EXTENSION);
-                        } else {
-                            dd('Error');
-                            // Handle validation error for attachments
-                        }
-                        // Associate the attachment with the document
-                        $attachment->document_id = $document->id;
-                        $attachment->save();
+                    $attachment = $request->file('attachment')[$key];
+                    if ($attachment) {
+                        $fileExtension = $attachment->getClientOriginalExtension();
+                        $fileName = $attachment->getClientOriginalName();
+                        $attachment->storeAs('public/attachments', $fileName);
+                        Attachment::create([
+                            'name' => $name,
+                            'type' => $fileExtension,
+                            'path' => $fileName, // Store the original filename
+                            'document_id' => $document->id,
+                        ]);
                     }
                 }
             }
+
             DB::commit();
             $request->session()->flash('message', 'Document Updated successfully!');
             return redirect()->route('documents.index');
@@ -258,10 +255,9 @@ class DocumentController extends Controller
         }
     }
 
-    public function destroy(Document $document)
+    public function destroy(Document $document, Request $request)
     {
         try {
-
             $document->delete();
             $document->load(['attachments','recipients','remarks']);
             $document->attachments()->delete();

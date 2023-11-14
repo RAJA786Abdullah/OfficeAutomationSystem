@@ -100,9 +100,27 @@ class Document extends Model implements Auditable
             'spreadsheet' => 'application/csv',
 
         ];
-
         // Use the default content type 'application/octet-stream' for unknown extensions
         return $contentTypeMap[$fileExtension] ?? 'application/octet-stream';
     }
+
+//    public function scopeUniqueIdentifier($id)
+//
+//    {
+//        try {
+//            $query = $query->where('id',$id)->with('documentType','file','department')->first();
+//            $subject = $query->subject;
+//            $departmentNumber = $query->documentType->code;
+//            $fileNumber = $query->file->code;
+//            $ionNumber = $query->document_unique_identifier;
+//            $departmentName = $query->department->name;
+//            $createdAt = date('d M Y', strtotime($query->created_at));
+//            $docTitle = "$departmentNumber/$fileNumber/$ionNumber/$departmentName dated $createdAt";
+//            return ['subject'=>$subject, 'docTitle'=>$docTitle];
+//        }catch (\Exception $e)
+//        {
+//            dd($e);
+//        }
+//    }
 
 }

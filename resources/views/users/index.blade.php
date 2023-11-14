@@ -38,6 +38,7 @@
                     <tr>
                         <th class="wd-15p">SrNo.</th>
                         <th class="wd-25p">Name</th>
+                        <th class="wd-25p">Directorate</th>
                         <th class="wd-25p">Arm Designation</th>
                         <th class="wd-25p">User Name</th>
                         <th class="wd-25p">User Role</th>
@@ -51,16 +52,13 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$user->name}}</td>
+                                <td>{{$user->department->name}}</td>
                                 <td>{{$user->arm_designation}}</td>
                                 <td>{{$user->email}}</td>
-
                                 <td>
-
                                     @foreach($user->roles as $role)
-{{--                                        {{ $loop->iteration }} &nbsp;--}}
                                         {{ $role->roleName  }} <br>
                                     @endforeach
-
                                 </td>
                                 <td>{{$user->is_signing_authority == 1 ? "Yes" : "No"}}</td>
                                 <td>{{date('d-m-Y', strtotime($user->dateCreated))}}</td>

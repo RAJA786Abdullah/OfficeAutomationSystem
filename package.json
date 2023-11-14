@@ -14,8 +14,13 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+<<<<<<< HEAD
         "@ckeditor/ckeditor5-build-classic": "^40.0.0",
         "@ckeditor/ckeditor5-build-decoupled-document": "^40.0.0",
         "@tabler/icons": "^2.34.0"
+=======
+        "@tabler/icons": "^2.40.0",
+        "ckeditor": "^4.12.1"
+>>>>>>> 7ead1b716c242139cb4509dda557d8cc076e169a
     }
 }

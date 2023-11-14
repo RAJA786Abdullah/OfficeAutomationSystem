@@ -6,11 +6,13 @@
             <div class="bookmark-wrapper d-flex align-items-center">
                 <ul class="nav navbar-nav d-xl-none">
                     <li class="nav-item">
-                        <a class="nav-link menu-toggle" href="{{route('home')}}"><i class="ficon" data-feather="menu"></i></a></li>
+                        <a class="nav-link menu-toggle" href="{{route('home')}}"><i class="ficon" data-feather="menu"></i></a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link nav-link-style"><i class="ficon" data-feather="sun"></i></a></li>
+                        <a class="nav-link nav-link-style"><i class="ficon" data-feather="sun"></i></a>
+                    </li>
                 </ul>
             </div>
             <ul class="nav navbar-nav align-items-center ms-auto">
@@ -22,6 +24,8 @@
                         <span class="avatar"><img src="/app-assets/images/logo/logoWhite.jpg" width="30px" height="30px" alt="logo"><span class="avatar-status-online"></span></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                        <a class="dropdown-item" href="/app-assets/user-manual.pdf" download><i class="me-50 fa fa-file-o"></i>User Manual</a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('profile.show') }}"><i class="me-50" data-feather="user"></i> Profile</a>
                         <div class="dropdown-divider"></div>
 {{--                        <a class="dropdown-item" href="{{ route('settings.edit',Auth::id()) }}"><i class="me-50" data-feather="settings"></i> Settings</a>--}}
@@ -47,6 +51,7 @@
                             <img src="/app-assets/images/logo/logoWhite.jpg" width="40px" height="40px" alt="logo">
                         </span>
                         <h2 class="brand-text">O A S</h2>
+                        <p>v1.0</p>
                     </a></li>
                 <li class="nav-item nav-toggle">
                     <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a>
@@ -61,7 +66,8 @@
                 @can('dashboard_read')
                 <li class=" nav-item" aria-haspopup="true">
                     <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'home') active @endif" href="{{route('home')}}">
-                        <i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                        <i class="fa fa-home"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
                     </a>
                 </li>
                 @endcan
@@ -70,7 +76,7 @@
                 @can('branch_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'branches.index'|| request()->route()->action['as'] == 'branches.create' || request()->route()->action['as'] == 'branches.edit' || request()->route()->action['as'] == 'branches.show') active @endif" href="{{route('branches.index')}}">
-                            <i class="ti ti-binary-tree"></i></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
+                            <i class="fa fa-building"></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
                         </a>
                     </li>
                 @endcan
@@ -79,7 +85,7 @@
                 @can('department_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'departments.index'|| request()->route()->action['as'] == 'departments.create' || request()->route()->action['as'] == 'departments.edit' || request()->route()->action['as'] == 'departments.show') active @endif" href="{{route('departments.index')}}">
-                            <i class="ti ti-building"></i><span class="menu-title text-truncate" data-i18n="Directorate">Directorate</span>
+                            <i class="fa fa-building-o"></i><span class="menu-title text-truncate" data-i18n="Directorate">Directorate</span>
                         </a>
                     </li>
                 @endcan
@@ -88,7 +94,7 @@
                 @can('files_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'files.index'|| request()->route()->action['as'] == 'files.create' || request()->route()->action['as'] == 'files.edit' || request()->route()->action['as'] == 'files.show') active @endif" href="{{route('files.index')}}">
-                            <i class="ti ti-briefcase"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
+                            <i class="fa fa-briefcase"></i><span class="menu-title text-truncate" data-i18n="files">Files</span>
                         </a>
                     </li>
                 @endcan
@@ -97,7 +103,7 @@
                 @can('classification_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'classifications.index'|| request()->route()->action['as'] == 'classifications.create' || request()->route()->action['as'] == 'classifications.edit' || request()->route()->action['as'] == 'classifications.show') active @endif" href="{{route('classifications.index')}}">
-                            <i class="ti ti-layout-grid"></i><span class="menu-title text-truncate" data-i18n="classifications">Classifications</span>
+                            <i class="fa fa-random"></i><span class="menu-title text-truncate" data-i18n="classifications">Classifications</span>
                         </a>
                     </li>
                 @endcan
@@ -115,7 +121,7 @@
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.create' || request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
-                            <i class="ti ti-files"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
+                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
                         </a>
                     </li>
                 @endcan
@@ -127,19 +133,19 @@
                         <ul class="menu-content">
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'role.index' || request()->route()->action['as'] == 'role.create' || request()->route()->action['as'] == 'role.edit' || request()->route()->action['as'] == 'role.show' ) active @endif" href="{{route('role.index')}}">
-                                    <i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
+                                    <i class="fa fa-user-o"></i><span class="menu-title text-truncate" data-i18n="Home">Roles</span>
                                 </a>
                             </li>
 
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'users.index' || request()->route()->action['as'] == 'users.create' || request()->route()->action['as'] == 'users.edit' || request()->route()->action['as'] == 'users.show' ) active @endif" href="{{route('users.index')}}">
-                                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
+                                    <i class="fa fa-users"></i><span class="menu-title text-truncate" data-i18n="Home">Users</span>
                                 </a>
                             </li>
 
                             <li class=" nav-item" aria-haspopup="true">
                                 <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'audit.index' ) active @endif" href="{{route('audit.index')}}">
-                                    <i class="ti ti-history"></i><span class="menu-title text-truncate" data-i18n="Audit">Audit</span>
+                                    <i class="fa fa-history"></i><span class="menu-title text-truncate" data-i18n="Audit">Audit</span>
                                 </a>
                             </li>
 
@@ -152,6 +158,7 @@
                             {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
                             {{--                        </li>--}}
                         </ul>
+                        <p class="position-fixed bottom-0 ms-3">Version 1.0</p>
                     </li>
                 @endcan
             </ul>

@@ -51,7 +51,9 @@
                         <select name="document_type_id" class="form-select">
                             <option disabled>Select Document Type</option>
                             @foreach ($documentTypes as $documentType)
-                                <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType?->name }}</option>
+                                @if($documentType?->department_id == \Illuminate\Support\Facades\Auth::user()->department_id)
+                                    <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType?->name }} | {{ $documentType?->department->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
