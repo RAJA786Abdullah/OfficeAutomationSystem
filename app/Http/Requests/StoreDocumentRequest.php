@@ -29,7 +29,7 @@ class StoreDocumentRequest extends FormRequest
             'document_type_id' => 'required',
             'file_id' => 'required',
             'subject' => 'required',
-            'body' => 'required',
+//            'body' => 'required',
             'to' => 'required',
             'signing_authority_id' => 'required'
         ];
@@ -43,7 +43,7 @@ class StoreDocumentRequest extends FormRequest
             'document_type_id.required' => 'Document Type is required',
             'file_id.required' => 'File is required',
             'subject.required' => 'Subject is required',
-            'body.required' => 'Body is required',
+//            'body.required' => 'Body is required',
             'to.required' => 'To is required',
             'signing_authority_id.required' => 'Signing Authority is required',
         ];

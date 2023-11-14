@@ -27,7 +27,8 @@
         <div class="card-header">
             <h4 class="card-title">Add Document</h4>
         </div>
-        <form method="POST" action="{{route('documents.store')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('documents.store')}}" enctype="multipart/form-data" id="docStore">
+{{--        <form method="POST" action="#" enctype="multipart/form-data" id="docStore">--}}
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
@@ -90,16 +91,16 @@
                     <label class="form-label required">{{ __('Body') }}</label>
                     <input type="hidden" name="editor_content" id="editor_content">
                     <div id="toolbar-container"></div>
-                    <div id="editor" style="height: 10em; border-color: #9D9999">
-                    </div>
-{{--                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>--}}
+                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>
+{{--                    <input type="hidden" name="editor_content" id="editor_content">--}}
+{{--                    <div id="toolbar-container"></div>--}}
+{{--                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>--}}
                 </div>
                 @if($errors->has('body'))
                     <div class="text-danger">
                         {{ $errors->first('body') }}
                     </div>
                 @endif
-
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="col-12">
@@ -233,7 +234,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-12 mt-3">
                     <div class="card">
                         <div class="row justify-content-center my-1">
@@ -320,25 +320,27 @@
     <script>
 
             $(document).ready(function() {
-                $('form').submit(function() {
+                $('form').submit(function(event) {
+                    // event.preventDefault(); // Prevent the default form submission behavior
+
                     // Get the CKEditor content and set it in the hidden input field
-                    $('#editor_content').val(CKEDITOR.instances.editor.getData());
+                    // $('#editor_content').val(CKEDITOR.instances.editor.getData());
+                    var editorContent = window.editor.getData();
+                    $('#editor_content').val(editorContent);
+                    $('#docStore').submit()
                 });
             });
 
     $(document).ready(function() {
-            DecoupledEditor
-                .create( document.querySelector( '#editor' ) )
-                .then( editor => {
-                    // The toolbar needs to be explicitly appended.
-                    document.querySelector( '#toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
-                    window.editor = editor;
-                } )
-                .catch( error => {
-                    console.error( 'There was a problem initializing the editor.', error );
-                } );
-            // CKEDITOR.replace('body');
-
+        DecoupledEditor.create( document.querySelector('#editor'))
+                        .then( editor => {
+                            // The toolbar needs to be explicitly appended.
+                            document.querySelector( '#toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
+                            window.editor = editor;
+                        })
+                        .catch( error => {
+                            console.error( 'There was a problem initializing the editor.', error );
+                        });
             $('input[name="departmentUser"]').change(function() {
                 if (this.value === "department") {
                     $('#department').show();
@@ -348,7 +350,6 @@
                     $('#user').show();
                 }
             });
-
             $('input[name="referenceSelection"]').change(function() {
                 if (this.value === "enter") {
                     $('.enterReference').show();

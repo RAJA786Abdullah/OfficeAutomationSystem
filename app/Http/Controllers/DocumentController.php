@@ -55,7 +55,7 @@ class DocumentController extends Controller
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
-                'body' => $request->input('body'),
+                'body' => $request->input('editor_content'),
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,
