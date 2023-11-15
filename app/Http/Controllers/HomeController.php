@@ -53,6 +53,7 @@ class  HomeController extends Controller
             Document::
                 where('department_id', $userDepID)
                 ->where('out_dept', '=', Null)
+                ->where('is_draft', '=', 0)
                 ->get()
         );
         $unread = count($allDocuments1->where('department_id',Auth::user()->department_id)->where('is_new',1)->where('department_id','!=',Auth::user()->department_id)->get());
