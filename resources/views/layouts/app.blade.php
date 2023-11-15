@@ -108,7 +108,7 @@
             font-size:30px;
             color: black;
             transform:rotate(-30deg);
-            opacity: 0.9
+            opacity: 0.3
         }
         .content-body{
             opacity: 0.9;
