@@ -75,16 +75,21 @@
                     <dl class="row mt-3">
                         <div class="col-md-12">
                             <h5 class="d-inline-block">To:</h5>
+                            @php $is_info=0; @endphp
                             @if($document->is_allDte == 1)
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">All Dte</h5><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             @else
                                 @foreach($document->recipients as $index=>$recipient)
+                                    @if($recipient->type == 'info')
+                                        @php $is_info=1; @endphp
+                                    @endif
                                     @if($recipient->type == 'to')
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">{{ $recipient->name }}</h5><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     @endif
                                 @endforeach
                             @endif
                         </div>
+                        @if($is_info == 1)
                         <div class="col-md-12">
                             <h5 class="d-inline-block">Info:</h5>
                             @foreach($document->recipients as $index=>$recipient)
@@ -94,6 +99,7 @@
                                 @endif
                             @endforeach
                         </div>
+                        @endif
 
                         <div class="col-md-12">
                             <h5 class="d-inline-block">ID:</h5>
