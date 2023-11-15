@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->integer('documentID')->nullable();
             $table->foreignId('classification_id')->constrained('classifications','id');
             $table->foreignId('department_id')->constrained('departments','id');
             $table->foreignId('document_type_id')->constrained('document_types','id');
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users','userID');
             $table->boolean('is_draft')->default(1);
             $table->boolean('is_new')->default(1);
+            $table->boolean('is_allDte')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

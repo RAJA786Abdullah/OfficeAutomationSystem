@@ -16,6 +16,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Mpdf\Mpdf;
 
 class DocumentController extends Controller
@@ -74,7 +75,13 @@ class DocumentController extends Controller
                 $dui = 1;
             }
 
+            $allDte = 0;
+            if($request->to == 'All Dte'){
+                $allDte = 1;
+            }
+
             $commonFields = [
+                'documentID' => rand(10000000, 99999999),
                 'classification_id' => $request->input('classification_id'),
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
@@ -85,6 +92,7 @@ class DocumentController extends Controller
                 'department_id' => Auth::user()->department_id,
                 'document_unique_identifier' => $dui,
                 'in_dept' => Auth::id(),
+                'is_allDte' => $allDte,
             ];
 
             if ($request->reference) {

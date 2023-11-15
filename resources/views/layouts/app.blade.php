@@ -103,7 +103,7 @@
         #watermark {
             position: fixed;
             bottom: 350px;
-            left: 250px;
+            left: 200px;
             z-index: -1;
             font-size:30px;
             color: black;
@@ -119,6 +119,7 @@
             padding: 0 10px; /* Adjust the padding as needed */
             border-radius: 10px;
         }
+
     </style>
     @yield('css')
 
@@ -177,12 +178,6 @@
 <script src="/assets/plugins/datatable/datatable.js"></script>
 <script src="/assets/plugins/datatable/dataTables.responsive.min.js"></script>
 
-<!-- DataTables Export Buttons-->
-<script src="/app-assets/datatableExportButtons/dataTables.buttons.min.js"></script>
-<script src="/app-assets/datatableExportButtons/buttons.html5.min.js"></script>
-<script src="/app-assets/datatableExportButtons/jszip.min.js"></script>
-<script src="/app-assets/datatableExportButtons/pdfmake.min.js"></script>
-<script src="/app-assets/datatableExportButtons/vfs_fonts.js"></script>
 <!-- Select2-->
 <script src="/app-assets/css/plugins/select2/js/select2.full.min.js"></script>
 
@@ -213,30 +208,15 @@
 </script>
 <script>
     $(document).ready(function () {
-        function frontEnd(){
-            console.log('yes');
-        }
-
-
         //DataTables
         $('table.display').DataTable({
             "ordering": false,
-            dom: 'lBfrtip',
             "pageLength": 50,
-            buttons: [
-                // {
-                //     extend: 'excelHtml5',
-                //     text: 'Export To Excel',
-                //     className: 'btn-primary',
-                //     exportOptions: {columns: ':not(.notExport)'}
-                // },
-                // {
-                //     extend: 'pdfHtml5',
-                //     text: 'Export To PDF',
-                //     className: 'btn-secondary',
-                //     exportOptions: {columns: ':not(.notExport)'}
-                // }
-            ],
+            "initComplete": function(settings, json) {
+                // Apply custom styles after DataTable is initialized
+                $('table.display').css('font-size', '10px');
+                $('table.display th, table.display td').css('padding', '1px');
+            }
         });
 
         //select 2 i.e. search and select.
