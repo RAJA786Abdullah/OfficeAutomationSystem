@@ -39,129 +39,56 @@
 
         #watermark1 {
             position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 20px;
-            left: 300px;
+            top: 50px;
+            left: 200px;
             width: 100%; /* Full width of the viewport */
             height: 100%; /* Full height of the viewport */
             z-index: 1;
             font-size: 20px;
-            color: grey;
+            color: #c9c9c9;
             transform: rotate(-20deg);
-            opacity: 0.2;
             pointer-events: none;
+            user-select: none;
         }
 
-        #watermark2 {
-            position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 150px;
-            left: 300px;
-            width: 100%; /* Full width of the viewport */
-            height: 100%; /* Full height of the viewport */
-            z-index: 1;
-            font-size: 20px;
-            color: grey;
-            transform: rotate(-20deg);
-            opacity: 0.2;
-            pointer-events: none;
 
-        }
-
-        #watermark3 {
-            position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 250px;
-            left: 300px;
-            width: 100%; /* Full width of the viewport */
-            height: 100%; /* Full height of the viewport */
-            z-index: 1;
-            font-size: 20px;
-            color: grey;
-            transform: rotate(-20deg);
-            opacity: 0.2;
-            pointer-events: none;
-
-        }
-
-        #watermark4 {
-            position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 350px;
-            left: 300px;
-            width: 100%; /* Full width of the viewport */
-            height: 100%; /* Full height of the viewport */
-            z-index: 1;
-            font-size: 20px;
-            color: grey;
-            transform: rotate(-20deg);
-            opacity: 0.2;
-            pointer-events: none;
-
-        }
         #watermark5 {
             position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 450px;
-            left: 300px;
+            top: 350px;
+            left: 200px;
             width: 100%; /* Full width of the viewport */
             height: 100%; /* Full height of the viewport */
             z-index: 1;
             font-size: 20px;
-            color: grey;
+            color: #c9c9c9;
             transform: rotate(-20deg);
-            opacity: 0.2;
             pointer-events: none;
-
-        }
-
-        #watermark6 {
-            position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 550px;
-            left: 300px;
-            width: 100%; /* Full width of the viewport */
-            height: 100%; /* Full height of the viewport */
-            z-index: 1;
-            font-size: 20px;
-            color: grey;
-            transform: rotate(-20deg);
-            opacity: 0.2;
-            pointer-events: none;
-
-        }
-
-        #watermark7 {
-            position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 650px;
-            left: 300px;
-            width: 100%; /* Full width of the viewport */
-            height: 100%; /* Full height of the viewport */
-            z-index: 1;
-            font-size: 20px;
-            color: grey;
-            transform: rotate(-20deg);
-            opacity: 0.2;
-            pointer-events: none;
-
         }
 
         #watermark8 {
             position: fixed; /* Use fixed position to stay in view when scrolling */
-            top: 750px;
-            left: 300px;
+            top: 650px;
+            left: 200px;
             width: 100%; /* Full width of the viewport */
             height: 100%; /* Full height of the viewport */
             z-index: 1;
             font-size: 20px;
-            color: grey;
+            color: #c9c9c9;
             transform: rotate(-20deg);
-            opacity: 0.2;
             pointer-events: none;
-
         }
-        .footer{
+
+        .footer {
             position: absolute;
             bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
         }
 
         .bottom-line {
             position: absolute;
-            bottom: 25px;
+            bottom: 40px;
             width: 100%;
             height: 1px;
             background-color: black; /* You can set the color you prefer */
@@ -171,38 +98,24 @@
 </head>
 <body>
     <span id="watermark1">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
+        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->userCode}}
     </span>
-    <span id="watermark2">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
-    <span id="watermark3">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
-    <span id="watermark4">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
+
     <span id="watermark5">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
+        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->userCode}}
     </span>
-    <span id="watermark6">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
-    <span id="watermark6">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
-    <span id="watermark7">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
-    </span>
+
     <span id="watermark8">
-        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->name}}
+        {{\Illuminate\Support\Facades\Auth::user()->userCode}} | {{\Illuminate\Support\Facades\Auth::user()->userCode}}
     </span>
     @include('pdf.pdf')
 
     <div class="bottom-line"></div>
-    <footer class="footer">
-        {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('name')->first() }}
-    </footer>
+        <footer class="footer d-flex justify-content-center text-center">
+            APPROVED BY: {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('arm_designation')->first() }} {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('name')->first() }}
+            <br>
+            NOTE: Computer-generated ION does not require a signature.
+        </footer>
 </body>
 </html>
 

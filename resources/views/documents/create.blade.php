@@ -134,6 +134,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="row">
+                                <span class="p-1 text-white bg-primary text-center font-weight-bold mb-2">Recipients</span>
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="row justify-content-center">
@@ -232,6 +233,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="row">
+                                <span class="p-1 text-white bg-primary text-center font-weight-bold mb-2" style="margin-left: 2px">Attachments</span>
                                 <div class="col-12">
                                     <div class="card">
                                         <table class="table">
@@ -279,18 +281,13 @@
                             </div>
                         </div>
                         <div class="row enterReference">
-                            <div class="card-header d-flex justify-content-center bg-primary">
-                                <h4 class="card-title text-light">Enter Reference</h4>
-                            </div>
+                            <span class="p-1 text-white bg-primary text-center font-weight-bold mb-2">Enter Reference Manually</span>
                             <div class="col-md-12">
-                                <h5 class="card-title text-center mt-5">Reference</h5>
                                 <input type="text" name="reference" id="reference" class="form-control form-control-lg">
                             </div>
                         </div>
                         <div class="row selectReference" style="display: none;">
-                            <div class="card-header d-flex justify-content-center bg-primary">
-                                <h4 class="card-title text-light">Select Reference</h4>
-                            </div>
+                            <span class="p-1 text-white bg-primary text-center font-weight-bold mb-2">Select Reference</span>
                             <div class="col-md-6">
                                 <h5 class="card-title text-center mt-5">Classifications</h5>
                                 <select name="filter_classification" class="form-select select2" style="width: 100%">

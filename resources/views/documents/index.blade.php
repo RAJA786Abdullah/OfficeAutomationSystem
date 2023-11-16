@@ -33,12 +33,13 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table-responsive table mb-0 table-sm table-striped text-nowrap w-100 display">
+                    <table class="table table-sm table-striped text-nowrap w-100 display">
                         <thead>
                         <tr>
-                            <th class="wd-15p">Document No</th>
-                            <th class="wd-25p">Classification</th>
+                            <th class="wd-15p">Date</th>
                             <th class="wd-25p">File No</th>
+                            <th class="wd-15p">Document No</th>
+                            <th class="wd-25p">SecurityCl</th>
                             <th class="wd-25p">subject</th>
                             <th class="wd-25p">Created By</th>
                             <th class="wd-25p notExport" style="width: 2%; !important;">Actions</th>
@@ -91,27 +92,28 @@
                             @endphp
                             @if($isRow)
                                 <tr>
+                                    <td>{{date(" d-m-Y", strtotime($document->created_at))}}</td>
+                                    <td>{{ $document->file->name }} | {{ $document->file->code }}</td>
                                     <td>{{ \App\Models\Document::documentTitle($document->id) }}</td>
                                     <td>{{ $document->classification->name }}</td>
-                                    <td>{{ $document->file->name }} | {{ $document->file->code }}</td>
                                     <td>{{ $document->subject }}</td>
                                     <td>{{ $document->user->name }}</td>
-                                    <td>
+                                    <td style="padding: 0; margin: 0">
                                         @if ($canShow)
-                                            <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Show">
+                                            <a href="{{ route($crud . '.show', $row) }}" class="btn btn-sm btn-primary" style="padding: 4px" data-toggle="tooltip" title="Show">
                                                 <i data-feather="eye"></i>
                                             </a>
                                         @endif
                                         @if ($canEdit)
-                                            <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Edit">
+                                            <a href="{{ route($crud . '.edit', $row) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Edit" style="padding: 4px">
                                                 <i data-feather="edit"></i>
                                             </a>
                                         @endif
                                         @if ($canDelete)
-                                            <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block;">
+                                            <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block; padding: 4px">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color: white;">
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color: white; padding: 4px">
                                                     <i data-feather="trash"></i>
                                                 </button>
                                             </form>
@@ -120,7 +122,7 @@
                                             <form action="{{ route('sendDocToSup', $document->id) }}" method="GET" style="display: inline-block" class="sendDoc">
                                                 @csrf
                                                 <input type="hidden" name="docID" value="{{ $document->id }}">
-                                                <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color: white;">
+                                                <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">
                                                     <i data-feather="send"></i>
                                                 </button>
                                             </form>
@@ -129,7 +131,7 @@
                                             <form action="{{ route('approveDoc', $document->id) }}" method="GET" style="display: inline-block" class="approveDoc">
                                                 @csrf
                                                 <input type="hidden" name="docID" value="{{ $document->id }}">
-                                                <button type="button" class="btn btn-sm btn-success" onclick="approveDocAlert()" data-toggle="tooltip" title="Approve" style="color: white;">
+                                                <button type="button" class="btn btn-sm btn-success" onclick="approveDocAlert()" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">
                                                     <i data-feather="check"></i>
                                                 </button>
                                             </form>
