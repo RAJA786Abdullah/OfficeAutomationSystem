@@ -70,21 +70,31 @@
                                 <tbody>
                                 @foreach($allDocuments as  $allDocument)
                                     @foreach($userDocuments as $document)
-                                        @if ($allDocument->id == $document)
+                                        @php
+                                            $string = $document;
+                                            $parts = explode('-', $string);
+                                            $docuID = $parts[0];
+                                            $status = $parts[1];
+                                            $recipientID = $parts[2];
+                                        @endphp
+                                        @if ($allDocument->id == $docuID)
                                             @php
-                                                $doc = \App\Models\Document::dashboardDocumentTitle($document);
+                                                $doc = \App\Models\Document::dashboardDocumentTitle($docuID);
                                                 $count++;
                                             @endphp
                                             <tr>
                                                 <td><span class="">{{ $count }}</span></td>
                                                 <td>
-                                            <span style="padding-left: 10px" >
-                                                <b>
-                                                    <a href="{{ route('docShow', $allDocument->id) }}" class="text-primary text-decoration-none">
-                                                        {{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}
-                                                    </a>
-                                                </b>
-                                            </span>
+                                                    <span style="padding-left: 10px" >
+                                                        <b>
+                                                            <a href="{{ route('docShow', $allDocument->id) }}" class="text-primary text-decoration-none" onclick="updateStatus({{ $recipientID }}, {{ $status }})">
+                                                                {{ ucfirst($doc['subject']) . ' - ' . $doc['docTitle'] }}
+                                                            </a>
+                                                        </b>
+                                                    </span>
+                                                    @if($status == 1)
+                                                        <span style="padding-left: 10px; color: #0e0f12" class="badge">New</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-between">
@@ -119,5 +129,22 @@
 
 @endsection
 @section('js')
+    <script>
+        function updateStatus(recipientID,status) {
+            if (status === 1){
+                $.ajax({
+                url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
+                method: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    recipientID: recipientID,
+                    status: status,
+                },
+                success: function(data) {
+                },
+            });
+        }
+    }
 
+    </script>
 @endsection

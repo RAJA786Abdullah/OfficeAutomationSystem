@@ -31,10 +31,12 @@ class  HomeController extends Controller
             $names = $recipients->pluck('name')->toArray();
             $types = $recipients->pluck('type')->toArray();
             $documentID = $recipients->pluck('document_id')->toArray();
+            $status = $recipients->pluck('status')->toArray();
+            $recipientID = $recipients->pluck('id')->toArray();
 
-            $pairs = array_map(function ($name, $type, $documentID)  {
-                return ['document_id' => $documentID, 'name' => $name, 'type' => $type];
-            }, $names, $types, $documentID);
+            $pairs = array_map(function ($name, $type, $documentID,$status,$recipientID)  {
+                return ['document_id' => $documentID, 'name' => $name, 'type' => $type, 'status' =>$status, 'recipientID' => $recipientID];
+            }, $names, $types, $documentID, $status,$recipientID);
             $nameTypePairsResult[] = $pairs;
         }
 
@@ -44,7 +46,7 @@ class  HomeController extends Controller
             {
                 if ($userDepName == $result['name'])
                 {
-                    $userDocuments[] = $result['document_id'];
+                    $userDocuments[] = $result['document_id'] .'-'. $result['status'] .'-'.$result['recipientID'];
                 }
             }
         }
