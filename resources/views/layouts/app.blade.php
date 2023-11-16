@@ -214,7 +214,7 @@
             "pageLength": 50,
             "initComplete": function(settings, json) {
                 // Apply custom styles after DataTable is initialized
-                $('table.display').css('font-size', '10px');
+                $('table.display').css('font-size', '14px');
                 $('table.display th, table.display td').css('padding', '1px');
             }
         });

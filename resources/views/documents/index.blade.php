@@ -33,7 +33,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table-responsive table table-sm table-striped text-nowrap w-100 display">
+                    <table class="table table-sm table-striped text-nowrap w-100 display">
                         <thead>
                         <tr>
                             <th class="wd-15p">Date</th>
