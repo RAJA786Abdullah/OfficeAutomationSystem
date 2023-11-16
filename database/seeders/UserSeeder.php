@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $aryUsers = [
-            ['userID' => '1','name' => 'Admin','email' => 'admin','lastLogin' => NULL,'status' => '1','lastLoginIP' => NULL,'password' => \Illuminate\Support\Facades\Hash::make('admin123'),'is_signing_authority' => '0','arm_designation' => NULL],
+            ['userID' => '1','name' => 'Admin','email' => 'admin','lastLogin' => NULL,'status' => '1','department_id'=> 1,'lastLoginIP' => NULL,'password' => \Illuminate\Support\Facades\Hash::make('admin123'),'is_signing_authority' => '0','arm_designation' => NULL],
 //            ['userID' => '2','name' => 'Imran Qureshi','email' => 'imran','lastLogin' => NULL,'status' => '1','lastLoginIP' => NULL,'password' => \Illuminate\Support\Facades\Hash::make('admin123'),'department_id' => '1','branch_id' => '1','is_signing_authority' => '1','arm_designation' => 'Lt Col'],
 //            ['userID' => '3','name' => 'Adnan Chaudhry','email' => 'adnan','lastLogin' => NULL,'status' => '1','lastLoginIP' => NULL,'password' => \Illuminate\Support\Facades\Hash::make('admin123'),'department_id' => '1','branch_id' => '1','is_signing_authority' => '1','arm_designation' => 'civil'],
 //            ['userID' => '4','name' => 'Abdullah','email' => 'abdullah','lastLogin' => NULL,'status' => '1','lastLoginIP' => NULL,'password' => \Illuminate\Support\Facades\Hash::make('admin123'),'department_id' => '1','branch_id' => '1','is_signing_authority' => '0','arm_designation' => 'civil'],

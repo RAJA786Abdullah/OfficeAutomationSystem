@@ -26,16 +26,12 @@ class DocumentController extends Controller
             $documents = Document::with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
                 ->orderBy('id', 'desc')
                 ->get();
-
-//            $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }else{
             $userDepID = Auth::user()->department_id;
             $documents = Document::where('department_id', $userDepID)
                 ->with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
                 ->orderBy('id', 'desc')
                 ->get();
-
-//            $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }
         return view('documents.index', compact('documents'));
     }
@@ -103,26 +99,28 @@ class DocumentController extends Controller
             $toArray = array_map('trim', $toArray);
             if ($infoArray){
                 foreach ($infoArray as $info){
-                    Recipient::create([
-                        'name' => $info,
-                        'type' => 'info',
-                        'document_id' => $document->id,
-                        'userID' => $userID,
-                    ]);
+                   if ($info != ""){
+                        Recipient::create([
+                            'name' => $info,
+                            'type' => 'info',
+                            'document_id' => $document->id,
+                            'userID' => $userID,
+                            'status' => 1
+                        ]);
+                   }
                 }
             }
-
             if($toArray){
                 foreach ($toArray as $to){
                     if ($to == 'All Dte'){
                         $depts = Department::where('id', '!=', Auth::user()->department_id)->get();
-//                        $depts = Department::except(Auth::user()->department_id);
                         foreach ($depts as $dept){
                             Recipient::create([
                                 'name' => $dept->name,
                                 'type' => 'to',
                                 'document_id' => $document->id,
                                 'userID' => $userID,
+                                'status' => 1
                             ]);
                         }
                     }else {
@@ -131,6 +129,7 @@ class DocumentController extends Controller
                             'type' => 'to',
                             'document_id' => $document->id,
                             'userID' => $userID,
+                            'status' => 1
                         ]);
                     }
                 }
@@ -251,7 +250,6 @@ class DocumentController extends Controller
             foreach ($toArray as $to){
                 if ($to == 'All Dte'){
                     $depts = Department::where('id', '!=', Auth::user()->department_id)->get();
-//                        $depts = Department::except(Auth::user()->department_id);
                     foreach ($depts as $dept){
                         Recipient::create([
                             'name' => $dept->name,

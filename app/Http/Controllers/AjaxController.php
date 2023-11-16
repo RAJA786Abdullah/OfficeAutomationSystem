@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use App\Models\Recipient;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -15,5 +16,15 @@ class AjaxController extends Controller
          Attachment::where('id',$data['attachmentID'])->delete();
          return response()->json($data);
     }
+
+    public function updateRecipientStatus($data){
+        $recipientID = $data['recipientID'];
+        $status = $data['status'];
+        if ($status == 1){
+            Recipient::where('id', $recipientID)->update(['status' => 0]);
+        }
+        return response()->json($data);
+    }
+
 
 }
