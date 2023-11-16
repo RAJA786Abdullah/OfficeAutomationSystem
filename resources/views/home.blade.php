@@ -6,22 +6,22 @@
     <div class="container-fluid">
         <div class="row justify-content-center mb-2">
             <div class="col-md-3 col-sm-6 mb-2">
-                <div class="bg-gradient-info custom-col shadow-bottom border-1 dashboard-widgets text-center">
-                    <div class="pt-3 pb-3 font-weight-bold font-medium-5" ><span><i class="fa fa-envelope"></i></span> Unread: {{$notApprovedDocs}}</div>
+                <div class="bg-gradient-info custom-col shadow-bottom border-1 dashboard-widgets text-center" onclick="unread()">
+                    <div class="pt-3 pb-3 font-weight-bold font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread: {{$notApprovedDocs}}</div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 mb-2">
-                <div class="bg-gradient-danger custom-col shadow-bottom border-1 dashboard-widgets text-center">
+                <div class="bg-gradient-danger custom-col shadow-bottom border-1 dashboard-widgets text-center" onclick="notApproved()">
                     <div class="pt-3 pb-3 font-weight-bold font-medium-5" ><span><i class="fa fa-ban"></i></span> Not Approved: {{$notApprovedDocs}}</div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 mb-2">
-                <div class="bg-gradient-primary custom-col shadow-bottom border-1 dashboard-widgets text-center">
+                <div class="bg-gradient-primary custom-col shadow-bottom border-1 dashboard-widgets text-center" onclick="received()">
                     <div class="pt-3 pb-3 font-weight-bold font-medium-5" ><span><i class="fa fa-get-pocket"></i></span> Received: {{ $received }}</div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 mb-2">
-                <div class="bg-gradient-success custom-col shadow-bottom border-1 dashboard-widgets text-center">
+                <div class="bg-gradient-success custom-col shadow-bottom border-1 dashboard-widgets text-center" onclick="sent()">
                     <div class="pt-3 pb-3 font-weight-bold font-medium-5" ><span><i class="fa fa-paper-plane"></i></span> Sent: {{$sent}}</div>
                 </div>
             </div>
@@ -142,9 +142,25 @@
                 },
                 success: function(data) {
                 },
-            });
+                });
+            }
         }
-    }
 
+        function unread(){
+            console.log('unread');
+
+        }
+
+        function notApproved(){
+            console.log('not approved');
+        }
+
+        function received(){
+            console.log('received ');
+        }
+
+        function sent(){
+            console.log('sent');
+        }
     </script>
 @endsection

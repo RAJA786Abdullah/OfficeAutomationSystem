@@ -78,6 +78,10 @@ class  HomeController extends Controller
         return view('docShow', compact('document', 'departmentUsers'));
     }
 
-
-
+    public function widgetFilters(Request $request)
+    {
+        dd($request->all());
+        $filtered = [];
+        return view('home', compact('filtered'));
+    }
 }
