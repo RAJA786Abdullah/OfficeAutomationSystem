@@ -72,11 +72,21 @@
                 </li>
                 @endcan
 
+                {{-- Document Create --}}
+                @can('documents_create')
+                    <li class=" nav-item" aria-haspopup="true">
+                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.create') active @endif" href="{{route('documents.create')}}">
+                            <i class="fa fa-plus"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">Create Docu</span>
+                        </a>
+                    </li>
+                @endcan
+
                 {{-- Branches --}}
                 @can('branch_read')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'branches.index'|| request()->route()->action['as'] == 'branches.create' || request()->route()->action['as'] == 'branches.edit' || request()->route()->action['as'] == 'branches.show') active @endif" href="{{route('branches.index')}}">
-                            <i class="fa fa-building"></i><span class="menu-title text-truncate" data-i18n="Regional Office">Regional Office</span>
+                            <i class="fa fa-building"></i><span class="menu-title text-truncate" data-i18n="Regional Office">DHAQ Offices</span>
                         </a>
                     </li>
                 @endcan
@@ -120,8 +130,8 @@
                 {{-- Documents --}}
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
-                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.create' || request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
-                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
+                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
+                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Archived</span>
                         </a>
                     </li>
                 @endcan

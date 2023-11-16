@@ -27,16 +27,12 @@ class DocumentController extends Controller
             $documents = Document::with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
                 ->orderBy('id', 'desc')
                 ->get();
-
-//            $documents = Document::with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }else{
             $userDepID = Auth::user()->department_id;
             $documents = Document::where('department_id', $userDepID)
                 ->with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
                 ->orderBy('id', 'desc')
                 ->get();
-
-//            $documents = Document::where('department_id', $userDepID)->with('attachments', 'recipients', 'file', 'documentType','department', 'classification')->get();
         }
         return view('documents.index', compact('documents'));
     }

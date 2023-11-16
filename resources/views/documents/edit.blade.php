@@ -49,7 +49,7 @@
                         <select name="document_type_id" class="form-select">
                             <option disabled>Select Document Type</option>
                             @foreach ($documentTypes as $documentType)
-                                <option value="{{ $documentType->id }}" {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType->name }}</option>
+                                <option value="{{ $documentType->id }}" @if($documentType->id == $document->document_type_id) selected @endif {{ old('document_type_id') == $documentType->id ? 'selected' : '' }}>{{ $documentType?->name }} | {{ $documentType?->department->name }}</option>
                             @endforeach
                         </select>
                     </div>
