@@ -143,8 +143,8 @@
                         else {
                             if (data.filtered !== '') {
                                 $('#allDataBody tr').hide();
-                                data.filtered.forEach(function (a) {
-                                    a.forEach(function (v){
+                                data.filtered.forEach(function (value) {
+                                    value.forEach(function (v){
                                         var createdDate = new Date(v.created_at);
                                         var formattedDate = createdDate.toLocaleDateString('en-US', {
                                             day: 'numeric',

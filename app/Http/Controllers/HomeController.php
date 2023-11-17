@@ -87,8 +87,9 @@ class  HomeController extends Controller
                                             documents.department_id = '$userDepID' AND documents.out_dept != ''");
         $sent = count($sent);
 
-        $filtered[] = Document::where('department_id','=',$userDepID)->where('is_draft',1)->get();
-        $draft = count($filtered);
+        $draft = Document::where('department_id','=',$userDepID)->where('is_draft',1)->get();
+        $draft = count($draft);
+
 
         return view('home', compact( 'unreadDocs','unread','notApproved','received','sent','draft'));
     }
@@ -183,28 +184,27 @@ class  HomeController extends Controller
                     break;
 
                 case('draft'):
-                    $filtered[] = DB::select("
-                                    SELECT
-                                            *,
-                                            files.code as fileCode,
-                                            departments.name as depName,
-                                            documents.document_unique_identifier as uniqueID,
-                                            documents.created_at ,
-                                            document_types.code as docCode,
-                                            documents.id as docuID,
-                                            documents.is_draft
-                                        FROM
-                                            documents
-                                            INNER JOIN files on documents.file_id = files.id
-                                            INNER JOIN departments on documents.department_id = departments.id
-                                            INNER JOIN document_types on documents.document_type_id= document_types.id
-                                        WHERE
-                                            documents.department_id = '$userDepID' AND documents.is_draft = '1'");
+                    $filtered = Document::select('documents.*',
+                                                'files.code as fileCode',
+                                                'departments.name as depName',
+                                                'documents.document_unique_identifier as uniqueID',
+                                                'documents.created_at',
+                                                'document_types.code as docCode',
+                                                'documents.id as docuID',
+                                                'documents.is_draft'
+                                                )->join('files', 'documents.file_id', '=', 'files.id')
+                                                ->join('departments', 'documents.department_id', '=', 'departments.id')
+                                                ->join('document_types', 'documents.document_type_id', '=', 'document_types.id')
+                                                ->where('documents.department_id', $userDepID)
+                                                ->where('documents.is_draft', '1')
+                                                ->get();
                     $draft = count($filtered);
                     break;
                 default:
             }
         }
+
+        $filtered;
 
         return response()->json(
             [

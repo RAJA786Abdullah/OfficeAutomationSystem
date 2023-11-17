@@ -61,7 +61,7 @@
                                     @endforeach
                                 </td>
                                 <td>{{$user->is_signing_authority == 1 ? "Yes" : "No"}}</td>
-                                <td>{{date('d-m-Y', strtotime($user->dateCreated))}}</td>
+                                <td>{{date('d-m-Y', strtotime($user->created_at))}}</td>
 
                                 <td>
                                     @php

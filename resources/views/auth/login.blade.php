@@ -22,7 +22,7 @@
                 </div>
                 <div class="d-flex col-lg-4 col-lg-4 align-items-center auth-bg px-2 my-5">
                     <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto loginCard">
-                        <h2 class="card-title fw-bold mb-1 text-white d-inline-block">Office Automation System</h2><sup class="d-inline-block text-white fa-1x">version 1.0</sup>
+                        <h2 class="card-title fw-bold mb-1 text-white d-inline-block">Office Automation System</h2><sup class="d-inline-block text-white fa-1x">version 1.1</sup>
                         <p class="card-text mb-2 text-white"><i>Please login to your account.</i></p>
                         <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
                             @csrf
