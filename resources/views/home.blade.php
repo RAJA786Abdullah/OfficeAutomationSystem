@@ -7,30 +7,30 @@
         <div class="row justify-content-center mb-2">
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-info custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='unread')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread:  <span class="badge badge-pill bg-danger">{{$unread}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread:  <span class="badge badge-pill bg-secondary">{{$unread}}</span></div>
                 </div>
             </div>
             @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Director')
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-danger custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='notApproved')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-ban"></i></span> Not Approved:  <span class="badge badge-pill bg-danger">{{$notApproved}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-ban"></i></span> Not Approved:  <span class="badge badge-pill bg-secondary">{{$notApproved}}</span></div>
                 </div>
             </div>
             @endif
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-primary custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='received')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-get-pocket"></i></span> Received:  <span class="badge badge-pill bg-danger">{{$received}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-get-pocket"></i></span> Received:  <span class="badge badge-pill bg-secondary">{{$received}}</span></div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-success custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='sent')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-paper-plane"></i></span> Sent:  <span class="badge badge-pill bg-danger">{{$sent}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-paper-plane"></i></span> Sent:  <span class="badge badge-pill bg-secondary">{{$sent}}</span></div>
                 </div>
             </div>
             @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Clerk')
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-warning custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='draft')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-clipboard"></i></span> Draft:  <span class="badge badge-pill bg-danger">{{$draft}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-clipboard"></i></span> Draft:  <span class="badge badge-pill bg-secondary">{{$draft}}</span></div>
                 </div>
             </div>
             @endif

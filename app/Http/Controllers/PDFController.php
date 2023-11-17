@@ -34,7 +34,6 @@ class PDFController extends Controller
         }
         $recipientTo = $document->recipients->where('type','to');
         $recipientInfo = $document->recipients->where('type','info');
-
         $pdf = Pdf::loadView('pdf.document', ['document'=>$document,'signInData'=>$signInData,'recipientTo'=>$recipientTo,'recipientInfo'=>$recipientInfo]);
         return $pdf->download('document.pdf');
     }

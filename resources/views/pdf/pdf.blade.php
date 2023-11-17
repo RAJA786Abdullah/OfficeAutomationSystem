@@ -39,6 +39,7 @@
             @endif
         @endforeach
     </div>
+    @if(!$recipientInfo->isEmpty())
     <div class="info my-2">
         <div class="d-inline-block">Info:</div>
         @foreach($recipientInfo as $key => $info)
@@ -49,6 +50,7 @@
             @endif
         @endforeach
     </div>
+    @endif
     <div class="officeCopy">
         <div class="d-inline-block">ID:</div>
         <div class="d-inline-block" style="margin-left: 25px">Office Copy</div>
