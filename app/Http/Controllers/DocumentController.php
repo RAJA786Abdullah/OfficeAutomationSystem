@@ -329,7 +329,7 @@ class DocumentController extends Controller
     public static function approveDoc(Request $request)
     {
         $document = Document::find($request->id);
-        $document->update(['out_dept' => 1]);
+        $document->update(['out_dept' => Auth::id()]);
         $request->session()->flash('message', 'Document Approved successfully!');
         return redirect()->back();
     }

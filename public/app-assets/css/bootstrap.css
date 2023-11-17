@@ -4113,11 +4113,12 @@ fieldset:disabled .btn {
   font-size: 85%;
   font-weight: 600;
   line-height: 1;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: 0.358rem; }
+  border-radius: 0.358rem;
+  }
 
 .badge:empty {
   display: none; }

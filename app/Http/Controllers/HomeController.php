@@ -18,53 +18,79 @@ class  HomeController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $userDocuments = [];
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
-        $recipientsGrouped = Recipient::all()->groupBy('department_id');
-        $last10Groups = $recipientsGrouped->take(-10);
-        $nameTypePairsResult = [];
+        $unreadDocs = DB::select("
+                    SELECT
+                        *,
+                        recipients.id as recipientID
+                    FROM
+                        recipients
+                        INNER JOIN documents ON recipients.document_id = documents.id
+                    WHERE
+                        recipients.status = 1  AND recipients.name = '$userDepName' AND documents.out_dept != ''
+        ");
+        $unread = count($unreadDocs);
 
-        foreach ($last10Groups as $recipients)
-        {
-            $names = $recipients->pluck('name')->toArray();
-            $types = $recipients->pluck('type')->toArray();
-            $documentID = $recipients->pluck('document_id')->toArray();
-            $status = $recipients->pluck('status')->toArray();
-            $recipientID = $recipients->pluck('id')->toArray();
+        $notApproved = DB::select("
+                                    SELECT
+                                            *,
+                                                files.code as fileCode,
+                                                departments.name as depName,
+                                                documents.document_unique_identifier as uniqueID,
+                                                documents.created_at as created_at,
+                                                document_types.code as docCode,
+                                                documents.id as docuID
+                                        FROM
+                                            documents
+                                                INNER JOIN files on documents.file_id = files.id
+                                                INNER JOIN departments on documents.department_id = departments.id
+                                                INNER JOIN document_types on documents.document_type_id= document_types.id
 
-            $pairs = array_map(function ($name, $type, $documentID,$status,$recipientID)  {
-                return ['document_id' => $documentID, 'name' => $name, 'type' => $type, 'status' =>$status, 'recipientID' => $recipientID];
-            }, $names, $types, $documentID, $status,$recipientID);
-            $nameTypePairsResult[] = $pairs;
-        }
+                                        WHERE
+                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1'");
+        $notApproved = count($notApproved);
 
-        foreach ($nameTypePairsResult as $results)
-        {
-            foreach ($results as $result)
-            {
-                if ($userDepName == $result['name'])
-                {
-                    $userDocuments[] = $result['document_id'] .'-'. $result['status'] .'-'.$result['recipientID'];
-                }
-            }
-        }
-        $allDocuments1 = Document::orderBy('id', 'desc')->where('out_dept','!=',null);
-        $notApprovedDocs = count(
-            Document::
-                where('department_id', $userDepID)
-                ->where('out_dept', '=', Null)
-                ->where('is_draft', '=', 0)
-                ->get()
-        );
-        $unread = count($allDocuments1->where('department_id',Auth::user()->department_id)->where('is_new',1)->where('department_id','!=',Auth::user()->department_id)->get());
+        $received = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at as created_at,
+                                            document_types.code as docCode,
+                                            documents.id as docuID
+                                        FROM
+                                            documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                        WHERE
+                                            documents.department_id != '$userDepID'");
+        $received = count($received);
 
-        $sent = count(Document::where('department_id',$userDepID)->get());
-        $received = count(Document::where('department_id','!=',$userDepID)->get());
+        $sent = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at ,
+                                            document_types.code as docCode,
+                                            documents.id as docuID
+                                        FROM
+                                            documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                        WHERE
+                                            documents.department_id = '$userDepID' AND documents.out_dept != ''");
+        $sent = count($sent);
 
-        $allDocuments = Document::orderBy('id', 'desc')->where('out_dept','!=',null)->get();
-        return view('home', compact('userDocuments', 'allDocuments','notApprovedDocs','unread','sent','received'));
+        $filtered[] = Document::where('department_id','=',$userDepID)->where('is_draft',1)->get();
+        $draft = count($filtered);
+
+        return view('home', compact( 'unreadDocs','unread','notApproved','received','sent','draft'));
     }
 
     public function docShow(Request $request,$id)
@@ -78,10 +104,117 @@ class  HomeController extends Controller
         return view('docShow', compact('document', 'departmentUsers'));
     }
 
-    public function widgetFilters(Request $request)
-    {
-        dd($request->all());
+    public function widgetFilter(Request $request){
+        abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $userDepName = Auth::user()->department?->name;
+        $userDepID = Auth::user()->department_id;
+        $notApproved = $notApproved = $unread = $sent = $received = $draft = 0;
+
         $filtered = [];
-        return view('home', compact('filtered'));
+        if($request['filterData']){
+            $filterData = $request['filterData'];
+            switch ($filterData){
+                case('unread'):
+                    $filtered[] = 'unread';
+                    $unread = 0;
+                    break;
+
+                case('notApproved'):
+                    $filtered[] = DB::select("
+                                    SELECT
+                                            *,
+                                                files.code as fileCode,
+                                                departments.name as depName,
+                                                documents.document_unique_identifier as uniqueID,
+                                                documents.created_at as created_at,
+                                                document_types.code as docCode,
+                                                documents.id as docuID
+                                        FROM
+                                            documents
+                                                INNER JOIN files on documents.file_id = files.id
+                                                INNER JOIN departments on documents.department_id = departments.id
+                                                INNER JOIN document_types on documents.document_type_id= document_types.id
+
+                                        WHERE
+                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' ");
+                    $notApproved = count($filtered);
+                    break;
+
+                case('received'):
+                    $filtered[] = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at as created_at,
+                                            document_types.code as docCode,
+                                            documents.id as docuID
+                                        FROM
+                                            documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                        WHERE
+                                            documents.department_id != '$userDepID'");
+                    $received = count($filtered);
+                    break;
+
+                case('sent'):
+                    $filtered[] = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at ,
+                                            document_types.code as docCode,
+                                            documents.id as docuID
+                                        FROM
+                                            documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                        WHERE
+                                            documents.department_id = '$userDepID' AND documents.out_dept != ''");
+                    $sent = count($filtered);
+
+                    break;
+
+                case('draft'):
+                    $filtered[] = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at ,
+                                            document_types.code as docCode,
+                                            documents.id as docuID,
+                                            documents.is_draft
+                                        FROM
+                                            documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                        WHERE
+                                            documents.department_id = '$userDepID' AND documents.is_draft = '1'");
+                    $draft = count($filtered);
+                    break;
+                default:
+            }
+        }
+
+        return response()->json(
+            [
+                'unread' => $unread,
+                'notApproved' => $notApproved,
+                'received' => $received,
+                'sent' => $sent,
+                'draft' => $draft,
+                'filtered' => $filtered,
+            ]
+        );
     }
 }

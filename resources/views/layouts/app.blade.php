@@ -1,4 +1,7 @@
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
+@php
+    $isDarkLayout = '';
+@endphp
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ $isDarkLayout ? 'dark-layout' : 'semi-dark-layout' }}" lang="en" data-layout="{{ $isDarkLayout ? 'dark-layout' : 'semi-dark-layout' }}" data-textdirection="ltr">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -106,18 +109,30 @@
             left: 200px;
             z-index: -1;
             font-size:30px;
-            color: black;
             transform:rotate(-30deg);
-            opacity: 0.3
+            opacity: 0.5
         }
+
         .content-body{
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
         .custom-col {
             margin-left: 5px;
             padding: 0 10px; /* Adjust the padding as needed */
             border-radius: 10px;
+        }
+
+        .changeTextColor-black{
+            color: darkslategrey;
+        }
+
+        .changeTextColor-white:hover{
+            color: white;
+        }
+
+        .stylish-widget{
+            border-top-left-radius: 40px;
         }
 
     </style>

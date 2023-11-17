@@ -25,16 +25,17 @@
         <div class="card" style="padding-left: 100px; padding-right: 100px">
             <div class="card-header">
                 <h3 class="mb-0 card-title"><i class="fa fa-user"></i> <b> {{\App\Models\Document::documentTitle($document->id)}} </b></h3>
-                @can('user_update')
                     <div class="d-flex justify-content-between">
                         <form action="{{ route('printDocument') }}" method="post">
                             @csrf
                             <input type="hidden" name="documentID" value="{{ $document->id }}">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print Document</button>
+                            <button type="submit" class="btn btn-info"><i class="fa fa-print"></i>&ensp;Print Document</button>
+                            <a href="{{route('home')}}" class="btn btn-primary ml-auto">
+                                <i class="fa fa-retweet"></i>&ensp;Back
+                            </a>
                         </form>
                         {{--                    <a href="{{ route('users.edit', $document->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;Edit Document</a>--}}
                     </div>
-                @endcan
             </div>
             <div class="card-body" >
                 <div class="col-md-12">
@@ -67,7 +68,7 @@
 {{--                        </div>--}}
 {{--                    </dl>--}}
                     <dl class="row">
-                        <div class="col-md-12 text-center mt-2">
+                        <div class="col-6 text-left mt-2">
                             <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
                         </div>
                     </dl>

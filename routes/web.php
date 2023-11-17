@@ -32,6 +32,7 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
 //Dashboard
 Route::get('/',[HomeController::class, 'index'])->name('home');
+Route::post('/',[HomeController::class,'widgetFilter'])->name('home.widgetFilter');
 //Users
 Route::resource('/users', UserController::class);
 //Roles
