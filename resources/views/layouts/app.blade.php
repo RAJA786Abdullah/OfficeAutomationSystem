@@ -85,7 +85,7 @@
             background: #7367f0;
         }
         .loginBackground{
-            background-image: url('/app-assets/images/pages/back2.jpg');
+            background-image: url('/app-assets/images/pages/back3.jpg');
             /* Control the height of the image */
             min-height: 380px;
             /* Center and scale the image nicely */
@@ -156,7 +156,7 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
-        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2023 Defence Housing Authority<span class="d-none d-sm-inline-block">, All rights Reserved Version 1.0</span></span>
+        <span class="float-md-start d-block d-md-inline-block mt-25 @yield('classFooter')">COPYRIGHT &copy; 2023 Defence Housing Authority<span class="d-none d-sm-inline-block">, All rights Reserved Version 1.1</span></span>
     </p>
 </footer>
 <!-- END: Footer-->

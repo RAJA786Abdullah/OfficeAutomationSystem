@@ -51,7 +51,7 @@
                             <img src="/app-assets/images/logo/logoWhite.jpg" width="40px" height="40px" alt="logo">
                         </span>
                         <h2 class="brand-text">O A S</h2>
-                        <p>v1.0</p>
+                        <p>v1.1</p>
                     </a></li>
                 <li class="nav-item nav-toggle">
                     <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a>
@@ -168,7 +168,7 @@
                             {{--                            <a class="d-flex align-items-center @if( request()->route()->action['as'] == 'setting') active @endif" href="{{route('setting.edit',Auth::id())}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Setting">Settings</span></a>--}}
                             {{--                        </li>--}}
                         </ul>
-                        <p class="position-fixed bottom-0 ms-3">Version 1.0</p>
+                        <p class="position-fixed bottom-0 ms-3">Version 1.1</p>
                     </li>
                 @endcan
             </ul>
