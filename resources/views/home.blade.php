@@ -72,6 +72,7 @@
                                         $doc = \App\Models\Document::dashboardDocumentTitle($unreadDoc->id);
                                         $count++;
                                     @endphp
+                                    <tr>
 
                                     <td><span class="">{{ $count }}</span></td>
                                     <td>
@@ -95,6 +96,7 @@
                                             </form>
                                         </div>
                                     </td>
+                                    </tr>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -145,6 +147,7 @@
                                 $('#allDataBody tr').hide();
                                 data.filtered.forEach(function (value) {
                                     value.forEach(function (v){
+                                        console.log(v);
                                         var createdDate = new Date(v.created_at);
                                         var formattedDate = createdDate.toLocaleDateString('en-US', {
                                             day: 'numeric',
