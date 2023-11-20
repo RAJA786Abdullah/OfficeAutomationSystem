@@ -18,11 +18,10 @@ class AjaxController extends Controller
     }
 
     public function updateRecipientStatus($data){
+
+
         $recipientID = $data['recipientID'];
-        $status = $data['status'];
-        if ($status == 1){
-            Recipient::where('id', $recipientID)->update(['status' => 0]);
-        }
+        Recipient::where('id', $recipientID)->update(['status' => 0]);
         return response()->json($data);
     }
 

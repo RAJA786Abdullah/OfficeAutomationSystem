@@ -52,21 +52,23 @@ class  HomeController extends Controller
         $notApproved = count($notApproved);
 
         $received = DB::select("
-                                    SELECT
-                                            *,
-                                            files.code as fileCode,
-                                            departments.name as depName,
-                                            documents.document_unique_identifier as uniqueID,
-                                            documents.created_at as created_at,
-                                            document_types.code as docCode,
-                                            documents.id as docuID
-                                        FROM
-                                            documents
-                                            INNER JOIN files on documents.file_id = files.id
-                                            INNER JOIN departments on documents.department_id = departments.id
-                                            INNER JOIN document_types on documents.document_type_id= document_types.id
-                                        WHERE
-                                            documents.department_id != '$userDepID'");
+                                     SELECT
+                                        *,
+                                        files.CODE AS fileCode,
+                                        departments.NAME AS depName,
+                                        documents.document_unique_identifier AS uniqueID,
+                                        document_types.CODE AS docCode,
+                                        documents.id AS docuID
+                                    FROM
+                                        recipients
+                                        INNER JOIN documents ON recipients.document_id = documents.id
+                                        INNER JOIN files ON documents.file_id = files.id
+                                        INNER JOIN departments ON documents.department_id = departments.id
+                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    WHERE
+                                        recipients.NAME = '$userDepName'
+                                        AND recipients.STATUS IS NULL
+                                        AND recipients.deleted_at IS NULL; ");
         $received = count($received);
 
         $sent = DB::select("
@@ -110,15 +112,54 @@ class  HomeController extends Controller
 
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
-        $notApproved = $notApproved = $unread = $sent = $received = $draft = 0;
+        $notApproved = $unread = $read = $received = $draft = 0;
 
         $filtered = [];
         if($request['filterData']){
             $filterData = $request['filterData'];
             switch ($filterData){
                 case('unread'):
-                    $filtered[] = 'unread';
-                    $unread = 0;
+                    $filtered[] = DB::select("
+                                    SELECT
+                                        *,
+                                        files.CODE AS fileCode,
+                                        departments.NAME AS depName,
+                                        documents.document_unique_identifier AS uniqueID,
+                                        document_types.CODE AS docCode,
+                                        documents.id AS docuID
+                                    FROM
+                                        recipients
+                                        INNER JOIN documents ON recipients.document_id = documents.id
+                                        INNER JOIN files ON documents.file_id = files.id
+                                        INNER JOIN departments ON documents.department_id = departments.id
+                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    WHERE
+                                        recipients.name = '$userDepName'
+                                        AND recipients.status IS NULL;
+                                    ");
+                    $unread = count($filtered);
+                    break;
+
+                case('read'):
+                    $filtered[] = DB::select("
+                                    SELECT
+                                        *,
+                                        files.CODE AS fileCode,
+                                        departments.NAME AS depName,
+                                        documents.document_unique_identifier AS uniqueID,
+                                        document_types.CODE AS docCode,
+                                        documents.id AS docuID
+                                    FROM
+                                        recipients
+                                        INNER JOIN documents ON recipients.document_id = documents.id
+                                        INNER JOIN files ON documents.file_id = files.id
+                                        INNER JOIN departments ON documents.department_id = departments.id
+                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    WHERE
+                                        recipients.name = '$userDepName'
+                                        AND recipients.status IS NOT NULL;
+                                    ");
+                    $read = count($filtered);
                     break;
 
                 case('notApproved'):
@@ -136,7 +177,6 @@ class  HomeController extends Controller
                                                 INNER JOIN files on documents.file_id = files.id
                                                 INNER JOIN departments on documents.department_id = departments.id
                                                 INNER JOIN document_types on documents.document_type_id= document_types.id
-
                                         WHERE
                                             documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' ");
                     $notApproved = count($filtered);
@@ -144,21 +184,23 @@ class  HomeController extends Controller
 
                 case('received'):
                     $filtered[] = DB::select("
-                                    SELECT
-                                            *,
-                                            files.code as fileCode,
-                                            departments.name as depName,
-                                            documents.document_unique_identifier as uniqueID,
-                                            documents.created_at as created_at,
-                                            document_types.code as docCode,
-                                            documents.id as docuID
-                                        FROM
-                                            documents
-                                            INNER JOIN files on documents.file_id = files.id
-                                            INNER JOIN departments on documents.department_id = departments.id
-                                            INNER JOIN document_types on documents.document_type_id= document_types.id
-                                        WHERE
-                                            documents.department_id != '$userDepID'");
+                                   SELECT
+                                        *,
+                                        files.CODE AS fileCode,
+                                        departments.NAME AS depName,
+                                        documents.document_unique_identifier AS uniqueID,
+                                        document_types.CODE AS docCode,
+                                        documents.id AS docuID
+                                    FROM
+                                        recipients
+                                        INNER JOIN documents ON recipients.document_id = documents.id
+                                        INNER JOIN files ON documents.file_id = files.id
+                                        INNER JOIN departments ON documents.department_id = departments.id
+                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    WHERE
+                                        recipients.name = '$userDepName'
+                                        AND recipients.status IS NULL;
+                                    ");
                     $received = count($filtered);
                     break;
 
@@ -204,14 +246,12 @@ class  HomeController extends Controller
             }
         }
 
-        $filtered;
-
         return response()->json(
             [
                 'unread' => $unread,
                 'notApproved' => $notApproved,
                 'received' => $received,
-                'sent' => $sent,
+                'read' => $read,
                 'draft' => $draft,
                 'filtered' => $filtered,
             ]

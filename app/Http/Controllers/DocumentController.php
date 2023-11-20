@@ -113,7 +113,6 @@ class DocumentController extends Controller
                             'type' => 'info',
                             'document_id' => $document->id,
                             'userID' => $userID,
-                            'status' => 1
                         ]);
                    }
                 }
@@ -128,7 +127,6 @@ class DocumentController extends Controller
                                 'type' => 'to',
                                 'document_id' => $document->id,
                                 'userID' => $userID,
-                                'status' => 1
                             ]);
                         }
                     }else {
@@ -137,7 +135,6 @@ class DocumentController extends Controller
                             'type' => 'to',
                             'document_id' => $document->id,
                             'userID' => $userID,
-                            'status' => 1
                         ]);
                     }
                 }

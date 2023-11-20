@@ -5,11 +5,11 @@
     <!-- Page layout -->
     <div class="container-fluid">
         <div class="row justify-content-center mb-2">
-            <div class="col-md-3 col-sm-6 mb-2">
-                <div class="bg-gradient-info custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='unread')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread:  <span class="badge badge-pill bg-secondary">{{$unread}}</span></div>
-                </div>
-            </div>
+{{--            <div class="col-md-3 col-sm-6 mb-2">--}}
+{{--                <div class="bg-gradient-info custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='unread')">--}}
+{{--                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread:  <span class="badge badge-pill bg-secondary">{{$unread}}</span></div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Director')
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-danger custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='notApproved')">
@@ -42,13 +42,19 @@
     <div class="col-md-12">
         <div class="card text-center mb-3">
             <div class="card-header pt-1">
-                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                <ul class="nav nav-tabs card-header-tabs d-none" role="tablist" id="receivedBtn">
                     <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tab-new" aria-controls="navs-tab-new" aria-selected="true">
-                            Inbox
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tab-new" aria-controls="navs-tab-new" aria-selected="true" onclick="widgetFilter(filterData='unread')">
+                            Unread
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tab-new" aria-controls="navs-tab-new" aria-selected="true" onclick="widgetFilter(filterData='read')">
+                            Read
                         </button>
                     </li>
                 </ul>
+
             </div>
             <div class="card-body">
                 <div class="tab-content p-0">
@@ -113,24 +119,26 @@
     <script>
 
         function updateStatus(recipientID,status) {
-            if (status === 1){
-                $.ajax({
-                url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
-                method: 'post',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    recipientID: recipientID,
-                    status: status,
-                },
-                success: function(data) {
-                },
-                });
-            }
+            $.ajax({
+            url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
+            method: 'post',
+            data: {
+                _token: "{{ csrf_token() }}",
+                recipientID: recipientID,
+                status: status,
+            },
+            success: function(data) {
+            },
+            });
         }
 
         function widgetFilter(filterData){
+            if (filterData === 'received' || filterData === 'unread' || filterData === 'read' ) {
+                $('#receivedBtn').removeClass('d-none');
+            } else {
+                $('#receivedBtn').addClass('d-none');
+            }
             var strHTML = '';
-
                 $.ajax({
                     url: "{{ route('home.widgetFilter') }}",
                     method: 'post',
@@ -139,6 +147,7 @@
                         filterData: filterData,
                     },
                     success: function (data) {
+
                         if (data.filtered[0] === 'unread'){
                             location.reload();
                         }
@@ -156,8 +165,7 @@
                                         });
 
                                         strHTML += '<tr>' +
-                                            '<td>' +
-                                            '</td>' +
+                                            '<td>'+ v.docuID +'</td>' +
                                             '<td>' +
 
                                             '<span style="padding-left: 10px" >' +
