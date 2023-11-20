@@ -84,7 +84,8 @@
                                     <td>
                                         <span style="padding-left: 10px" >
                                             <b>
-                                                <a href="{{ route('docShow', $unreadDoc->id) }}" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">
+{{--                                                <a href="{{ route('docShow', $unreadDoc->id) }}" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">--}}
+                                                <a href="" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">
                                                     {{ $doc['subject']   }} - {{ $doc['docTitle'] }}
                                                 </a>
                                             </b>
@@ -119,6 +120,7 @@
     <script>
 
         function updateStatus(recipientID,status) {
+
             $.ajax({
             url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
             method: 'post',
@@ -156,7 +158,7 @@
                                 $('#allDataBody tr').hide();
                                 data.filtered.forEach(function (value) {
                                     value.forEach(function (v){
-                                        console.log(v);
+
                                         var createdDate = new Date(v.created_at);
                                         var formattedDate = createdDate.toLocaleDateString('en-US', {
                                             day: 'numeric',
@@ -170,7 +172,7 @@
 
                                             '<span style="padding-left: 10px" >' +
                                             '<b>' +
-                                            '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none">' +
+                                            '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>' +
                                             '</b>' +

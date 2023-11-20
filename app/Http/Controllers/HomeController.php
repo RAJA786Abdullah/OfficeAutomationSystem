@@ -121,7 +121,7 @@ class  HomeController extends Controller
             switch ($filterData){
                 case('unread'):
                     $filtered[] = DB::select("
-                                    SELECT
+                                     SELECT
                                         *,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
@@ -135,9 +135,9 @@ class  HomeController extends Controller
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
                                     WHERE
-                                        recipients.name = '$userDepName'
-                                        AND recipients.status IS NULL AND documents.deleted_at IS NULL
-                                    ");
+                                        recipients.NAME = '$userDepName'
+                                        AND recipients.STATUS IS NULL
+                                        AND recipients.deleted_at IS NULL");
                     $unread = count($filtered);
                     break;
 
@@ -186,13 +186,14 @@ class  HomeController extends Controller
 
                 case('received'):
                     $filtered[] = DB::select("
-                                   SELECT
+                                    SELECT
                                         *,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+                                        recipients.id AS recpID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
@@ -200,9 +201,9 @@ class  HomeController extends Controller
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
                                     WHERE
-                                        recipients.name = '$userDepName'
-                                        AND recipients.status IS NULL AND documents.deleted_at IS NULL
-                                    ");
+                                        recipients.NAME = '$userDepName'
+                                        AND recipients.STATUS IS NULL
+                                        AND recipients.deleted_at IS NULL");
                     $received = count($filtered);
                     break;
 
