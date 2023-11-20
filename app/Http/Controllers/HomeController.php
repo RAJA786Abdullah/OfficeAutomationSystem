@@ -28,7 +28,7 @@ class  HomeController extends Controller
                         recipients
                         INNER JOIN documents ON recipients.document_id = documents.id
                     WHERE
-                        recipients.status = 1  AND recipients.name = '$userDepName' AND documents.out_dept != ''
+                        recipients.status = 1  AND recipients.name = '$userDepName' AND documents.out_dept != '' AND documents.deleted_at IS NULL
         ");
         $unread = count($unreadDocs);
 
@@ -46,9 +46,9 @@ class  HomeController extends Controller
                                                 INNER JOIN files on documents.file_id = files.id
                                                 INNER JOIN departments on documents.department_id = departments.id
                                                 INNER JOIN document_types on documents.document_type_id= document_types.id
-
                                         WHERE
-                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1'");
+                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
+                                        ");
         $notApproved = count($notApproved);
 
         $received = DB::select("
@@ -86,7 +86,8 @@ class  HomeController extends Controller
                                             INNER JOIN departments on documents.department_id = departments.id
                                             INNER JOIN document_types on documents.document_type_id= document_types.id
                                         WHERE
-                                            documents.department_id = '$userDepID' AND documents.out_dept != ''");
+                                            documents.department_id = '$userDepID' AND documents.out_dept != '' AND documents.deleted_at IS NULL
+                                        ");
         $sent = count($sent);
 
         $draft = Document::where('department_id','=',$userDepID)->where('is_draft',1)->get();
@@ -135,7 +136,7 @@ class  HomeController extends Controller
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
                                     WHERE
                                         recipients.name = '$userDepName'
-                                        AND recipients.status IS NULL;
+                                        AND recipients.status IS NULL AND documents.deleted_at IS NULL
                                     ");
                     $unread = count($filtered);
                     break;
@@ -157,7 +158,7 @@ class  HomeController extends Controller
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
                                     WHERE
                                         recipients.name = '$userDepName'
-                                        AND recipients.status IS NOT NULL;
+                                        AND recipients.status IS NOT NULL AND documents.deleted_at IS NULL
                                     ");
                     $read = count($filtered);
                     break;
@@ -178,7 +179,8 @@ class  HomeController extends Controller
                                                 INNER JOIN departments on documents.department_id = departments.id
                                                 INNER JOIN document_types on documents.document_type_id= document_types.id
                                         WHERE
-                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' ");
+                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
+                                        ");
                     $notApproved = count($filtered);
                     break;
 
@@ -199,7 +201,7 @@ class  HomeController extends Controller
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
                                     WHERE
                                         recipients.name = '$userDepName'
-                                        AND recipients.status IS NULL;
+                                        AND recipients.status IS NULL AND documents.deleted_at IS NULL
                                     ");
                     $received = count($filtered);
                     break;
@@ -220,7 +222,8 @@ class  HomeController extends Controller
                                             INNER JOIN departments on documents.department_id = departments.id
                                             INNER JOIN document_types on documents.document_type_id= document_types.id
                                         WHERE
-                                            documents.department_id = '$userDepID' AND documents.out_dept != ''");
+                                            documents.department_id = '$userDepID' AND documents.out_dept != '' AND documents.deleted_at IS NULL
+                                        ");
                     $sent = count($filtered);
 
                     break;

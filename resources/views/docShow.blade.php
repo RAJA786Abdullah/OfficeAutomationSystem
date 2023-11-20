@@ -73,6 +73,7 @@
                         </div>
                     </dl>
                     <dl class="row mt-3">
+                        @php $is_info=0; @endphp
                         <div class="col-md-12">
                             @php $is_info=0; @endphp
                             <h5 class="d-inline-block">To:</h5>
@@ -80,7 +81,7 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">All Dte</h5><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             @else
                                 @foreach($document->recipients as $index=>$recipient)
-                                    @if($recipient->type == 'info')
+                                    @if($recipient->type == 'info' || $recipient->name != '' && $recipient->name != null)
                                         @php $is_info=1; @endphp
                                     @endif
                                     @if($recipient->type == 'to')
