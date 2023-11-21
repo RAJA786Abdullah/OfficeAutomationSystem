@@ -50,12 +50,14 @@ Route::resource('/files',FilesController::class);
 Route::resource('/classifications',ClassificationController::class);
 Route::resource('/document_types',DocumentTypeController::class);
 Route::resource('/documents',DocumentController::class);
-Route::resource('/remarks',RemarksController::class);
+//    Route::delete('/documentss/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
+    Route::get('/docDelete/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
+    Route::resource('/remarks',RemarksController::class);
 
 Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
-Route::get('/sendDocToSup/{id}', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
-Route::get('/approveDoc/{id}', [DocumentController::class, 'approveDoc'])->name('approveDoc');
+Route::get('/sendDocToSup/', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
+Route::get('/approveDoc/', [DocumentController::class, 'approveDoc'])->name('approveDoc');
 
 Route::get('audits', [\App\Http\Controllers\AuditController::class,'index'])->name('audit.index');
 

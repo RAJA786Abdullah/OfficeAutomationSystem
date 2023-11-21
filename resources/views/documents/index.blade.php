@@ -110,31 +110,19 @@
                                             </a>
                                         @endif
                                         @if ($canDelete)
-                                            <form action="{{ route($crud . '.destroy', $row) }}" method="POST" class="deleteForm" style="display: inline-block; padding: 4px">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="button" class="btn btn-sm btn-danger" onclick="sweetAlertCall(this)" data-toggle="tooltip" title="Delete" style="color: white; padding: 4px">
-                                                    <i data-feather="trash"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-sm btn-danger delete-doc-btn" data-doc-id="{{ $document->id }}" data-toggle="tooltip" title="Delete" style="color: white; padding: 4px">
+                                                <i data-feather="trash"></i>
+                                            </button>
                                         @endif
                                         @if ($canSend)
-                                            <form action="{{ route('sendDocToSup', $document->id) }}" method="GET" style="display: inline-block" class="sendDoc">
-                                                @csrf
-                                                <input type="hidden" name="docID" value="{{ $document->id }}">
-                                                <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">
-                                                    <i data-feather="send"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-sm btn-success send-doc-btn" data-doc-id="{{ $document->id }}" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">
+                                                <i data-feather="send"></i>
+                                            </button>
                                         @endif
                                         @if ($canApprove)
-                                            <form action="{{ route('approveDoc', $document->id) }}" method="GET" style="display: inline-block" class="approveDoc">
-                                                @csrf
-                                                <input type="hidden" name="docID" value="{{ $document->id }}">
-                                                <button type="button" class="btn btn-sm btn-success" onclick="approveDocAlert()" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">
-                                                    <i data-feather="check"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-sm btn-success approve-doc-btn" data-doc-id="{{ $document->id }}" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">
+                                                <i data-feather="check"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -151,6 +139,58 @@
 @endsection
 @section('js')
     <script>
+        $(document).ready(function () {
+            $('.delete-doc-btn').on('click', function () {
+                var docId = $(this).data('doc-id');
+
+                $.ajax({
+                    url: '/docDelete/' + docId,
+                    method: 'get',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Error sending document:', error);
+                    }
+                });
+            });
+            $('.send-doc-btn').on('click', function () {
+                var docId = $(this).data('doc-id');
+
+                $.ajax({
+                    url: "{{ route('sendDocToSup') }}",
+                    method: 'get',
+                    _token: "{{ csrf_token() }}",
+                    data: { docID: docId },
+                    success: function (response) {
+                        location.reload()
+                    },
+                    error: function (error) {
+                        console.error('Error sending document:', error);
+                    }
+                });
+            });
+            $('.approve-doc-btn').on('click', function () {
+                var docId = $(this).data('doc-id');
+
+                $.ajax({
+                    url: "{{ route('approveDoc') }}",
+                    method: 'get',
+                    _token: "{{ csrf_token() }}",
+                    data: { docID: docId },
+                    success: function (response) {
+                        location.reload()
+                    },
+                    error: function (error) {
+                        // Handle error, e.g., show an error message
+                        console.error('Error approving document:', error);
+                    }
+                });
+            });
+        });
         function sweetAlertCall(trElem) {
             var tr = $(trElem).closest('tr');
             swal({

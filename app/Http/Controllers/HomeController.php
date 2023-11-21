@@ -230,20 +230,22 @@ class  HomeController extends Controller
                     break;
 
                 case('draft'):
-                    $filtered = Document::select('documents.*',
-                                                'files.code as fileCode',
-                                                'departments.name as depName',
-                                                'documents.document_unique_identifier as uniqueID',
-                                                'documents.created_at',
-                                                'document_types.code as docCode',
-                                                'documents.id as docuID',
-                                                'documents.is_draft'
-                                                )->join('files', 'documents.file_id', '=', 'files.id')
-                                                ->join('departments', 'documents.department_id', '=', 'departments.id')
-                                                ->join('document_types', 'documents.document_type_id', '=', 'document_types.id')
-                                                ->where('documents.department_id', $userDepID)
-                                                ->where('documents.is_draft', '1')
-                                                ->get();
+                    $filtered[] = DB::select("
+                                    SELECT
+                                            *,
+                                            files.code as fileCode,
+                                            departments.name as depName,
+                                            documents.document_unique_identifier as uniqueID,
+                                            documents.created_at as created_at,
+                                            document_types.code as docCode,
+                                            documents.id as docuID
+                                    FROM
+                                        documents
+                                            INNER JOIN files on documents.file_id = files.id
+                                            INNER JOIN departments on documents.department_id = departments.id
+                                            INNER JOIN document_types on documents.document_type_id= document_types.id
+                                    WHERE
+                                        documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft = '1' AND documents.deleted_at IS NULL");
                     $draft = count($filtered);
                     break;
                 default:

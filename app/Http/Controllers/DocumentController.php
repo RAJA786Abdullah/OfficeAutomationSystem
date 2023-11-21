@@ -299,17 +299,17 @@ class DocumentController extends Controller
         }
     }
 
-    public function destroy(Document $document, Request $request)
+    public function destroy(Document $document, Request $request, $id)
     {
         try {
-            $document->delete();
             $document->load(['attachments','recipients','remarks']);
             $document->attachments()->delete();
             $document->attachments()->delete();
             $document->recipients()->delete();
             $document->remarks()->delete();
             $document->delete();
-            return to_route('documents.index')->with('message', 'Document its attachments and recipients Deleted successfully!');
+            $request->session()->flash('message', 'Document its attachments and recipients Deleted successfully!');
+            return redirect()->back();
         }catch (\Exception $e){
             dd($e);
         }
@@ -317,7 +317,7 @@ class DocumentController extends Controller
 
     public static function sendDocToSup(Request $request)
     {
-        $document = Document::find($request->id);
+        $document = Document::find($request->docID);
         $document->update(['in_dept' => $document->signing_authority_id, 'is_draft' => 0]);
         $request->session()->flash('message', 'Document Send successfully!');
         return redirect()->back();
@@ -328,6 +328,22 @@ class DocumentController extends Controller
         $document = Document::find($request->id);
         $document->update(['out_dept' => Auth::id()]);
         $request->session()->flash('message', 'Document Approved successfully!');
+        return redirect()->back();
+    }
+
+    public static function docDelete(Request $request, $id)
+    {
+        $document = Document::find($id);
+        $document->load(['attachments','recipients','remarks']);
+        if ($document->attachments){
+            $document->attachments()->delete();
+        }
+        elseif ($document->recipients){
+            $document->recipients()->delete();
+        }elseif ($document->remarks){
+            $document->remarks()->delete();
+        }
+        $document->delete();
         return redirect()->back();
     }
 
