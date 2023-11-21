@@ -31,6 +31,7 @@ class DocumentController extends Controller
             $userDepID = Auth::user()->department_id;
             $documents = Document::where('department_id', $userDepID)
                 ->with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
         return view('documents.index', compact('documents'));
@@ -325,7 +326,7 @@ class DocumentController extends Controller
     public static function approveDoc(Request $request)
     {
 
-        $document = Document::find($request->id);
+        $document = Document::find($request->docID);
         $document->update(['out_dept' => Auth::id()]);
         $request->session()->flash('message', 'Document Approved successfully!');
         return redirect()->back();

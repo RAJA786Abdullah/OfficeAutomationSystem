@@ -106,7 +106,7 @@
         #watermark {
             position: fixed;
             bottom: 350px;
-            left: 200px;
+            left: 300px;
             z-index: -1;
             font-size:30px;
             transform:rotate(-30deg);
@@ -115,6 +115,7 @@
 
         .content-body{
             opacity: 0.8;
+            background: none;
         }
 
         .custom-col {
@@ -134,6 +135,14 @@
         .stylish-widget{
             border-top-left-radius: 40px;
         }
+
+        .card{
+            background: none;
+        }
+        tr{
+            background: none;
+        }
+
 
     </style>
     @yield('css')

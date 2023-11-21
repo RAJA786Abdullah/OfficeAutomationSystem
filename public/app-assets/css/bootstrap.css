@@ -1474,19 +1474,20 @@ progress {
     --bs-gutter-y: 4rem; } }
 
 .table {
-  --bs-table-bg: transparent;
-  --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #6e6b7b;
-  --bs-table-striped-bg: #fafafc;
+  /* --bs-table-bg: transparent; */
+  /* --bs-table-accent-bg: transparent; */
+  /* --bs-table-striped-color: #6e6b7b; */
+  /* --bs-table-striped-bg: #fafafc; */
   --bs-table-active-color: #6e6b7b;
   --bs-table-active-bg: rgba(34, 41, 47, 0.1);
-  --bs-table-hover-color: #6e6b7b;
-  --bs-table-hover-bg: #f6f6f9;
-  width: 100%;
-  margin-bottom: 1rem;
-  color: #6e6b7b;
-  vertical-align: middle;
-  border-color: #ebe9f1; }
+  /* --bs-table-hover-color: #6e6b7b; */
+  /* --bs-table-hover-bg: #f6f6f9; */
+  /* width: 100%; */
+  /* margin-bottom: 1rem; */
+  /* color: #6e6b7b; */
+  /* vertical-align: middle; */
+  border-color: #ebe9f1;
+  }
 
 .table > :not(caption) > * > * {
   padding: 0.72rem 2rem;

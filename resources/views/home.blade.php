@@ -64,7 +64,7 @@
                             $count = 0;
                         @endphp
                         <div class="table-responsive-sm">
-                            <table class="table table-sm table-striped text-nowrap w-100">
+                            <table class=" table-sm table-striped text-nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th class="wd-15p">#</th>
