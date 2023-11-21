@@ -13,6 +13,7 @@ class Document extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
+    protected $defaultOrder = ['id', 'desc'];
 
     public function classification(){
         return $this->belongsTo('App\Models\Classification','classification_id','id');

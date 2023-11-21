@@ -25,13 +25,12 @@ class DocumentController extends Controller
     {
         if (Auth::user()->roles[0]->roleName == 'Admin'){
             $documents = Document::with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
-                ->orderBy('id', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }else{
             $userDepID = Auth::user()->department_id;
             $documents = Document::where('department_id', $userDepID)
                 ->with('attachments', 'recipients', 'file', 'documentType', 'department', 'classification')
-                ->orderBy('id', 'desc')
                 ->get();
         }
         return view('documents.index', compact('documents'));
@@ -325,6 +324,7 @@ class DocumentController extends Controller
 
     public static function approveDoc(Request $request)
     {
+
         $document = Document::find($request->id);
         $document->update(['out_dept' => Auth::id()]);
         $request->session()->flash('message', 'Document Approved successfully!');

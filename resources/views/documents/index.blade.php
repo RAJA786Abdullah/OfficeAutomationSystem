@@ -47,6 +47,7 @@
                         </thead>
                         <tbody>
                         @foreach ($documents as $document)
+
                             @php
                                 $crud = 'documents';
                                 $row = $document->id;
@@ -92,7 +93,7 @@
                             @endphp
                             @if($isRow)
                                 <tr>
-                                    <td>{{date(" d-m-Y", strtotime($document->created_at))}}</td>
+                                    <td> {{ $document->id }} {{date(" d-m-Y", strtotime($document->created_at))}}</td>
                                     <td>{{ $document->file->name }} | {{ $document->file->code }}</td>
                                     <td>{{ \App\Models\Document::documentTitle($document->id) }}</td>
                                     <td>{{ $document->classification->name }}</td>
