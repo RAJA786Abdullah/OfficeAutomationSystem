@@ -47,6 +47,7 @@
                         </thead>
                         <tbody>
                         @foreach ($documents as $document)
+
                             @php
                                 $crud = 'documents';
                                 $row = $document->id;
@@ -92,7 +93,7 @@
                             @endphp
                             @if($isRow)
                                 <tr>
-                                    <td>{{date(" d-m-Y", strtotime($document->created_at))}}</td>
+                                    <td> {{ $document->id }} {{date(" d-m-Y", strtotime($document->created_at))}}</td>
                                     <td>{{ $document->file->name }} | {{ $document->file->code }}</td>
                                     <td>{{ \App\Models\Document::documentTitle($document->id) }}</td>
                                     <td>{{ $document->classification->name }}</td>
@@ -119,10 +120,10 @@
                                             </form>
                                         @endif
                                         @if ($canSend)
-                                            <form action="{{ route('sendDocToSup', $document->id) }}" method="GET" style="display: inline-block" class="sendDoc">
+                                            <form action="{{ route('sendDocToSup', $document->id) }}" method="get" style="display: inline-block" class="sendDoc">
                                                 @csrf
                                                 <input type="hidden" name="docID" value="{{ $document->id }}">
-                                                <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">
+                                                <button type="button" class="btn btn-sm btn-success" onclick="sendDocAlert()" data-toggle="tooltip" title="{{ $document->id }}Send" style="color: white; padding: 4px">
                                                     <i data-feather="send"></i>
                                                 </button>
                                             </form>
@@ -130,6 +131,7 @@
                                         @if ($canApprove)
                                             <form action="{{ route('approveDoc', $document->id) }}" method="GET" style="display: inline-block" class="approveDoc">
                                                 @csrf
+
                                                 <input type="hidden" name="docID" value="{{ $document->id }}">
                                                 <button type="button" class="btn btn-sm btn-success" onclick="approveDocAlert()" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">
                                                     <i data-feather="check"></i>

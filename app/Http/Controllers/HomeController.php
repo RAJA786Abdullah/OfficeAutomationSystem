@@ -18,6 +18,7 @@ class  HomeController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $authID = Auth::id();
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
         $unreadDocs = DB::select("
@@ -47,7 +48,7 @@ class  HomeController extends Controller
                                                 INNER JOIN departments on documents.department_id = departments.id
                                                 INNER JOIN document_types on documents.document_type_id= document_types.id
                                         WHERE
-                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
+                                           documents.in_dept = '$authID' AND documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
                                         ");
         $notApproved = count($notApproved);
 
@@ -110,7 +111,7 @@ class  HomeController extends Controller
 
     public function widgetFilter(Request $request){
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $authID = Auth::id();
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
         $notApproved = $unread = $read = $received = $draft = 0;
@@ -179,7 +180,7 @@ class  HomeController extends Controller
                                                 INNER JOIN departments on documents.department_id = departments.id
                                                 INNER JOIN document_types on documents.document_type_id= document_types.id
                                         WHERE
-                                            documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
+                                            documents.in_dept = '$authID' AND documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft != '1' AND documents.deleted_at IS NULL
                                         ");
                     $notApproved = count($filtered);
                     break;
