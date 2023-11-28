@@ -125,11 +125,12 @@
         }
 
         .changeTextColor-black{
-            color: darkslategrey;
+            color: black;
         }
 
         .changeTextColor-white:hover{
             color: white;
+            cursor: pointer;
         }
 
         .stylish-widget{
@@ -143,7 +144,15 @@
             background: none;
         }
 
+        /* Custom styles for the modal */
+        .custom-modal .modal-dialog {
+            max-width: 1200px; /* Set your custom width here */
+        }
 
+        .custom-modal .modal-content {
+            width: 100%;
+            height: 80%;
+        }
     </style>
     @yield('css')
 

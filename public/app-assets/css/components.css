@@ -7,9 +7,10 @@ html {
     */ }
 
 html body {
-  height: 100%;
-  background-color: #f8f8f8;
-  direction: ltr; }
+  /* height: 100%; */
+  /* background-color: #f8f8f8; */
+  /* direction: ltr; */
+  }
 
 html body p {
   line-height: 1.5rem; }
