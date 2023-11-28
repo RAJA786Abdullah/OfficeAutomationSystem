@@ -280,7 +280,7 @@ class  HomeController extends Controller
     public function docShowReceived(Request $request,$id)
     {
         $document = Document::where('id', $id)->first();
-        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user','comments.user');
         $userID = Auth::id();
         $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
         $departmentUsers = User::where('department_id', $userDepID)->get();

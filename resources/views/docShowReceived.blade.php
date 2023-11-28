@@ -117,16 +117,26 @@
                     </dl>
 
                     <dl>
+                        <div class="col-md-12">
+                            @foreach($document->comments as $comment)
+                                <h5 class="d-inline-block">{{ $comment->user->name }} :</h5>
+                                <h5 class="d-inline-block">{{ $comment->comment }} </h5>
+                                <br>
+                            @endforeach
+                        </div>
+                    </dl>
+
+                    <dl>
                         <form method="POST" action="{{route('docRead.store')}}">
                             <input type="hidden" name="document_id" value="{{ $document->id }}">
                             @csrf
                             <div class="row mt-2">
                                 <div class="col-11">
                                     <label for="remark" class="text-black fs-5">Add Comment</label>
-                                    <textarea class="mt-2 form-control" name="remark" id="remark" cols="60" rows="5" required>{{ old('remark') }}</textarea>
+                                    <textarea class="mt-2 form-control" name="comment" id="comment" cols="60" rows="5" required>{{ old('comment') }}</textarea>
                                 </div>
                                 <div class="col-1 d-flex align-items-center justify-content-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -136,6 +146,12 @@
         </div>
         <!--/ Page layout -->
     </div>
+    @if(session('reload'))
+        <script>
+            window.location.reload();
+        </script>
+    @endif
+
 @endsection
 @section('js')
     <script>

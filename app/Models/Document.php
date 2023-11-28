@@ -47,6 +47,10 @@ class Document extends Model implements Auditable
         return $this->hasMany('App\Models\Remark','document_id','id');
     }
 
+    public function comments(){
+        return $this->hasMany('App\Models\DocRead','document_id','id');
+    }
+
     public function user(){
         return $this->belongsTo('App\Models\User','created_by','userID');
     }

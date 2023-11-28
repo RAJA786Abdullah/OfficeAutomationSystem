@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DocRead extends Model
 {
     use HasFactory,SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
+//    use \OwenIt\Auditing\Auditable;
 
     protected $guarded = [];
 
-    public function users(){
-        return $this->hasMany('App\Models\User','department_id','userID');
+    public function user(){
+        return $this->belongsTo('App\Models\User','userID','userID');
+    }
+
+    public function document(){
+        return $this->belongsTo('App\Models\Document','document_id','id');
     }
 }
