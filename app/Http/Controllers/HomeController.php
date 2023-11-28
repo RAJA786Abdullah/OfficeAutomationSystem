@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\DocRead;
 use App\Models\Document;
 use App\Models\Recipient;
 use App\Models\User;
@@ -279,6 +280,13 @@ class  HomeController extends Controller
 
     public function docShowReceived(Request $request,$id)
     {
+//        $user = Auth::user();
+//        DocRead::create([
+//            'document_id' => $id,
+//            'userID' => $user['userID'],
+//            'department_id' => $user['department_id'],
+//        ]);
+
         $document = Document::where('id', $id)->first();
         $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user','comments.user');
         $userID = Auth::id();

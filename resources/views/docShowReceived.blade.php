@@ -116,26 +116,31 @@
                         </div>
                     </dl>
 
-                    <dl>
+                    <dl class="bg-light rounded">
                         <div class="col-md-12">
+                            <label for="remark" class="text-black fs-5">Remarks</label><br><br>
+
                             @foreach($document->comments as $comment)
-                                <h5 class="d-inline-block">{{ $comment->user->name }} :</h5>
-                                <h5 class="d-inline-block">{{ $comment->comment }} </h5>
-                                <br>
+                                <div class="comment-container bg-white rounded">
+                                    <h5 class="mb-0 underline" style="font-family: fantasy; ">{{ $comment->user->name }}:</h5>
+                                    <p class="mb-0">{{ $comment->comment }}</p>
+                                    <hr>
+                                </div>
                             @endforeach
                         </div>
                     </dl>
+
 
                     <dl>
                         <form method="POST" action="{{route('docRead.store')}}">
                             <input type="hidden" name="document_id" value="{{ $document->id }}">
                             @csrf
                             <div class="row mt-2">
-                                <div class="col-11">
+                                <div class="col-10">
                                     <label for="remark" class="text-black fs-5">Add Comment</label>
                                     <textarea class="mt-2 form-control" name="comment" id="comment" cols="60" rows="5" required>{{ old('comment') }}</textarea>
                                 </div>
-                                <div class="col-1 d-flex align-items-center justify-content-center">
+                                <div class="col-2 d-flex align-items-center justify-content-center">
                                     <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                                 </div>
                             </div>
