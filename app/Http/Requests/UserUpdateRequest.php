@@ -36,8 +36,7 @@ class UserUpdateRequest extends FormRequest
             ],
             'confirmPassword' => 'required|same:password',
             'roleID' => 'required',
-            'is_signing_authority' => 'required',
-            'oldPassword' => 'required',
+            'is_signing_authority' => 'required'
         ];
     }
 
@@ -51,8 +50,7 @@ class UserUpdateRequest extends FormRequest
             'password.min' => 'Minimum Eight Characters required',
             'confirmPassword.required' => 'Confirm Password is required',
             'roleID.required' => 'Role is required',
-            'is_signing_authority.required' => 'Signing Authority is required',
-            'oldPassword.required' => 'Old Password is required'
+            'is_signing_authority.required' => 'Signing Authority is required'
         ];
     }
 }

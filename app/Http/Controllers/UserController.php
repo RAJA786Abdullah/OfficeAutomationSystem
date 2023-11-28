@@ -81,7 +81,6 @@ class UserController extends Controller
             if (strlen(trim($request->password))){
                 $newPassword = Hash::make($request->password);
             }
-            if (Hash::check($request->oldPassword, $user->password)) {
                 $request->merge([
                     'password' => $newPassword
                 ]);
@@ -90,10 +89,6 @@ class UserController extends Controller
                 DB::commit();
                 $request->session()->flash('message', 'User updated successfully!');
                 return redirect()->route('users.index');
-            } else {
-                $request->session()->flash('errorMessage', 'Old Password does not match');
-                return redirect()->route('users.edit',$user->userID);
-            }
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);

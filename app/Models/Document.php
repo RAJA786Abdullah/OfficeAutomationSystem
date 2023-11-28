@@ -127,4 +127,9 @@ class Document extends Model implements Auditable
 //        }
 //    }
 
+    public function setArchivedByAttribute($value)
+    {
+        $this->attributes['archived_by'] = implode(',', $value);
+    }
+
 }
