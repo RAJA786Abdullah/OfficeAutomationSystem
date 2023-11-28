@@ -13,6 +13,7 @@ use App\Models\Files;
 use App\Models\Recipient;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ class DocumentController extends Controller
         return view('documents.index', compact('documents'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $userID = Auth::id();
         $depID =  Auth::user()->department_id;
@@ -54,6 +55,30 @@ class DocumentController extends Controller
             $q->where('roleName', 'Executive');
         })->get();
         return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents','executiveOffices'));
+    }
+
+    public function preview(Request $request)
+    {
+        $document = $request->all();
+        $previewData = array();
+        $previewData['classification'] = strtoupper(Classification::where('id',$document['classification_id'])->pluck('name')->first());
+        $departmentNumber =  DocumentType::where('id',$document['document_type_id'])->pluck('code')->first();
+        $previewData['document_type'] =  strtoupper(DocumentType::where('id',$document['document_type_id'])->pluck('name')->first());
+        $previewData['file'] = Files::where('id',$document['file_id'])->pluck('name')->first();
+        $fileNumber = Files::where('id',$document['file_id'])->pluck('code')->first();
+        $previewData['department_name'] = strtoupper($document['department_name']);
+        $previewData['subject'] = $document['subject'];
+        $previewData['editor_content'] = $document['editor_content'];
+        $previewData['signing_authority'] = User::where('userID',$document['signing_authority_id'])->where('is_signing_authority',1)->pluck('name')->first();
+        $previewData['to'] = $document['to'];
+        $previewData['info'] = $document['info'];
+        $departmentName = $previewData['department_name'];
+        $previewData['officeCopy'] = Auth::user()->department?->name;
+//        $ionNumber = $query->document_unique_identifier;
+        $ionNumber = 1;
+        $createdAt = date('d M Y', strtotime(Carbon::now()));
+        $previewData['documentTitle'] = "$departmentNumber/$fileNumber/$ionNumber/$departmentName dated $createdAt";
+        return response()->json($previewData);
     }
 
     public function store(StoreDocumentRequest $request)

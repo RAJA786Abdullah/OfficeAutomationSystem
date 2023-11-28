@@ -21,6 +21,7 @@
     </div>
 </div>
 <div class="content-body">
+
     <!-- Page layout -->
     <div class="card">
         @include('partials.message')
@@ -28,13 +29,12 @@
             <h4 class="card-title">Add Document</h4>
         </div>
         <form method="POST" action="{{route('documents.store')}}" enctype="multipart/form-data" id="docStore">
-{{--        <form method="POST" action="#" enctype="multipart/form-data" id="docStore">--}}
             <div class="card-body">
                 @csrf
                 <div class="row g-2 align-items-center">
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('Classification') }}</label>
-                        <select name="classification_id" class="form-select">
+                        <select name="classification_id" id="classification_id" class="form-select">
                             <option disabled>Select Classification</option>
                             @foreach ($classifications as $classification)
                                 <option value="{{ $classification->id }}" {{ old('classification_id') == $classification->id ? 'selected' : '' }}>{{ $classification?->name }}</option>
@@ -48,7 +48,7 @@
                     @endif
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('Document Type') }}</label>
-                        <select name="document_type_id" class="form-select">
+                        <select name="document_type_id" id="document_type_id" class="form-select">
                             <option disabled>Select Document Type</option>
                             @foreach ($documentTypes as $documentType)
                                 @if($documentType?->department_id == \Illuminate\Support\Facades\Auth::user()->department_id)
@@ -56,6 +56,7 @@
                                 @endif
                             @endforeach
                         </select>
+                        <input type="hidden" name="department_name" value="{{ $documentType?->department->name }}">
                     </div>
                     @if($errors->has('document_type_id'))
                         <div class="text-danger">
@@ -65,7 +66,7 @@
 
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <label class="form-label required">{{ __('File') }}</label>
-                        <select name="file_id" class="form-select">
+                        <select name="file_id" id="file_id" class="form-select">
                             <option disabled>Select File</option>
                             @foreach ($files as $file)
                                 <option value="{{ $file->id }}" {{ old('file_id') == $file->id ? 'selected' : '' }}>{{ $file?->name }}</option>
@@ -81,7 +82,7 @@
 
                 <div class="col-12 mt-1">
                     <label class="form-label required">{{ __('Subject') }}</label>
-                    <input type="text" name="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
+                    <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" value="{{ old('subject') }}">
                 </div>
                 @if($errors->has('subject'))
                     <div class="text-danger">
@@ -94,9 +95,6 @@
                     <input type="hidden" name="editor_content" id="editor_content">
                     <div id="toolbar-container"></div>
                     <div id="editor" style="height: 20em; border-color: #9D9999"></div>
-{{--                    <input type="hidden" name="editor_content" id="editor_content">--}}
-{{--                    <div id="toolbar-container"></div>--}}
-{{--                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>--}}
                 </div>
                 @if($errors->has('body'))
                     <div class="text-danger">
@@ -330,11 +328,30 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#preview" onclick="previewDoc()"> Preview </button>
                 <a href="{{route('documents.index')}}" type="button" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>
     <!--/ Page layout -->
+</div>
+
+<div class="modal fade custom-modal" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5" id="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body container">
+            </div>
+
+{{--            <button type="button" class="btn btn-primary" id="previewSubmit">{{ __('Submit') }}</button>--}}
+            <div class="bottom-line"></div>
+            <div class="modal-footer d-flex justify-content-center text-center">
+               APPROVED BY: {{-- {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('arm_designation')->first() }} {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('name')->first() }}--}}
+                <br>
+                NOTE: Computer-generated ION does not require a signature.
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @section('js')
@@ -342,10 +359,18 @@
 
             $(document).ready(function() {
                 $('form').submit(function(event) {
+                    $('table').css('border', '1px solid black');
                     var editorContent = window.editor.getData();
                     $('#editor_content').val(editorContent);
                     $('#docStore').submit()
                 });
+
+                // $('#previewSubmit').click(function (){
+                //     $('table').css('border', '1px solid black');
+                //     var editorContent = window.editor.getData();
+                //     $('#editor_content').val(editorContent);
+                //     $('#docStore').submit();
+                // });
             });
 
             $(document).ready(function() {
@@ -386,36 +411,6 @@
                 }
             });
         });
-        // function clickTo() {
-        //     var appendedValue = '';
-        //     var departmentUser = $('input[name="departmentUser"]:checked').val();
-        //     var selectName = departmentUser === "department" ? "department" : "user";
-        //     var newValue = $("select[name='" + selectName + "']").val();
-        //     var infoCurrentValue = $("#info").val();
-        //     var toCurrentValue = $("#to").val();
-        //     console.log(toCurrentValue);
-        //
-        //     if (infoCurrentValue.indexOf(newValue) !== -1) {
-        //         return swal({
-        //             title: newValue + " Already exists in Info",
-        //             icon: "warning",
-        //         });
-        //     }
-        //     if (toCurrentValue.indexOf(newValue) !== -1) {
-        //         return swal({
-        //             title: newValue + " Already exists",
-        //             icon: "warning",
-        //         });
-        //     } else {
-        //         if (!toCurrentValue || toCurrentValue.trim() === '' || toCurrentValue === "All Dte")
-        //         {
-        //             appendedValue =newValue
-        //         }else {
-        //             appendedValue =toCurrentValue+'\n'+newValue;
-        //         }
-        //         $("#to").val(appendedValue);
-        //     }
-        // }
             function clickTo() {
                 var appendedValue = '';
                 var departmentUser = $('input[name="departmentUser"]:checked').val();
@@ -499,5 +494,80 @@
             --annux_rows;
             $('#annux_rows').val(annux_rows);
         }
+
+        //Preview Code
+            function previewDoc() {
+                const formData = {};
+                // Combine similar selectors for better performance
+                $('input[name], select[name], textarea[name]').each(function () {
+                    const fieldName = $(this).attr('name');
+                    let fieldValue;
+                    if ($(this).is(':radio')) {
+                        fieldValue = $(this).is(':checked') ? $(this).val() : undefined;
+                    } else {
+                        fieldValue = $(this).val();
+                    }
+                    if (fieldName && fieldValue !== undefined) {
+                        formData[fieldName] = fieldValue;
+                    }
+                });
+                $.ajax({
+                    url: '{{route("documents.preview")}}',
+                    method: 'post',
+                    data: formData,
+                    success: function ({ classification, document_type, department_name, subject, signing_authority, to, info, documentTitle, officeCopy }) {
+                        var editor_content = window.editor.getData();
+                        $('#editor_content').val(editor_content);
+                        var infoBlock ='';
+                        if(info !== null) {
+                            infoBlock = `
+                            <div class="col-md-12">
+                                    <h5 class="d-inline-block" id="infoModal">Info: ${info}</h5>
+                            </div>
+                            `;
+                        }
+                        var modal_content = `
+                        <div class="col-md-12">
+                            <h3 class="text-center" id="classificationModal">${classification}</h3>
+                            <h3 class="text-center" id="document_typeModal">${document_type}</h3>
+                            <h3 class="text-center" id="department_nameModal">${department_name}</h3>
+                            <h3 class="mb-1 mt-1" id="subjectModal">Subj: <u><b>${subject}</b></u></h3>
+                            <dl class="row">
+                                <div class="col-md-12">
+                                    <dd class="fs-5" id="editor_contentModal">${editor_content}</dd>
+                                </div>
+                            </dl>
+                            <dl class="row">
+                                <div class="col-md-12  mt-2">
+                                    <b class="float-end">
+                                        <h4 style="text-align: right" id="signing_authorityModal">${signing_authority}</h4>
+                                    </b>
+                                </div>
+                            </dl>
+                            <dl class="row">
+                                <div class="col-md-12 text-center mt-2" id="documentTitleModal">
+                                    <b> <h4> ${documentTitle} </h4></b>
+                                </div>
+                            </dl>
+                            <dl class="row mt-3">
+                                <div class="col-md-12">
+                                    <h5 class="d-inline-block" id="toModal">To: ${to}</h5>
+                                </div>
+                                ${infoBlock}
+                                <div class="col-md-12">
+                                    <h5 class="d-inline-block" id="officeCopyModal">ID:</h5>
+                                    <h5 class="d-inline-block">Office Copy</h5><br>
+                                </div>
+                            </dl>
+                        </div>
+                        `
+                        $('.modal-body').html(modal_content);
+                        $('#preview').modal('show');
+                    },
+                    error: function (error) {
+                        console.error('Error in AJAX request', error);
+                    }
+                });
+            }
     </script>
 @endsection

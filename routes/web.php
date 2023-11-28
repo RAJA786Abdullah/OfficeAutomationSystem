@@ -50,6 +50,7 @@ Route::resource('/files',FilesController::class);
 Route::resource('/classifications',ClassificationController::class);
 Route::resource('/document_types',DocumentTypeController::class);
 Route::resource('/documents',DocumentController::class);
+Route::post('/documents/preview',[DocumentController::class,'preview'])->name('documents.preview');
 //    Route::delete('/documentss/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
     Route::get('/docDelete/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
     Route::resource('/remarks',RemarksController::class);
