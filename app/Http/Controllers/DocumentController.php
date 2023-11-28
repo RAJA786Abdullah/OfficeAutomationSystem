@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Models\Archive;
 use App\Models\Attachment;
 use App\Models\Classification;
 use App\Models\Department;
@@ -276,7 +277,6 @@ class DocumentController extends Controller
                     'userID' => $userID,
                 ]);
             }
-
             foreach ($toArray as $to){
                 if ($to == 'All Dte'){
                     $depts = Department::where('id', '!=', Auth::user()->department_id)->get();
@@ -297,7 +297,6 @@ class DocumentController extends Controller
                     ]);
                 }
             }
-
             if ($request->name) {
                 foreach ($request->name as $key => $name) {
                     $attachment = $request->file('attachment')[$key];
@@ -314,7 +313,6 @@ class DocumentController extends Controller
                     }
                 }
             }
-
             DB::commit();
             $request->session()->flash('message', 'Document Updated successfully!');
             return redirect()->route('documents.index');
@@ -350,7 +348,6 @@ class DocumentController extends Controller
 
     public static function approveDoc(Request $request)
     {
-
         $document = Document::find($request->docID);
         $document->update(['out_dept' => Auth::id()]);
         $request->session()->flash('message', 'Document Approved successfully!');
@@ -380,14 +377,12 @@ class DocumentController extends Controller
         $userID = Auth::id();
         $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
         $departmentUsers = User::where('department_id', $userDepID)->get();
-
         return view('docShowNotApprove', compact('document', 'departmentUsers'));
     }
 
     public function docEditNotApprove($id)
     {
         $document = Document::where('id',$id)->get()->first();
-
         $tos = [];
         $infos = [];
         $userID = Auth::id();
@@ -400,7 +395,6 @@ class DocumentController extends Controller
                 array_push($infos,$recipient->name);
             }
         }
-
         $user = User::where('userID', $userID)->first();
         $dept_id = $user->department_id;
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
@@ -418,13 +412,7 @@ class DocumentController extends Controller
     public function archiveDocument(Request $request)
     {
         $documentID = $request->all()['documentID'];
-        $document = Document::where('id',$documentID)->first();
-        $archivedBy = explode(',', $document->archived_by);
-        if (!in_array(Auth::id(), $archivedBy)) {
-            $archivedBy[] = Auth::id();
-        }
-        $document->update(['archived_by' => $archivedBy,'is_archived'=>1]);
-        return response()->json(['document'=> $document, 'message'=>'Document Added to Archived List.']);
+        $archives = Archive::create([ 'document_id' => $documentID, 'is_archived'=>1, 'user_id' => Auth::id() ]);
+        return response()->json(['document'=> $archives, 'message'=>'Document Added to Archived List.']);
     }
-
 }

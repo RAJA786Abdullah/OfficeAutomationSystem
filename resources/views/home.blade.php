@@ -130,6 +130,7 @@
                     success: function(response) {
                         console.log(response) // You can replace this with a more sophisticated notification mechanism
                         // You might want to update the UI to reflect the change in the archived status
+                        location.reload();
                     },
                     error: function(error) {
                         console.error('Error archiving document:', error);
