@@ -63,8 +63,8 @@
                         @php
                             $count = 0;
                         @endphp
-                        <div class="table-responsive-sm">
-                            <table class=" table-sm table-striped text-nowrap w-100">
+                        <div class="table-responsive">
+                            <table class="table-responsive table-sm table-striped text-nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th class="wd-15p">#</th>
@@ -118,6 +118,24 @@
 @endsection
 @section('js')
     <script>
+
+        function archive(documentId) {
+                $.ajax({
+                    url: `{{route('documents.archive')}}`,
+                    method: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        documentID: documentId,
+                    },
+                    success: function(response) {
+                        console.log(response) // You can replace this with a more sophisticated notification mechanism
+                        // You might want to update the UI to reflect the change in the archived status
+                    },
+                    error: function(error) {
+                        console.error('Error archiving document:', error);
+                    }
+                });
+        }
 
         function updateStatus(recipientID,status) {
 
@@ -194,14 +212,16 @@
                                                         <button type="button" class="btn btn-sm btn-danger del-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Approve">
+                                                        <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
                                                             <i class="fa fa-check"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-secondary" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
+                                                            <i class="fa fa-archive"></i>
                                                         </button>
                                                     </div>
                                                 </td>
                                                 <td></td>
                                             </tr>`;
-
                                 });
                             });
                             $('#allDataBody').append(strHTML);

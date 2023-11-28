@@ -75,7 +75,7 @@ class DocumentController extends Controller
         $departmentName = $previewData['department_name'];
         $previewData['officeCopy'] = Auth::user()->department?->name;
 //        $ionNumber = $query->document_unique_identifier;
-        $ionNumber = 1;
+        $ionNumber = '...';
         $createdAt = date('d M Y', strtotime(Carbon::now()));
         $previewData['documentTitle'] = "$departmentNumber/$fileNumber/$ionNumber/$departmentName dated $createdAt";
         return response()->json($previewData);
@@ -415,6 +415,18 @@ class DocumentController extends Controller
             $q->where('roleName', 'Executive');
         })->get();
         return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos','executiveOffices'));
+    }
+
+    public function archiveDocument(Request $request)
+    {
+        $documentID = $request->all()['documentID'];
+        $document = Document::where('id',$documentID)->first();
+        $archivedBy = explode(',', $document->archived_by);
+        if (!in_array(Auth::id(), $archivedBy)) {
+            $archivedBy[] = Auth::id();
+        }
+        $document->update(['archived_by' => $archivedBy,'is_archived'=>1]);
+        return response()->json(['document'=> $document, 'message'=>'Document Added to Archived List.']);
     }
 
 }

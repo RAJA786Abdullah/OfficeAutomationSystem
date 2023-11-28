@@ -22,17 +22,17 @@ return new class extends Migration
             $table->integer('code')->nullable();
             $table->foreignId('reference_id')->nullable()->constrained('documents','id');
             $table->string('reference')->nullable();
-
             $table->foreignId('in_dept')->nullable()->constrained('users','userID');
             $table->foreignId('out_dept')->nullable()->constrained('users','userID');
-
             $table->string('subject');
             $table->text('body');
             $table->integer('signing_authority_id');
             $table->foreignId('created_by')->constrained('users','userID');
             $table->boolean('is_draft')->default(1);
             $table->boolean('is_new')->default(1);
-            $table->boolean('is_allDte')->unique()->nullable();
+            $table->boolean('is_allDte')->nullable();
+            $table->boolean('is_archived')->default(0);
+            $table->string('archived_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
