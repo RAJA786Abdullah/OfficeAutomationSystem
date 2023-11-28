@@ -116,6 +116,7 @@ class  HomeController extends Controller
         $userDepID = Auth::user()->department_id;
         $notApproved = $unread = $read = $received = $draft = 0;
 
+
         $filtered = [];
         if($request['filterData']){
             $filterData = $request['filterData'];
@@ -274,5 +275,16 @@ class  HomeController extends Controller
         $departmentUsers = User::where('department_id', $userDepID)->get();
 
         return view('docShowNotApprove', compact('document', 'departmentUsers'));
+    }
+
+    public function docShowReceived(Request $request,$id)
+    {
+        $document = Document::where('id', $id)->first();
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        $userID = Auth::id();
+        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+        $departmentUsers = User::where('department_id', $userDepID)->get();
+
+        return view('docShowReceived', compact('document', 'departmentUsers'));
     }
 }

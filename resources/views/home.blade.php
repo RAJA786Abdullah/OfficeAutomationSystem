@@ -164,12 +164,19 @@
                                         year: 'numeric'
                                     });
                                     var link;
+
                                     if (filterData === 'notApproved') {
                                         // Customize the link structure for notApproved
                                         link = '<a href="{{ route('docShowNotApprove','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>';
-                                    } else {
+                                    }else if (filterData === 'received' || filterData === 'read' || filterData === 'unread') {
+                                        // Customize the link structure for notApproved
+                                        link = '<a href="{{ route('docShowReceived','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
+                                            v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
+                                            '</a>';
+                                    }
+                                    else {
                                         // Default link structure
                                         link = '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +

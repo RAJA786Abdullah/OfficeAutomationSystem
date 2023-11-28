@@ -64,9 +64,13 @@ Route::get('/docEditNotApprove/{id}', [DocumentController::class, 'docEditNotApp
 
 
 Route::get('/docShowNotApprove/{id}', [HomeController::class, 'docShowNotApprove'])->name('docShowNotApprove');
+Route::get('/docShowReceived/{id}', [HomeController::class, 'docShowReceived'])->name('docShowReceived');
 Route::get('/sendDocToSup/', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
 Route::get('/approveDoc/', [DocumentController::class, 'approveDoc'])->name('approveDoc');
 
+
+
 Route::get('audits', [\App\Http\Controllers\AuditController::class,'index'])->name('audit.index');
+    Route::resource('/docRead',\App\Http\Controllers\DocReadController::class);
 
 });

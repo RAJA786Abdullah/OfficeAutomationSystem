@@ -375,7 +375,6 @@ class DocumentController extends Controller
 
     public function docShowNotApprove(Request $request,$id)
     {
-        dd($id);
         $document = Document::where('id', $id)->first();
         $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
         $userID = Auth::id();
@@ -384,7 +383,6 @@ class DocumentController extends Controller
 
         return view('docShowNotApprove', compact('document', 'departmentUsers'));
     }
-
 
     public function docEditNotApprove($id)
     {
