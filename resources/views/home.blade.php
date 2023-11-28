@@ -141,65 +141,126 @@
                 $('#receivedBtn').addClass('d-none');
             }
             var strHTML = '';
-                $.ajax({
-                    url: "{{ route('home.widgetFilter') }}",
-                    method: 'post',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        filterData: filterData,
-                    },
-                    success: function (data) {
-
-                        if (data.filtered[0] === 'unread'){
-                            location.reload();
-                        }
-                        else {
-                            if (data.filtered !== '') {
-                                $('#allDataBody tr').hide();
-                                data.filtered.forEach(function (value) {
-                                    value.forEach(function (v){
-
-                                        var createdDate = new Date(v.created_at);
-                                        var formattedDate = createdDate.toLocaleDateString('en-US', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric'
-                                        });
-
-                                        strHTML += '<tr>' +
-                                            '<td>'+ v.docuID +'</td>' +
-                                            '<td>' +
-
-                                            '<span style="padding-left: 10px" >' +
-                                            '<b>' +
-                                            '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
-                                            v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
-                                            '</a>' +
-                                            '</b>' +
-                                            '</span>' +
-                                            '</td>' +
-
-                                            '<td>' +
-                                            '<div class="d-flex justify-content-between">' +
-                                            '<form action="{{ route('printDocument') }}" method="post">' +
-                                            '@csrf' +
-                                            '<input type="hidden" name="documentID" value="' + v.docuID + '">' +
-                                            '<button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>' +
-                                            '</form>' +
-                                            '</div>' +
-                                            '</td>' +
-                                            '<td>' +
-                                            '</td>' +
-                                            '</tr>';
+            $.ajax({
+                url: "{{ route('home.widgetFilter') }}",
+                method: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    filterData: filterData,
+                },
+                success: function (data) {
+                    if (data.filtered[0] === 'unread'){
+                        location.reload();
+                    }
+                    else {
+                        if (data.filtered !== '') {
+                            $('#allDataBody tr').hide();
+                            data.filtered.forEach(function (value) {
+                                value.forEach(function (v){
+                                    var createdDate = new Date(v.created_at);
+                                    var formattedDate = createdDate.toLocaleDateString('en-US', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric'
                                     });
+                                    var link;
+                                    if (filterData === 'notApproved') {
+                                        // Customize the link structure for notApproved
+                                        link = '<a href="{{ route('docShowNotApprove','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
+                                            v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
+                                            '</a>';
+                                    } else {
+                                        // Default link structure
+                                        link = '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
+                                            v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
+                                            '</a>';
+                                    }
+                                    strHTML += `<tr>
+                                                <td>${v.docuID}</td>
+                                                <td>
+                                                    <input type="hidden">
+                                                    <span style="padding-left: 10px">
+                                                        <b>${link}</b>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        <a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                        <a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-sm btn-danger del-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Approve">
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>`;
+
                                 });
-                                $('#allDataBody').append(strHTML);
-
-                            }
+                            });
+                            $('#allDataBody').append(strHTML);
                         }
-
-                    },
-                });
+                    }
+                },
+            });
         }
+
+        {{--$(document).ready(function () {--}}
+        {{--    $('.show-doc-btn').on('click', function () {--}}
+        {{--        var docId = $(this).data('doc-id');--}}
+
+        {{--        $.ajax({--}}
+        {{--            url: "{{ route('documentShow') }}",--}}
+        {{--            method: 'get',--}}
+        {{--            _token: "{{ csrf_token() }}",--}}
+        {{--            data: { docID: docId },--}}
+        {{--            success: function (response) {--}}
+        {{--                location.reload()--}}
+        {{--            },--}}
+        {{--            error: function (error) {--}}
+        {{--                console.error('Error sending document:', error);--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    });--}}
+        {{--});--}}
     </script>
 @endsection
+
+{{--'<a href="{{ route('documents.show', $row) }}" class="btn btn-sm btn-primary" style="padding: 4px" data-toggle="tooltip" title="Show">'+--}}
+{{--    '<i data-feather="eye"></i>'+--}}
+{{--'</a>'+--}}
+
+
+{{--'<button type="button" class="btn btn-sm btn-success send-doc-btn" data-doc-id="' + v.docuID +'" data-toggle="tooltip" title="Show" style="color: white; padding: 4px">'+--}}
+{{--    '<i data-feather="eye"></i>'+--}}
+{{--'</button>'+--}}
+
+
+
+
+{{--'<td>' +--}}
+{{--    '<div class="d-flex justify-content-between">' +--}}
+{{--        // Approve button--}}
+{{--        '<button type="button" class="btn btn-sm btn-success approve-doc-btn" data-doc-id="' + v.docuID + '" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">' +--}}
+{{--            '<i data-feather="check"></i>' +--}}
+{{--            '</button>' +--}}
+{{--        // Send button--}}
+{{--        '<button type="button" class="btn btn-sm btn-success send-doc-btn" data-doc-id="' + v.docuID + '" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">' +--}}
+{{--            '<i data-feather="send"></i>' +--}}
+{{--            '</button>' +--}}
+{{--        '</div>' +--}}
+{{--    '</td>' +--}}
+
+
+
+{{--'<form action="{{ route('printDocument') }}" method="post">' +--}}
+{{--    '@csrf' +--}}
+{{--    '<input type="hidden" name="documentID" value="' + v.docuID + '">' +--}}
+{{--    '<button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>' +--}}
+{{--    '</form>' +--}}

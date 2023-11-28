@@ -56,6 +56,13 @@ Route::resource('/documents',DocumentController::class);
 
 Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
+
+
+//Route::get('/docShowNotApprove/{id}', [DocumentController::class, 'show'])->name('docShowNotApprove');
+Route::get('/docEditNotApprove/{id}', [DocumentController::class, 'docEditNotApprove'])->name('docEditNotApprove');
+
+
+Route::get('/docShowNotApprove/{id}', [HomeController::class, 'docShowNotApprove'])->name('docShowNotApprove');
 Route::get('/sendDocToSup/', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
 Route::get('/approveDoc/', [DocumentController::class, 'approveDoc'])->name('approveDoc');
 

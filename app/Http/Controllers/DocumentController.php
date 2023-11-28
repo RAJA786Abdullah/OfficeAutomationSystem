@@ -348,4 +348,48 @@ class DocumentController extends Controller
         return redirect()->back();
     }
 
+    public function docShowNotApprove(Request $request,$id)
+    {
+        dd($id);
+        $document = Document::where('id', $id)->first();
+        $document->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user');
+        $userID = Auth::id();
+        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+        $departmentUsers = User::where('department_id', $userDepID)->get();
+
+        return view('docShowNotApprove', compact('document', 'departmentUsers'));
+    }
+
+
+    public function docEditNotApprove($id)
+    {
+        $document = Document::where('id',$id)->get()->first();
+
+        $tos = [];
+        $infos = [];
+        $userID = Auth::id();
+        $document->load('recipients','attachments');
+        foreach ($document->recipients as $recipient){
+            if ($recipient->type == 'to'){
+                array_push($tos,$recipient->name);
+            }
+            if ($recipient->type == 'info'){
+                array_push($infos,$recipient->name);
+            }
+        }
+
+        $user = User::where('userID', $userID)->first();
+        $dept_id = $user->department_id;
+        $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
+        $classifications = Classification::all();
+        $documentTypes = DocumentType::all();
+        $departments = Department::all();
+        $users = User::all();
+        $files = Files::all();
+        $executiveOffices = User::whereHas('roles', function ($q) {
+            $q->where('roleName', 'Executive');
+        })->get();
+        return view('documents.edit', compact('document','classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','tos', 'infos','executiveOffices'));
+    }
+
 }
