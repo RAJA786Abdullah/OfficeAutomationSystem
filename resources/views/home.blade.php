@@ -134,6 +134,27 @@
             });
         }
 
+        function deleteDoc(documentId) {
+            $.ajax({
+                url: `{{ route('documents.destroy', '__documentId__') }}`.replace('__documentId__', documentId),
+                method: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    documentID: documentId,
+                },
+                success: function(response) {
+                    console.log(response);
+                    return;
+                    window.location.href = '{{route('archives.index')}}';
+                },
+                error: function(error) {
+                    console.error('Error archiving document:', error);
+                }
+            });
+        }
+
+
+
         function updateStatus(recipientID,status) {
 
             $.ajax({
@@ -207,15 +228,21 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
+
+
                                                         <a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
+
                                                         <a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
-                                                        <button type="button" class="btn btn-sm btn-danger del-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
+
+                                                         <button type="button" class="btn btn-sm btn-danger" onclick="deleteDoc(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
+
+
                                                         <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
                                                             <i class="fa fa-check"></i>
                                                         </button>

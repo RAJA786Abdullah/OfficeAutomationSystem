@@ -213,8 +213,9 @@ class DocumentController extends Controller
         return view('documents.show', compact('document', 'signInData', 'departmentUsers'));
     }
 
-    public function edit(Document $document)
+    public function edit(Document $document,$id)
     {
+        dd('yes');
         $tos = [];
         $infos = [];
         $userID = Auth::id();
