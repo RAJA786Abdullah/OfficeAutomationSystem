@@ -325,13 +325,14 @@ class DocumentController extends Controller
     public function destroy(Document $document, Request $request, $id)
     {
         try {
-            $document->load(['attachments','recipients','remarks']);
+            $document->load(['attachments','recipients','remarks','archives']);
+            $document->archives()->delete();
             $document->attachments()->delete();
             $document->attachments()->delete();
             $document->recipients()->delete();
             $document->remarks()->delete();
             $document->delete();
-            $request->session()->flash('message', 'Document its attachments and recipients Deleted successfully!');
+            $request->session()->flash('message', 'Document Deleted successfully!');
             return redirect()->back();
         }catch (\Exception $e){
             dd($e);

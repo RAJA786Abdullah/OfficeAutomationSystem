@@ -29,10 +29,15 @@
                         <form action="{{ route('printDocument') }}" method="post">
                             @csrf
                             <input type="hidden" name="documentID" value="{{ $document->id }}">
-                            <button type="submit" class="btn btn-info"><i class="fa fa-print"></i>&ensp;Print Document</button>
-                            <a href="{{route('home')}}" class="btn btn-primary ml-auto">
-                                <i class="fa fa-retweet"></i>&ensp;Back
+                            <a href="{{route('home')}}" class="btn btn-primary ml-auto" style="color: white; padding: 4px" data-toggle="tooltip" title="Back">
+                                <i class="fa fa-arrow-left"></i>
                             </a>
+                            <button type="button" class="btn btn-warning" onclick="archive({{$document->id}})" data-doc-id="{{$document->id}}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
+                                <i class="fa fa-archive"></i>
+                            </button>
+                            <button type="submit" class="btn btn-secondary" style="color: white; padding: 4px" data-toggle="tooltip" title="Print">
+                                <i class="fa fa-print"></i>
+                            </button>
                         </form>
                         {{--                    <a href="{{ route('users.edit', $document->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;Edit Document</a>--}}
                     </div>
@@ -148,6 +153,22 @@
 @endsection
 @section('js')
     <script>
-
+        function archive(documentId) {
+            $.ajax({
+                url: `{{route('documents.archive')}}`,
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    documentID: documentId,
+                },
+                success: function(response) {
+                    console.log(response)
+                    window.location.href = '{{route('archives.index')}}';
+                },
+                error: function(error) {
+                    console.error('Error archiving document:', error);
+                }
+            });
+        }
     </script>
 @endsection

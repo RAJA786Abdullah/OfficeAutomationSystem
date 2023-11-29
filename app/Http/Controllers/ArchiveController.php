@@ -6,6 +6,7 @@ use App\Models\Archive;
 use App\Http\Requests\StoreArchiveRequest;
 use App\Http\Requests\UpdateArchiveRequest;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
@@ -18,10 +19,10 @@ class ArchiveController extends Controller
     public function index()
     {
         $userDepID = Auth::user()->department_id;
-        $archives = Archive::join('documents', 'archives.document_id', '=', 'documents.id')
+        $archives = Archive::with('document.user','document.attachments', 'document.recipients', 'document.file', 'document.documentType', 'document.department', 'document.classification')->join('documents', 'archives.document_id', '=', 'documents.id')
+           ->where('user_id',Auth::id())
             ->get();
-        dd($archives);
-        return view('archives.index',compact('documents'));
+        return view('archives.index',compact('archives'));
     }
 
     /**
@@ -43,9 +44,26 @@ class ArchiveController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Archive $archive)
+    public function show(Document $archive)
     {
-        return view('archives.show',compact('archive'));
+        $archive->load('classification','department','documentType','reference', 'attachments', 'recipients', 'user', 'remarks');
+        $signingAuthorityID = $archive->signing_authority_id;
+        $signInData = [];
+        $user = User::where('userID', $signingAuthorityID)->first();
+        if ($user)
+        {
+            $user->load('department');
+            if ($user->arm_designation) {
+                array_push($signInData, $user->arm_designation);
+            }
+            array_push($signInData, $user->name);
+            array_push($signInData, $user->department->name);
+        }
+
+        $userID = Auth::id();
+        $userDepID = User::where('userID', $userID)->pluck('department_id')->first();
+        $departmentUsers = User::where('department_id', $userDepID)->get();
+        return view('archives.show',compact('archive', 'signInData', 'departmentUsers'));
     }
 
     /**
@@ -67,8 +85,9 @@ class ArchiveController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Archive $archive)
+    public function destroy($archive)
     {
-        //
+        Archive::where('document_id',$archive)->delete();
+        return to_route('archives.index')->with('message','Document removed from archived list');
     }
 }
