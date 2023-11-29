@@ -116,6 +116,38 @@
 @endsection
 @section('js')
     <script>
+        function sendToSup(documentId) {
+            $.ajax({
+                url: "{{ route('sendDocToSup') }}",
+                method: 'get',
+                _token: "{{ csrf_token() }}",
+                data: { docID: documentId },
+                success: function (response) {
+                    location.reload()
+                },
+                error: function (error) {
+                    // Handle error, e.g., show an error message
+                    console.error('Error approving document:', error);
+                }
+            });
+        }
+
+        function approve(documentId) {
+            $.ajax({
+                url: "{{ route('approveDoc') }}",
+                method: 'get',
+                _token: "{{ csrf_token() }}",
+                data: { docID: documentId },
+                success: function (response) {
+                    location.reload()
+                },
+                error: function (error) {
+                    // Handle error, e.g., show an error message
+                    console.error('Error approving document:', error);
+                }
+            });
+        }
+
         function archive(documentId) {
             $.ajax({
                 url: `{{route('documents.archive')}}`,
@@ -136,19 +168,16 @@
 
         function deleteDoc(documentId) {
             $.ajax({
-                url: `{{ route('documents.destroy', '__documentId__') }}`.replace('__documentId__', documentId),
-                method: 'post',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    documentID: documentId,
+                url: '/docDelete/' + documentId,
+                method: 'get',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
-                success: function(response) {
-                    console.log(response);
-                    return;
-                    window.location.href = '{{route('archives.index')}}';
+                success: function (response) {
+                    location.reload();
                 },
-                error: function(error) {
-                    console.error('Error archiving document:', error);
+                error: function (error) {
+                    console.error('Error sending document:', error);
                 }
             });
         }
@@ -228,27 +257,30 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-
-
-                                                        <a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">
+                                                     ${['notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
+                                                        `<a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">
                                                             <i class="fa fa-eye"></i>
-                                                        </a>
-
-                                                        <a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">
+                                                         </a>` : ''}
+                                                     ${['notApproved','draft'].includes(filterData) ?
+                                                        `<a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">
                                                             <i class="fa fa-edit"></i>
-                                                        </a>
-
-                                                         <button type="button" class="btn btn-sm btn-danger" onclick="deleteDoc(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
+                                                        </a>` : ''}
+                                                     ${['notApproved','draft'].includes(filterData) ?
+                                                        `<button type="button" class="btn btn-sm btn-danger" onclick="deleteDoc(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
                                                             <i class="fa fa-trash"></i>
-                                                        </button>
-
-
-                                                        <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
+                                                        </button>` : ''}
+                                                     ${['notApproved'].includes(filterData) ?
+                                                        `<button type="button" class="btn btn-sm btn-success" onclick="approve(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
                                                             <i class="fa fa-check"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm btn-warning" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
+                                                        </button>` : ''}
+                                                     ${['notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
+                                                        `<button type="button" class="btn btn-sm btn-warning" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Archive">
                                                             <i class="fa fa-archive"></i>
-                                                        </button>
+                                                         </button>` : ''}
+                                                     ${['draft'].includes(filterData) ?
+                                                         `<button type="button" class="btn btn-sm btn-success" onclick="sendToSup(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Send To Superior">
+                                                            <i class="fa fa-send"></i>
+                                                         </button>` : ''}
                                                     </div>
                                                 </td>
                                                 <td></td>

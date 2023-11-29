@@ -137,12 +137,14 @@
                 @endcan
 
                 {{-- Documents --}}
-                @can('user_read')
+                @can('dashboard_read')
+                    @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Clerk')
                     <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
                             <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
                         </a>
                     </li>
+                    @endif
                 @endcan
 
                 {{-- Admin --}}
