@@ -31,8 +31,6 @@ return new class extends Migration
             $table->boolean('is_draft')->default(1);
             $table->boolean('is_new')->default(1);
             $table->boolean('is_allDte')->nullable();
-            $table->boolean('is_archived')->default(0);
-            $table->string('archived_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

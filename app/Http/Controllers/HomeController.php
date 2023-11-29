@@ -67,10 +67,13 @@ class  HomeController extends Controller
                                         INNER JOIN files ON documents.file_id = files.id
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    	LEFT JOIN archives ON documents.id = archives.document_id
                                     WHERE
                                         recipients.NAME = '$userDepName'
                                         AND recipients.STATUS IS NULL
-                                        AND recipients.deleted_at IS NULL; ");
+                                        AND recipients.deleted_at IS NULL
+                                        AND archives.document_id IS NULL;
+                                    ");
         $received = count($received);
 
         $sent = DB::select("
@@ -159,9 +162,12 @@ class  HomeController extends Controller
                                         INNER JOIN files ON documents.file_id = files.id
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    	LEFT JOIN archives ON documents.id = archives.document_id
                                     WHERE
                                         recipients.name = '$userDepName'
-                                        AND recipients.status IS NOT NULL AND documents.deleted_at IS NULL
+                                        AND recipients.status IS NOT NULL
+                                      AND archives.document_id IS NULL
+                                      AND documents.deleted_at IS NULL
                                     ");
                     $read = count($filtered);
                     break;
@@ -189,24 +195,26 @@ class  HomeController extends Controller
 
                 case('received'):
                     $filtered[] = DB::select("
-                                    SELECT
+                                     SELECT
                                         *,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID,
-                                        recipients.id AS recpID
+                                        documents.id AS docuID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
                                         INNER JOIN files ON documents.file_id = files.id
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                    	LEFT JOIN archives ON documents.id = archives.document_id
                                     WHERE
                                         recipients.NAME = '$userDepName'
                                         AND recipients.STATUS IS NULL
-                                        AND recipients.deleted_at IS NULL");
+                                        AND archives.document_id IS NULL
+                                        AND recipients.deleted_at IS NULL
+                                    ");
                     $received = count($filtered);
                     break;
 
@@ -225,8 +233,12 @@ class  HomeController extends Controller
                                             INNER JOIN files on documents.file_id = files.id
                                             INNER JOIN departments on documents.department_id = departments.id
                                             INNER JOIN document_types on documents.document_type_id= document_types.id
+                                            LEFT JOIN archives ON documents.id = archives.document_id
                                         WHERE
-                                            documents.department_id = '$userDepID' AND documents.out_dept != '' AND documents.deleted_at IS NULL
+                                            documents.department_id = '$userDepID'
+                                          AND documents.out_dept != ''
+                                          AND archives.document_id IS NULL
+                                          AND documents.deleted_at IS NULL
                                         ");
                     $sent = count($filtered);
 

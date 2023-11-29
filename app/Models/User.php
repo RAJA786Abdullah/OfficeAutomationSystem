@@ -79,6 +79,10 @@ class User extends Authenticatable implements AuditableContracts
         return $this->hasOne('App\Models\Document', 'created_by', 'userID');
     }
 
+    public function archives(){
+        return $this->hasMany('App\Models\Archive','user_id','id');
+    }
+
     public function isAdmin()
     {
         return $this->roles[0]->roleName === 'Admin';

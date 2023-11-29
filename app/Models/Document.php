@@ -55,6 +55,10 @@ class Document extends Model implements Auditable
         return $this->belongsTo('App\Models\User','created_by','userID');
     }
 
+    public function archives(){
+        return $this->hasMany('App\Models\Archive','document_id','id');
+    }
+
     public function scopeDocumentTitle($query,$id)
     {
         try {
