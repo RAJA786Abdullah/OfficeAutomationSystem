@@ -52,25 +52,22 @@ Route::resource('/document_types',DocumentTypeController::class);
 Route::resource('/documents',DocumentController::class);
 Route::post('/documents/preview',[DocumentController::class,'preview'])->name('documents.preview');
 Route::post('/documents/archive',[DocumentController::class,'archiveDocument'])->name('documents.archive');
-    Route::get('/docDelete/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
-    Route::resource('/remarks',RemarksController::class);
+Route::get('/docDelete/{id}', [DocumentController::class, 'docDelete'])->name('docDelete');
+Route::resource('/remarks',RemarksController::class);
 
 Route::post('/printDocument',[\App\Http\Controllers\PDFController::class,'printDocument'])->name('printDocument');
 Route::get('/docShow/{id}', [HomeController::class, 'docShow'])->name('docShow');
 
-
 //Route::get('/docShowNotApprove/{id}', [DocumentController::class, 'show'])->name('docShowNotApprove');
 Route::get('/docEditNotApprove/{id}', [DocumentController::class, 'docEditNotApprove'])->name('docEditNotApprove');
-
 
 Route::get('/docShowNotApprove/{id}', [HomeController::class, 'docShowNotApprove'])->name('docShowNotApprove');
 Route::get('/docShowReceived/{id}', [HomeController::class, 'docShowReceived'])->name('docShowReceived');
 Route::get('/sendDocToSup/', [DocumentController::class, 'sendDocToSup'])->name('sendDocToSup');
 Route::get('/approveDoc/', [DocumentController::class, 'approveDoc'])->name('approveDoc');
 
-
-
 Route::get('audits', [\App\Http\Controllers\AuditController::class,'index'])->name('audit.index');
-    Route::resource('/docRead',\App\Http\Controllers\DocReadController::class);
+Route::resource('/docRead',\App\Http\Controllers\DocReadController::class);
 
+Route::resource('archives',\App\Http\Controllers\ArchiveController::class);
 });

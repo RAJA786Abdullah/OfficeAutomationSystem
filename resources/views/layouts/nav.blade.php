@@ -127,11 +127,20 @@
                     </li>
                 @endcan
 
-                {{-- Documents --}}
+                {{-- Archives --}}
                 @can('dashboard_read')
                     <li class=" nav-item" aria-haspopup="true">
+                        <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'archives.index'|| request()->route()->action['as'] == 'archives.edit' || request()->route()->action['as'] == 'archives.show') active @endif" href="{{route('archives.index')}}">
+                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Archives">Archives</span>
+                        </a>
+                    </li>
+                @endcan
+
+                {{-- Documents --}}
+                @can('user_read')
+                    <li class=" nav-item" aria-haspopup="true">
                         <a class="d-flex align-items-center @if(request()->route()->action['as'] == 'documents.index'|| request()->route()->action['as'] == 'documents.edit' || request()->route()->action['as'] == 'documents.show') active @endif" href="{{route('documents.index')}}">
-                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Archived</span>
+                            <i class="fa fa-files-o"></i><span class="menu-title text-truncate" data-i18n="Documents">Documents</span>
                         </a>
                     </li>
                 @endcan

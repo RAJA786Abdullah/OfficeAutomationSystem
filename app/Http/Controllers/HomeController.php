@@ -195,7 +195,7 @@ class  HomeController extends Controller
 
                 case('received'):
                     $filtered[] = DB::select("
-                                     SELECT
+                                    SELECT
                                         *,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
