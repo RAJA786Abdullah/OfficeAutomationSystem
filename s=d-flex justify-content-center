@@ -1,0 +1,68 @@
+[1mdiff --git a/app/Http/Controllers/HomeController.php b/app/Http/Controllers/HomeController.php[m
+[1mindex cd85cad..c6c8b78 100644[m
+[1m--- a/app/Http/Controllers/HomeController.php[m
+[1m+++ b/app/Http/Controllers/HomeController.php[m
+[36m@@ -307,4 +307,6 @@[m [mpublic function docShowReceived(Request $request,$id)[m
+ [m
+         return view('docShowReceived', compact('document', 'departmentUsers'));[m
+     }[m
+[32m+[m
+[32m+[m
+ }[m
+[1mdiff --git a/resources/views/home.blade.php b/resources/views/home.blade.php[m
+[1mindex 032eaa5..c2bb0fa 100644[m
+[1m--- a/resources/views/home.blade.php[m
+[1m+++ b/resources/views/home.blade.php[m
+[36m@@ -211,18 +211,30 @@[m [mfunction widgetFilter(filterData){[m
+                                                 </td>[m
+                                                 <td>[m
+                                                     <div class="d-flex justify-content-center">[m
+[31m-                                                        <a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">[m
+[31m-                                                            <i class="fa fa-eye"></i>[m
+[31m-                                                        </a>[m
+[31m-                                                        <a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">[m
+[32m+[m[32m                                                        ${['notApproved','received', 'read', 'unread','sent'].includes(filterData) ?[m
+[32m+[m[32m                                                            `<a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">[m
+[32m+[m[32m                                                                <i class="fa fa-eye"></i>[m
+[32m+[m[32m                                                             </a>` : ''}[m
+[32m+[m
+[32m+[m[32m                                                       ${filterData === 'notApproved' ?[m
+[32m+[m[32m                                                        `<a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">[m
+                                                             <i class="fa fa-edit"></i>[m
+[31m-                                                        </a>[m
+[31m-                                                        <button type="button" class="btn btn-sm btn-danger del-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">[m
+[31m-                                                            <i class="fa fa-trash"></i>[m
+[31m-                                                        </button>[m
+[31m-                                                        <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">[m
+[31m-                                                            <i class="fa fa-check"></i>[m
+[31m-                                                        </button>[m
+[32m+[m[32m                                                        </a>` : ''}[m
+[32m+[m
+[32m+[m[32m                                                        ${filterData === 'notApproved' ?[m
+[32m+[m[32m                                                            `<form action="{{ route('documents.destroy', '') }}/${v.docuID}" method="post" onsubmit="return confirm('Are you sure you want to delete this document?');">[m
+[32m+[m[32m                                                                @csrf[m
+[32m+[m[32m                                                                @method('DELETE')[m
+[32m+[m[32m                                                                <button type="submit" class="btn btn-sm btn-danger" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">[m
+[32m+[m[32m                                                                    <i class="fa fa-trash"></i>[m
+[32m+[m[32m                                                                </button>[m
+[32m+[m[32m                                                            </form>` : ''}[m
+[32m+[m
+[32m+[m[32m                                                         ${filterData === 'notApproved' ?[m
+[32m+[m[32m                                                            `<button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">[m
+[32m+[m[32m                                                                <i class="fa fa-check"></i>[m
+[32m+[m[32m                                                            </button>` : ''}[m
+[32m+[m
+                                                         <button type="button" class="btn btn-sm btn-secondary" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">[m
+                                                             <i class="fa fa-archive"></i>[m
+                                                         </button>[m
+[36m@@ -260,6 +272,10 @@[m [mfunction widgetFilter(filterData){[m
+     </script>[m
+ @endsection[m
+ [m
+[32m+[m
+[32m+[m[32m{{--<button type="button" class="btn btn-sm btn-danger del-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">--}}[m
+[32m+[m[32m{{--    <i class="fa fa-trash"></i>--}}[m
+[32m+[m[32m{{--</button>--}}[m
+ {{--'<a href="{{ route('documents.show', $row) }}" class="btn btn-sm btn-primary" style="padding: 4px" data-toggle="tooltip" title="Show">'+--}}[m
+ {{--    '<i data-feather="eye"></i>'+--}}[m
+ {{--'</a>'+--}}[m
