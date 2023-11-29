@@ -95,7 +95,7 @@ class  HomeController extends Controller
                                         ");
         $sent = count($sent);
 
-        $draft = Document::where('department_id','=',$userDepID)->where('is_draft',1)->get();
+        $draft = Document::where('department_id','=',$userDepID)->where('is_draft',1)->where('created_by',Auth::id())->get();
         $draft = count($draft);
 
 
@@ -260,7 +260,11 @@ class  HomeController extends Controller
                                             INNER JOIN departments on documents.department_id = departments.id
                                             INNER JOIN document_types on documents.document_type_id= document_types.id
                                     WHERE
-                                        documents.out_dept IS NULL AND documents.department_id = '$userDepID' AND documents.is_draft = '1' AND documents.deleted_at IS NULL");
+                                        documents.out_dept IS NULL
+                                      AND documents.department_id = '$userDepID'
+                                      AND documents.is_draft = '1'
+                                      AND documents.created_by = $authID
+                                      AND documents.deleted_at IS NULL");
                     $draft = count($filtered);
                     break;
                 default:

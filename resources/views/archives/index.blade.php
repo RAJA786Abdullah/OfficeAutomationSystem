@@ -43,16 +43,23 @@
                         <tbody>
                         @foreach ($archives as $archive)
                             <tr>
-                                <td> {{ $archive->id }} {{date(" d-m-Y", strtotime($archive->created_at))}}</td>
-                                <td>{{ $archive->file->name }} | {{ $archive->file->code }}</td>
-                                <td>{{ \App\Models\Document::documentTitle($archive->id) }}</td>
-                                <td>{{ $archive->classification->name }}</td>
+                                <td>{{ $archive->id }} {{date(" d-m-Y", strtotime($archive->created_at))}}</td>
+                                <td>{{ $archive->document->file->name }} | {{ $archive->document->file->code }}</td>
+                                <td>{{ \App\Models\Document::documentTitle($archive->document_id) }}</td>
+                                <td>{{ $archive->document->classification->name }}</td>
                                 <td>{{ $archive->subject }}</td>
-                                <td>{{ $archive->user->name }}</td>
+                                <td>{{ $archive->document->user->name }}</td>
                                 <td style="padding: 0; margin: 0">
-                                    <a href="{{ route('archives.show', $archive->document_id) }}" class="btn btn-sm btn-primary" style="padding: 4px" data-toggle="tooltip" title="Show">
+                                    <a href="{{ route('archives.show', $archive->document_id) }}" class="btn btn-sm btn-primary d-inline-block" style="padding: 4px" data-toggle="tooltip" title="Show">
                                         <i data-feather="eye"></i>
                                     </a>
+                                    <form action="{{ route('archives.destroy', $archive->document_id) }}" class="d-inline-block" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-danger" style="padding: 4px" data-toggle="tooltip" title="unArchive">
+                                            <i data-feather="archive"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

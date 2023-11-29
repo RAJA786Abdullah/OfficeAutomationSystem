@@ -133,7 +133,7 @@
                             </form>
                         </dl>
                     @endif
-                    @if($arcive->remarks)
+                    @if($archive->remarks)
                         @foreach($archive->remarks as $remarks)
                             <h5>From : {{ $remarks->user->name  }}</h5>
                             <p>Remark : {{ $remarks->remark  }}</p>

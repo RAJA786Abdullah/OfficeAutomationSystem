@@ -27,13 +27,11 @@
                     <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-paper-plane"></i></span> Sent:  <span class="badge badge-pill bg-secondary">{{$sent}}</span></div>
                 </div>
             </div>
-            @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Clerk')
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-warning custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='draft')">
                     <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-clipboard"></i></span> Draft:  <span class="badge badge-pill bg-secondary">{{$draft}}</span></div>
                 </div>
             </div>
-            @endif
         </div>
     </div>
 
@@ -118,24 +116,22 @@
 @endsection
 @section('js')
     <script>
-
         function archive(documentId) {
-                $.ajax({
-                    url: `{{route('documents.archive')}}`,
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        documentID: documentId,
+            $.ajax({
+                url: `{{route('documents.archive')}}`,
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    documentID: documentId,
+                },
+                success: function(response) {
+                    console.log(response)
+                    window.location.href = '{{route('archives.index')}}';
                     },
-                    success: function(response) {
-                        console.log(response) // You can replace this with a more sophisticated notification mechanism
-                        // You might want to update the UI to reflect the change in the archived status
-                        location.reload();
-                    },
-                    error: function(error) {
-                        console.error('Error archiving document:', error);
-                    }
-                });
+                error: function(error) {
+                    console.error('Error archiving document:', error);
+                }
+            });
         }
 
         function updateStatus(recipientID,status) {
@@ -223,7 +219,7 @@
                                                         <button type="button" class="btn btn-sm btn-success aprv-doc-btn" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
                                                             <i class="fa fa-check"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-sm btn-secondary" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
+                                                        <button type="button" class="btn btn-sm btn-warning" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
                                                             <i class="fa fa-archive"></i>
                                                         </button>
                                                     </div>
