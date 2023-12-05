@@ -3,23 +3,6 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-{{--    <div class="content-header row">--}}
-{{--        <div class="content-header-left col-md-9 col-12 mb-2">--}}
-{{--            <div class="row breadcrumbs-top">--}}
-{{--                <div class="col-12">--}}
-{{--                    <h2 class="content-header-title float-start mb-0">Document</h2>--}}
-{{--                    <div class="breadcrumb-wrapper">--}}
-{{--                        <ol class="breadcrumb">--}}
-{{--                            <li class="breadcrumb-item"><a href="{{route('documents.index')}}">Documents</a>--}}
-{{--                            </li>--}}
-{{--                            <li class="breadcrumb-item active">Document--}}
-{{--                            </li>--}}
-{{--                        </ol>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="content-body">
         <!-- Page layout -->
         <div class="card" style="padding-left: 100px; padding-right: 100px">
@@ -34,6 +17,9 @@
                             </a>
                             <button type="button" class="btn btn-warning" onclick="archive({{$document->id}})" data-doc-id="{{$document->id}}" style="color: white; padding: 4px" data-toggle="tooltip" title="Archive">
                                 <i class="fa fa-archive"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-success" onclick="sendToSup({{$document->id}})" data-doc-id="{{$document->id}}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Send To Superior">
+                                <i class="fa fa-send"></i>
                             </button>
                             <button type="submit" class="btn btn-secondary" style="color: white; padding: 4px" data-toggle="tooltip" title="Print">
                                 <i class="fa fa-print"></i>
@@ -54,24 +40,6 @@
                             <dd class="fs-5">{!! $document['body'] !!}</dd>
                         </div>
                     </dl>
-
-{{--                    <dl class="row">--}}
-{{--                        <div class="col-md-12  mt-2">--}}
-{{--                            <b class="float-end">--}}
-{{--                                <h4 style="text-align: right">--}}
-{{--                                    @if($signInData)--}}
-{{--                                        @foreach($signInData as $index=> $signIn)--}}
-{{--                                            @if($loop->last)--}}
-{{--                                                <p style="margin: 0;">{{ '( '.$signIn.' )' }}</p>--}}
-{{--                                            @else--}}
-{{--                                                <p style="margin: 0;">{{ $signIn }}</p>--}}
-{{--                                            @endif--}}
-{{--                                        @endforeach--}}
-{{--                                    @endif--}}
-{{--                                </h4>--}}
-{{--                            </b>--}}
-{{--                        </div>--}}
-{{--                    </dl>--}}
                     <dl class="row">
                         <div class="col-6 text-left mt-2">
                             <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
@@ -106,13 +74,11 @@
                             @endforeach
                         </div>
                         @endif
-
                         <div class="col-md-12">
                             <h5 class="d-inline-block">ID:</h5>
                             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<h5 class="d-inline-block" style="margin-left: 40px">Office Copy</h5><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                     </dl>
-
                     <dl>
                         <div class="col-md-12">
                             @foreach($document->attachments as $attachment)
@@ -120,35 +86,16 @@
                             @endforeach
                         </div>
                     </dl>
-
-{{--                    <dl>--}}
-{{--                        <form method="POST" action="{{route('remarks.store')}}">--}}
-{{--                            <input type="hidden" name="document_id" value="{{ $document->id }}">--}}
-{{--                            @csrf--}}
-{{--                            <div class="row mt-2">--}}
-{{--                                <div class="col-7">--}}
-{{--                                    <label for="remark" class="text-black fs-5">Add Remarks</label>--}}
-{{--                                    <textarea class="mt-2 form-control" name="remark" id="remark" cols="60" rows="5" required> {{ old('remark') }}</textarea>--}}
-{{--                                    @if($errors->has('remark'))--}}
-{{--                                        <div class="text-danger">--}}
-{{--                                            {{ $errors->first('remark') }}--}}
-{{--                                        </div>--}}
-{{--                                    @endif--}}
-{{--                                </div>--}}
-{{--                                <div class="col-5">--}}
-{{--                                    <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>--}}
-{{--                                    <select name="toUser_id" class="form-select selectTwo">--}}
-{{--                                        <option disabled>Select User</option>--}}
-{{--                                        @foreach ($departmentUsers as $departmentUser)--}}
-{{--                                            <option value="{{ $departmentUser->userID }}">{{ $departmentUser->name }}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-
-{{--                                    <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-{{--                    </dl>--}}
+                    <dl>
+                        <div class="col-md-12">
+                            @if($document->remarks)
+                                @foreach($document->remarks as $remarks)
+                                    <h5>From : {{ $remarks->user->name  }}</h5>
+                                    <p>Remark : {{ $remarks->remark  }}</p>
+                                @endforeach
+                            @endif
+                        </div>
+                    </dl>
                 </div>
             </div>
         </div>
@@ -171,6 +118,22 @@
                 },
                 error: function(error) {
                     console.error('Error archiving document:', error);
+                }
+            });
+        }
+
+        function sendToSup(documentId) {
+            $.ajax({
+                url: "{{ route('sendDocToSup') }}",
+                method: 'get',
+                _token: "{{ csrf_token() }}",
+                data: { docID: documentId },
+                success: function (response) {
+                    window.location.href = '{{route('home')}}';
+                },
+                error: function (error) {
+                    // Handle error, e.g., show an error message
+                    console.error('Error approving document:', error);
                 }
             });
         }

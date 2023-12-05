@@ -5,15 +5,17 @@
     <!-- Page layout -->
     <div class="container-fluid">
         <div class="row justify-content-center mb-2">
-{{--            <div class="col-md-3 col-sm-6 mb-2">--}}
-{{--                <div class="bg-gradient-info custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='unread')">--}}
-{{--                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5"><span><i class="fa fa-envelope"></i></span> Unread:  <span class="badge badge-pill bg-secondary">{{$unread}}</span></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Clerk')
+                <div class="col-md-3 col-sm-6 mb-2">
+                    <div class="bg-gradient-danger custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='dirRemarks')">
+                        <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-arrow-down"></i></span> Dir-Remarks:  <span class="badge badge-pill bg-secondary">{{$dirRemarks}}</span></div>
+                    </div>
+                </div>
+            @endif
             @if(\Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Admin' || \Illuminate\Support\Facades\Auth::user()->roles[0]->roleName == 'Director')
             <div class="col-md-3 col-sm-6 mb-2">
                 <div class="bg-gradient-danger custom-col border-black dashboard-widgets text-center changeTextColor-white changeTextColor-black stylish-widget" onclick="widgetFilter(filterData='notApproved')">
-                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-ban"></i></span> Not Approved:  <span class="badge badge-pill bg-secondary">{{$notApproved}}</span></div>
+                    <div class="pt-3 pb-3 font-weight-bold shadow-sm font-medium-5" ><span><i class="fa fa-ban"></i></span> Not-Approved:  <span class="badge badge-pill bg-secondary">{{$notApproved}}</span></div>
                 </div>
             </div>
             @endif
@@ -38,8 +40,18 @@
 
         {{-- Tabs   --}}
     <div class="col-md-12">
+        <div class="row d-flex justify-content-center mb-2">
+            <div class="col-md-4 col-sm-3 me-5">
+                <input type="text" class="form-control" name="searchFilter" id="searchFilter">
+            </div>
+        </div>
         <div class="card text-center mb-3">
             <div class="card-header pt-1">
+                <div class="accordion-header">
+                    <h4 id="widgetName">
+
+                    </h4>
+                </div>
                 <ul class="nav nav-tabs card-header-tabs d-none" role="tablist" id="receivedBtn">
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tab-new" aria-controls="navs-tab-new" aria-selected="true" onclick="widgetFilter(filterData='unread')">
@@ -48,7 +60,7 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tab-new" aria-controls="navs-tab-new" aria-selected="true" onclick="widgetFilter(filterData='read')">
-                            Read
+                            Read (<span id="readCount"></span>)
                         </button>
                     </li>
                 </ul>
@@ -148,17 +160,18 @@
             });
         }
 
-        function archive(documentId) {
+        function archive(documentId,filterData) {
+            console.log(filterData)
             $.ajax({
                 url: `{{route('documents.archive')}}`,
                 method: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
                     documentID: documentId,
+                    filterData: filterData,
                 },
                 success: function(response) {
-                    console.log(response)
-                    window.location.href = '{{route('archives.index')}}';
+                    widgetFilter(filterData);
                     },
                 error: function(error) {
                     console.error('Error archiving document:', error);
@@ -182,10 +195,7 @@
             });
         }
 
-
-
         function updateStatus(recipientID,status) {
-
             $.ajax({
             url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
             method: 'post',
@@ -199,12 +209,36 @@
             });
         }
 
+        $(function() {
+            var typingTimer;
+            var doneTypingInterval = 1200;  // Adjust the delay time in milliseconds
+            var searchFilter;
+            $('#searchFilter').on('input', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(function() {
+                    searchFilter = $('#searchFilter').val();
+                    $.ajax({
+                        url: "{{ route('home',"searchFilter") }}",
+                        method: 'post',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            searchFilter: searchFilter,
+                        },
+                        success: function(data) {
+                            console.log(data)
+                        },
+                    });
+                }, doneTypingInterval);
+            });
+        });
+
         function widgetFilter(filterData){
             if (filterData === 'received' || filterData === 'unread' || filterData === 'read' ) {
                 $('#receivedBtn').removeClass('d-none');
             } else {
                 $('#receivedBtn').addClass('d-none');
             }
+            $('#widgetName').html(filterData.toUpperCase());
             var strHTML = '';
             $.ajax({
                 url: "{{ route('home.widgetFilter') }}",
@@ -214,6 +248,7 @@
                     filterData: filterData,
                 },
                 success: function (data) {
+                    $('#readCount').html(data.read);
                     if (data.filtered[0] === 'unread'){
                         location.reload();
                     }
@@ -257,15 +292,15 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                     ${['notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
+                                                     ${['dirRemarks','notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
                                                         `<a href="{{ route('docShowNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-primary" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Show">
                                                             <i class="fa fa-eye"></i>
                                                          </a>` : ''}
-                                                     ${['notApproved','draft'].includes(filterData) ?
+                                                     ${['dirRemarks','notApproved','draft'].includes(filterData) ?
                                                         `<a href="{{ route('docEditNotApprove', '') }}/${v.docuID}" class="btn btn-sm btn-info" style="padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Edit">
                                                             <i class="fa fa-edit"></i>
                                                         </a>` : ''}
-                                                     ${['notApproved','draft'].includes(filterData) ?
+                                                     ${['dirRemarks','notApproved','draft'].includes(filterData) ?
                                                         `<button type="button" class="btn btn-sm btn-danger" onclick="deleteDoc(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Delete">
                                                             <i class="fa fa-trash"></i>
                                                         </button>` : ''}
@@ -273,14 +308,15 @@
                                                         `<button type="button" class="btn btn-sm btn-success" onclick="approve(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Approve">
                                                             <i class="fa fa-check"></i>
                                                         </button>` : ''}
-                                                     ${['notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
-                                                        `<button type="button" class="btn btn-sm btn-warning" onclick="archive(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Archive">
-                                                            <i class="fa fa-archive"></i>
-                                                         </button>` : ''}
-                                                     ${['draft'].includes(filterData) ?
-                                                         `<button type="button" class="btn btn-sm btn-success" onclick="sendToSup(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px" data-toggle="tooltip" title="Send To Superior">
+                                                     ${['dirRemarks','draft'].includes(filterData) ?
+                                                        `<button type="button" class="btn btn-sm btn-success" onclick="sendToSup(${v.docuID})" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Send To Superior">
                                                             <i class="fa fa-send"></i>
                                                          </button>` : ''}
+                                                     ${['dirRemarks','notApproved','received', 'read', 'unread','sent','draft'].includes(filterData) ?
+                                                        `<button type="button" class="btn btn-sm btn-warning" onclick="archive(${v.docuID},filterData)" data-doc-id="${v.docuID}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Archive">
+                                                            <i class="fa fa-archive"></i>
+                                                         </button>` : ''}
+
                                                     </div>
                                                 </td>
                                                 <td></td>
@@ -293,57 +329,5 @@
                 },
             });
         }
-
-        {{--$(document).ready(function () {--}}
-        {{--    $('.show-doc-btn').on('click', function () {--}}
-        {{--        var docId = $(this).data('doc-id');--}}
-
-        {{--        $.ajax({--}}
-        {{--            url: "{{ route('documentShow') }}",--}}
-        {{--            method: 'get',--}}
-        {{--            _token: "{{ csrf_token() }}",--}}
-        {{--            data: { docID: docId },--}}
-        {{--            success: function (response) {--}}
-        {{--                location.reload()--}}
-        {{--            },--}}
-        {{--            error: function (error) {--}}
-        {{--                console.error('Error sending document:', error);--}}
-        {{--            }--}}
-        {{--        });--}}
-        {{--    });--}}
-        {{--});--}}
     </script>
 @endsection
-
-{{--'<a href="{{ route('documents.show', $row) }}" class="btn btn-sm btn-primary" style="padding: 4px" data-toggle="tooltip" title="Show">'+--}}
-{{--    '<i data-feather="eye"></i>'+--}}
-{{--'</a>'+--}}
-
-
-{{--'<button type="button" class="btn btn-sm btn-success send-doc-btn" data-doc-id="' + v.docuID +'" data-toggle="tooltip" title="Show" style="color: white; padding: 4px">'+--}}
-{{--    '<i data-feather="eye"></i>'+--}}
-{{--'</button>'+--}}
-
-
-
-
-{{--'<td>' +--}}
-{{--    '<div class="d-flex justify-content-between">' +--}}
-{{--        // Approve button--}}
-{{--        '<button type="button" class="btn btn-sm btn-success approve-doc-btn" data-doc-id="' + v.docuID + '" data-toggle="tooltip" title="Approve" style="color: white; padding: 4px">' +--}}
-{{--            '<i data-feather="check"></i>' +--}}
-{{--            '</button>' +--}}
-{{--        // Send button--}}
-{{--        '<button type="button" class="btn btn-sm btn-success send-doc-btn" data-doc-id="' + v.docuID + '" data-toggle="tooltip" title="Send" style="color: white; padding: 4px">' +--}}
-{{--            '<i data-feather="send"></i>' +--}}
-{{--            '</button>' +--}}
-{{--        '</div>' +--}}
-{{--    '</td>' +--}}
-
-
-
-{{--'<form action="{{ route('printDocument') }}" method="post">' +--}}
-{{--    '@csrf' +--}}
-{{--    '<input type="hidden" name="documentID" value="' + v.docuID + '">' +--}}
-{{--    '<button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>' +--}}
-{{--    '</form>' +--}}

@@ -184,7 +184,7 @@ class DocumentController extends Controller
             }
             DB::commit();
             $request->session()->flash('message', 'Document created successfully!');
-            return redirect()->route('documents.index');
+            return redirect()->route('home');
         }catch (\Exception $e){
             DB::rollback();
             dd($e);
@@ -213,9 +213,8 @@ class DocumentController extends Controller
         return view('documents.show', compact('document', 'signInData', 'departmentUsers'));
     }
 
-    public function edit(Document $document,$id)
+    public function edit(Document $document)
     {
-        dd('yes');
         $tos = [];
         $infos = [];
         $userID = Auth::id();
@@ -316,7 +315,7 @@ class DocumentController extends Controller
             }
             DB::commit();
             $request->session()->flash('message', 'Document Updated successfully!');
-            return redirect()->route('documents.index');
+            return redirect()->route('home');
         }catch (\Exception $e){
             DB::rollBack();
             dd($e);
@@ -359,7 +358,7 @@ class DocumentController extends Controller
     public static function docDelete(Request $request, $id)
     {
         $document = Document::find($id);
-        $document->load(['attachments','recipients','remarks']);
+        $document->load(['attachments','recipients','remarks','archives']);
         if ($document->attachments){
             $document->attachments()->delete();
         }
@@ -367,6 +366,8 @@ class DocumentController extends Controller
             $document->recipients()->delete();
         }elseif ($document->remarks){
             $document->remarks()->delete();
+        }elseif ($document->archives){
+            $document->archives()->delete();
         }
         $document->delete();
         return redirect()->back();

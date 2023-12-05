@@ -3,23 +3,6 @@
 @section('app-content', 'app-content')
 
 @section('main-content')
-{{--    <div class="content-header row">--}}
-{{--        <div class="content-header-left col-md-9 col-12 mb-2">--}}
-{{--            <div class="row breadcrumbs-top">--}}
-{{--                <div class="col-12">--}}
-{{--                    <h2 class="content-header-title float-start mb-0">Document</h2>--}}
-{{--                    <div class="breadcrumb-wrapper">--}}
-{{--                        <ol class="breadcrumb">--}}
-{{--                            <li class="breadcrumb-item"><a href="{{route('documents.index')}}">Documents</a>--}}
-{{--                            </li>--}}
-{{--                            <li class="breadcrumb-item active">Document--}}
-{{--                            </li>--}}
-{{--                        </ol>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="content-body">
         <!-- Page layout -->
         <div class="card" style="padding-left: 100px; padding-right: 100px">
@@ -54,24 +37,6 @@
                             <dd class="fs-5">{!! $document['body'] !!}</dd>
                         </div>
                     </dl>
-
-{{--                    <dl class="row">--}}
-{{--                        <div class="col-md-12  mt-2">--}}
-{{--                            <b class="float-end">--}}
-{{--                                <h4 style="text-align: right">--}}
-{{--                                    @if($signInData)--}}
-{{--                                        @foreach($signInData as $index=> $signIn)--}}
-{{--                                            @if($loop->last)--}}
-{{--                                                <p style="margin: 0;">{{ '( '.$signIn.' )' }}</p>--}}
-{{--                                            @else--}}
-{{--                                                <p style="margin: 0;">{{ $signIn }}</p>--}}
-{{--                                            @endif--}}
-{{--                                        @endforeach--}}
-{{--                                    @endif--}}
-{{--                                </h4>--}}
-{{--                            </b>--}}
-{{--                        </div>--}}
-{{--                    </dl>--}}
                     <dl class="row">
                         <div class="col-6 text-left mt-2">
                             <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
