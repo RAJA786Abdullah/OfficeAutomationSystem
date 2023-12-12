@@ -92,9 +92,10 @@
 
                 <div class="col-12 mt-1">
                     <label class="form-label required">{{ __('Body') }}</label>
-                    <input type="hidden" name="editor_content" id="editor_content">
-                    <div id="toolbar-container"></div>
-                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>
+                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
+{{--                    <input type="hidden" name="editor_content" id="editor_content">--}}
+{{--                    <div id="toolbar-container"></div>--}}
+{{--                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>--}}
                 </div>
                 @if($errors->has('body'))
                     <div class="text-danger">
@@ -346,7 +347,7 @@
 {{--            <button type="button" class="btn btn-primary" id="previewSubmit">{{ __('Submit') }}</button>--}}
             <div class="bottom-line"></div>
             <div class="modal-footer d-flex justify-content-center text-center">
-               APPROVED BY: {{-- {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('arm_designation')->first() }} {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('name')->first() }}--}}
+                APPROVED BY: {{-- {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('arm_designation')->first() }} {{ \App\Models\User::where('userID',$document->signing_authority_id)->pluck('name')->first() }}--}}
                 <br>
                 NOTE: Computer-generated ION does not require a signature.
             </div>
@@ -356,6 +357,9 @@
 @endsection
 @section('js')
     <script>
+        $(document).ready(function() {
+            CKEDITOR.replace('body');
+        });
 
             $(document).ready(function() {
                 $('form').submit(function(event) {

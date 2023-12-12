@@ -41,9 +41,9 @@
         {{-- Tabs   --}}
     <div class="col-md-12">
         <div class="row d-flex justify-content-center mb-2">
-            <div class="col-md-4 col-sm-3 me-5">
-                <input type="text" class="form-control" name="searchFilter" id="searchFilter">
-            </div>
+{{--            <div class="col-md-4 col-sm-3 me-5">--}}
+{{--                <input type="text" class="form-control" name="searchFilter" id="searchFilter">--}}
+{{--            </div>--}}
         </div>
         <div class="card text-center mb-3">
             <div class="card-header pt-1">
@@ -79,7 +79,7 @@
                                 <tr>
                                     <th class="wd-15p">#</th>
                                     <th class="wd-25p">Subject</th>
-                                    <th class="wd-25p">Print</th>
+                                    <th class="wd-25p">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody id="allDataBody">
@@ -161,7 +161,6 @@
         }
 
         function archive(documentId,filterData) {
-            console.log(filterData)
             $.ajax({
                 url: `{{route('documents.archive')}}`,
                 method: 'POST',
@@ -196,6 +195,7 @@
         }
 
         function updateStatus(recipientID,status) {
+
             $.ajax({
             url: "{{ route('ajax.handle',"updateRecipientStatus") }}",
             method: 'post',
@@ -257,7 +257,7 @@
                             $('#allDataBody tr').hide();
                             data.filtered.forEach(function (value) {
                                 value.forEach(function (v){
-                                    var createdDate = new Date(v.created_at);
+                                    var createdDate = new Date(v.document_created_at);
                                     var formattedDate = createdDate.toLocaleDateString('en-US', {
                                         day: 'numeric',
                                         month: 'short',
@@ -271,8 +271,7 @@
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>';
                                     }else if (filterData === 'received' || filterData === 'read' || filterData === 'unread') {
-                                        // Customize the link structure for notApproved
-                                        link = '<a href="{{ route('docShowReceived','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
+                                        link = '<a href="{{ route('docShowReceived','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recipientID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>';
                                     }

@@ -84,19 +84,23 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
+        $table = $request->input('body');
+        if(strpos($table, '<td>') !== false){
+            $table = str_replace('<td>', '<td style="border: 1px solid black">', $table);
+        }
+
+
         try {
+
             $userID = Auth::id();
-            $lastDocument = Document::where('department_id', auth()->user()->department_id)
-                ->latest()
-                ->first();
+            $lastDocument = Document::where('department_id', Auth::user()->department_id)->latest()->first();
+//            dd($lastDocument);
             if ($lastDocument) {
-                $uniqueIdentifier = $lastDocument->document_unique_identifier;
-                $dui = ++$uniqueIdentifier;
+                $dui = ++$lastDocument->document_unique_identifier;
             }
             else{
                 $dui = 1;
             }
-
             $allDte = 0;
             if($request->to == 'All Dte'){
                 $allDte = 1;
@@ -108,7 +112,9 @@ class DocumentController extends Controller
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
-                'body' => $request->input('editor_content'),
+                'body' => $table,
+//                'body' => $request->input('body'),
+//                'body' => $request->input('editor_content'),
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,
                 'department_id' => Auth::user()->department_id,

@@ -70,7 +70,8 @@ class  HomeController extends Controller
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+                                        recipients.id AS recipientID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
@@ -158,7 +159,6 @@ class  HomeController extends Controller
         $userDepID = Auth::user()->department_id;
         $notApproved = $unread = $read = $received = $draft = $sent = 0;
 
-
         $filtered = [];
         if($request['filterData']){
             $filterData = $request['filterData'];
@@ -167,6 +167,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                      SELECT
                                         *,
+                                        documents.created_at as document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
@@ -188,6 +189,7 @@ class  HomeController extends Controller
                     $readQuery[] = DB::select("
                                     SELECT
                                         *,
+                                        documents.created_at as document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
@@ -214,6 +216,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                         *,
+                                        documents.created_at as document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
@@ -239,6 +242,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                             *,
+                                            documents.created_at as document_created_at,
                                                 files.code as fileCode,
                                                 departments.name as depName,
                                                 documents.document_unique_identifier as uniqueID,
@@ -267,11 +271,13 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                         *,
+                                        documents.created_at as document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+                                        recipients.id AS recipientID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
@@ -285,10 +291,10 @@ class  HomeController extends Controller
                                         AND archives.document_id IS NULL
                                         AND recipients.deleted_at IS NULL
                                     ");
-
                     $readQuery[] = DB::select("
                                     SELECT
                                         *,
+                                        documents.created_at as document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
@@ -315,6 +321,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                             *,
+                                            documents.created_at as document_created_at,
                                             files.code as fileCode,
                                             departments.name as depName,
                                             documents.document_unique_identifier as uniqueID,
@@ -340,6 +347,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                             *,
+                                            documents.created_at as document_created_at,
                                             files.code as fileCode,
                                             departments.name as depName,
                                             documents.document_unique_identifier as uniqueID,
@@ -366,6 +374,7 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                             *,
+                                            documents.created_at as document_created_at,
                                             files.CODE AS fileCode,
                                             departments.NAME AS depName,
                                             documents.document_unique_identifier AS uniqueID,
@@ -450,7 +459,8 @@ class  HomeController extends Controller
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+	                                    recipients.id AS recpID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
@@ -497,7 +507,8 @@ class  HomeController extends Controller
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+	                                    recipients.id AS recpID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
@@ -545,25 +556,26 @@ class  HomeController extends Controller
                     $filtered[] = DB::select("
                                     SELECT
                                         *,
+                                        documents.created_at AS document_created_at,
                                         files.CODE AS fileCode,
                                         departments.NAME AS depName,
                                         documents.document_unique_identifier AS uniqueID,
                                         document_types.CODE AS docCode,
-                                        documents.id AS docuID
+                                        documents.id AS docuID,
+                                        recipients.id AS recipientID
                                     FROM
                                         recipients
                                         INNER JOIN documents ON recipients.document_id = documents.id
                                         INNER JOIN files ON documents.file_id = files.id
                                         INNER JOIN departments ON documents.department_id = departments.id
                                         INNER JOIN document_types ON documents.document_type_id = document_types.id
-                                    	LEFT JOIN archives ON documents.id = archives.document_id
+                                        LEFT JOIN archives ON documents.id = archives.document_id
                                     WHERE
-                                        recipients.NAME = '$userDepName'
+                                        recipients.name = '$userDepName'
                                         AND recipients.STATUS IS NULL
                                         AND archives.document_id IS NULL
                                         AND recipients.deleted_at IS NULL
                                     ");
-
                     $readQuery[] = DB::select("
                                     SELECT
                                         *,

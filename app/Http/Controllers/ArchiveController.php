@@ -19,9 +19,29 @@ class ArchiveController extends Controller
     public function index()
     {
         $userDepID = Auth::user()->department_id;
-        $archives = Archive::with('document.user','document.attachments', 'document.recipients', 'document.file', 'document.documentType', 'document.department', 'document.classification')->join('documents', 'archives.document_id', '=', 'documents.id')
-           ->where('user_id',Auth::id())
-            ->get();
+        $userID = Auth::id();
+        $archives = DB::select("
+                                     SELECT
+                                        archives.*,
+                                        documents.*,
+                                        users.userID AS userID,
+                                        users.name as userName,
+                                        classifications.name as classficationName,
+                                        files.name as fileName,
+                                        files.code as fileCode,
+                                        departments.name as departmentName,
+                                        document_types.`name` as docTypeName
+                                    FROM
+                                        archives
+                                        JOIN documents ON archives.document_id = documents.id
+                                        JOIN users ON users.userID = archives.user_id
+                                        join classifications on classifications.id = documents.classification_id
+                                        join files on files.id = documents.file_id
+                                        join departments on departments.id = documents.department_id
+                                        join document_types on document_types.id = documents.document_type_id
+                                    WHERE
+                                        users.userID = $userID
+                                        AND documents.deleted_at is null");
         return view('archives.index',compact('archives'));
     }
 
