@@ -92,10 +92,10 @@
 
                 <div class="col-12 mt-1">
                     <label class="form-label required">{{ __('Body') }}</label>
-                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>
-{{--                    <input type="hidden" name="editor_content" id="editor_content">--}}
-{{--                    <div id="toolbar-container"></div>--}}
-{{--                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>--}}
+{{--                    <textarea name="body" id="body" class="form-control"> {{ old('body') }}</textarea>--}}
+                    <input type="hidden" name="editor_content" id="editor_content">
+                    <div id="toolbar-container"></div>
+                    <div id="editor" style="height: 20em; border-color: #9D9999"></div>
                 </div>
                 @if($errors->has('body'))
                     <div class="text-danger">
@@ -357,9 +357,9 @@
 @endsection
 @section('js')
     <script>
-        $(document).ready(function() {
-            CKEDITOR.replace('body');
-        });
+        // $(document).ready(function() {
+        //     CKEDITOR.replace('body');
+        // });
 
             $(document).ready(function() {
                 $('form').submit(function(event) {
@@ -369,12 +369,12 @@
                     $('#docStore').submit()
                 });
 
-                // $('#previewSubmit').click(function (){
-                //     $('table').css('border', '1px solid black');
-                //     var editorContent = window.editor.getData();
-                //     $('#editor_content').val(editorContent);
-                //     $('#docStore').submit();
-                // });
+                $('#previewSubmit').click(function (){
+                    $('table').css('border', '1px solid black');
+                    var editorContent = window.editor.getData();
+                    $('#editor_content').val(editorContent);
+                    $('#docStore').submit();
+                });
             });
 
             $(document).ready(function() {

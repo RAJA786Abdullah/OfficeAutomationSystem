@@ -246,6 +246,7 @@
         //DataTables
         $('table.display').DataTable({
             "ordering": false,
+            dom: 'lBfrtip',
             "pageLength": 50,
             "initComplete": function(settings, json) {
                 // Apply custom styles after DataTable is initialized

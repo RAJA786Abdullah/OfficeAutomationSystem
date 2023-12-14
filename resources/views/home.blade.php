@@ -40,11 +40,24 @@
 
         {{-- Tabs   --}}
     <div class="col-md-12">
-        <div class="row d-flex justify-content-center mb-2">
-{{--            <div class="col-md-4 col-sm-3 me-5">--}}
-{{--                <input type="text" class="form-control" name="searchFilter" id="searchFilter">--}}
-{{--            </div>--}}
+
+        <div class="row d-flex justify-content-left mb-2 d-none" id="filterSearch">
+            <div class="col-md-3 col-sm-3 me-5">
+                <form method="POST" action="{{ route('home.widgetFilter') }}" id="searchForm">
+                    @csrf
+                    <label for="">Directorate</label>
+                    <input type="hidden" name="filterData" id="filterData" value="">
+                    <select name="searchDirectorate" class="form-select" style="width: 100%">
+                        <option value="">Select Department</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->name }}">{{ $department->name }}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="mt-1 btn btn-sm btn-primary"><i class="fa fa-search"></i>Search</button>
+                </form>
+            </div>
         </div>
+
         <div class="card text-center mb-3">
             <div class="card-header pt-1">
                 <div class="accordion-header">
@@ -83,38 +96,70 @@
                                 </tr>
                                 </thead>
                                 <tbody id="allDataBody">
-                                @foreach($unreadDocs as $unreadDoc)
-                                    @php
-                                        $doc = \App\Models\Document::dashboardDocumentTitle($unreadDoc->id);
-                                        $count++;
-                                    @endphp
-                                    <tr>
+                                @if(!empty($filtered))
+                                    @foreach($filtered as $data)
+                                        @foreach($data as $rec)
+                                        @php
+                                            $doc = \App\Models\Document::dashboardDocumentTitle($rec->docuID);
+                                            $count++;
+                                        @endphp
+                                        <tr>
+                                            <td><span class="">{{ $count }}</span></td>
+                                            <td>
+                                            <span style="padding-left: 10px" >
+                                                <b>
+                                                    <a href="" class="text-primary text-decoration-none" onclick="updateStatus({{$rec->recipientID }}, {{ $rec->status }})">
+                                                        {{ $doc['subject']   }} - {{ $doc['docTitle'] }}
+                                                    </a>
+                                                </b>
+                                            </span>
+                                            @if($rec->status == 1)
+                                                <span style="padding-left: 10px; color: #0e0f12" class="badge">New</span>
+                                            @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('docShowReceived', $rec->docuID) }}" class="text-primary text-decoration-none" data-toggle="tooltip" title="Show"><i class="fa fa-eye"></i></a>
+                                                <button type="button" class="btn btn-sm btn-warning" onclick="archive({{$rec->docuID}})" data-doc-id="{{$rec->docuID}}" style="color: white; padding: 4px; margin-right: 5px" data-toggle="tooltip" title="Archive">
+                                                    <i class="fa fa-archive"></i>
+                                                </button>
 
-                                    <td><span class="">{{ $count }}</span></td>
-                                    <td>
-                                        <span style="padding-left: 10px" >
-                                            <b>
-{{--                                                <a href="{{ route('docShow', $unreadDoc->id) }}" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">--}}
-                                                <a href="" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">
-                                                    {{ $doc['subject']   }} - {{ $doc['docTitle'] }}
-                                                </a>
-                                            </b>
-                                        </span>
-                                        @if($unreadDoc->status == 1)
-                                            <span style="padding-left: 10px; color: #0e0f12" class="badge">New</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <form action="{{ route('printDocument') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="documentID" value="{{ $unreadDoc->id }}">
-                                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    </tr>
-                                @endforeach
+                                            </td>
+                                        </tr>
+                                      @endforeach
+                                    @endforeach
+                                @else
+                                    @foreach($unreadDocs as $unreadDoc)
+                                        @php
+                                            $doc = \App\Models\Document::dashboardDocumentTitle($unreadDoc->id);
+                                            $count++;
+                                        @endphp
+                                        <tr>
+
+                                        <td><span class="">{{ $count }}</span></td>
+                                        <td>
+                                            <span style="padding-left: 10px" >
+                                                <b>
+                                                    <a href="" class="text-primary text-decoration-none" onclick="updateStatus({{$unreadDoc->recipientID }}, {{ $unreadDoc->status }})">
+                                                        {{ $doc['subject']   }} - {{ $doc['docTitle'] }}
+                                                    </a>
+                                                </b>
+                                            </span>
+                                            @if($unreadDoc->status == 1)
+                                                <span style="padding-left: 10px; color: #0e0f12" class="badge">New</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <form action="{{ route('printDocument') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="documentID" value="{{ $unreadDoc->id }}">
+                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>&ensp;Print</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -233,11 +278,14 @@
         });
 
         function widgetFilter(filterData){
+
             if (filterData === 'received' || filterData === 'unread' || filterData === 'read' ) {
                 $('#receivedBtn').removeClass('d-none');
             } else {
                 $('#receivedBtn').addClass('d-none');
             }
+
+
             $('#widgetName').html(filterData.toUpperCase());
             var strHTML = '';
             $.ajax({
@@ -248,6 +296,19 @@
                     filterData: filterData,
                 },
                 success: function (data) {
+
+                    if (filterData === 'received' || filterData === 'read' || filterData === 'unread') {
+                        var isConditionTrue = true;
+                        if (isConditionTrue) {
+                            $('#filterData').val(filterData);
+                            $('#filterSearch').removeClass('d-none');
+                        } else {
+                            $('#filterSearch').addClass('d-none');
+                        }
+                    }else{
+                        $('#filterSearch').addClass('d-none');
+                    }
+
                     $('#readCount').html(data.read);
                     if (data.filtered[0] === 'unread'){
                         location.reload();
