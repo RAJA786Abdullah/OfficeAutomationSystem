@@ -45,6 +45,7 @@ class DocumentController extends Controller
         $depID =  Auth::user()->department_id;
         $user = User::where('userID', $userID)->first();
         $dept_id = $user->department_id;
+        $departmentName = Department::where('id', $dept_id)->pluck('name')->first();
         $authorizedUsers = User::where('department_id', $dept_id)->where('is_signing_authority', 1)->get();
         $classifications = Classification::all();
         $documentTypes = DocumentType::all();
@@ -55,12 +56,13 @@ class DocumentController extends Controller
         $executiveOffices = User::whereHas('roles', function ($q) {
             $q->where('roleName', 'Executive');
         })->get();
-        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents','executiveOffices'));
+        return view('documents.create', compact('classifications','documentTypes', 'files', 'departments', 'users', 'authorizedUsers','documents','executiveOffices','departmentName'));
     }
 
     public function preview(Request $request)
     {
         $document = $request->all();
+
         $previewData = array();
         $previewData['classification'] = strtoupper(Classification::where('id',$document['classification_id'])->pluck('name')->first());
         $departmentNumber =  DocumentType::where('id',$document['document_type_id'])->pluck('code')->first();
@@ -73,9 +75,8 @@ class DocumentController extends Controller
         $previewData['signing_authority'] = User::where('userID',$document['signing_authority_id'])->where('is_signing_authority',1)->pluck('name')->first();
         $previewData['to'] = $document['to'];
         $previewData['info'] = $document['info'];
-        $departmentName = $previewData['department_name'];
+        $departmentName = $document['department_name'];
         $previewData['officeCopy'] = Auth::user()->department?->name;
-//        $ionNumber = $query->document_unique_identifier;
         $ionNumber = '...';
         $createdAt = date('d M Y', strtotime(Carbon::now()));
         $previewData['documentTitle'] = "$departmentNumber/$fileNumber/$ionNumber/$departmentName dated $createdAt";
@@ -88,13 +89,9 @@ class DocumentController extends Controller
         if(strpos($table, '<td>') !== false){
             $table = str_replace('<td>', '<td style="border: 1px solid black">', $table);
         }
-
-
         try {
-
             $userID = Auth::id();
             $lastDocument = Document::where('department_id', Auth::user()->department_id)->latest()->first();
-//            dd($lastDocument);
             if ($lastDocument) {
                 $dui = ++$lastDocument->document_unique_identifier;
             }
@@ -112,8 +109,6 @@ class DocumentController extends Controller
                 'document_type_id' => $request->input('document_type_id'),
                 'file_id' => $request->input('file_id'),
                 'subject' => $request->input('subject'),
-//                'body' => $table,
-//                'body' => $request->input('body'),
                 'body' => $request->input('editor_content'),
                 'signing_authority_id' => $request->input('signing_authority_id'),
                 'created_by' => $userID,

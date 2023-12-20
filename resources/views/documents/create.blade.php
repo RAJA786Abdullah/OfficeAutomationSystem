@@ -56,7 +56,7 @@
                                 @endif
                             @endforeach
                         </select>
-                        <input type="hidden" name="department_name" value="{{ $documentType?->department->name }}">
+                        <input type="hidden" name="department_name" value="{{ $departmentName }}">
                     </div>
                     @if($errors->has('document_type_id'))
                         <div class="text-danger">
@@ -511,10 +511,12 @@
                     } else {
                         fieldValue = $(this).val();
                     }
+
                     if (fieldName && fieldValue !== undefined) {
                         formData[fieldName] = fieldValue;
                     }
                 });
+
                 $.ajax({
                     url: '{{route("documents.preview")}}',
                     method: 'post',

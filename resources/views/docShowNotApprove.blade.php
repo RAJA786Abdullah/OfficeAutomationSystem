@@ -30,7 +30,7 @@
                     <h3 class="text-center">{{strtoupper($document->classification->name)}}</h3>
                     <h3 class="text-center">{{strtoupper($document->documentType->name)}}</h3>
                     <h3 class="text-center">{{strtoupper($document->department->name) }}</h3>
-                    <h3 class="mb-1 mt-1">Subj: <u><b> {{ $document->subject }} </b></u></h3>
+                    <h3 class="mb-1 mt-1">Subj: <u><b> {{ strtoupper($document->subject) }} </b></u></h3>
 
                     <dl class="row">
                         <div class="col-md-12">
@@ -38,11 +38,18 @@
                         </div>
                     </dl>
                     <dl class="row">
-                        <div class="col-6 text-left mt-2">
-                            <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
+                        <div class="col-6 text-center mt-2"> <!-- Use text-center class to center the text -->
+                            <b><h4>{{\App\Models\Document::documentTitle($document->id)}}</h4></b>
                         </div>
                     </dl>
-                    <dl class="row mt-3">
+
+                    <dl class="row">
+                        <div class="text-left mt-2"> <!-- Use text-center class to center the text -->
+                            <dd><h4>Signing Authority : {{ \App\Models\User::where('userID', $document->signing_authority_id)->pluck('name')->first() }}</h4></dd>
+                        </div>
+                    </dl>
+
+                    <dl class="row mt-2">
                         @php $is_info=0; @endphp
                         <div class="col-md-12">
                             @php $is_info=0; @endphp
@@ -104,7 +111,6 @@
                                     <label class="form-label required text-black mb-2 fs-5">{{ __('Send To') }}</label>
                                     <input type="hidden" name="toUser_id" value="{{ $document->created_by }}" >
                                     <p>{{ $document->user->name }}</p>
-
                                     <button type="submit" class="mt-4 btn btn-primary">{{ __('Send') }}</button>
                                 </div>
                             </div>

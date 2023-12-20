@@ -38,9 +38,8 @@
     </div>
 
 
-        {{-- Tabs   --}}
     <div class="col-md-12">
-
+        {{-- Search Filter for directorate......   --}}
         <div class="row d-flex justify-content-left mb-2 d-none" id="filterSearch">
             <div class="col-md-3 col-sm-3 me-5">
                 <form method="POST" action="{{ route('home.widgetFilter') }}" id="searchForm">
@@ -58,12 +57,11 @@
             </div>
         </div>
 
+        {{-- Tabs   --}}
         <div class="card text-center mb-3">
             <div class="card-header pt-1">
                 <div class="accordion-header">
-                    <h4 id="widgetName">
-
-                    </h4>
+                    <h4 id="widgetName"></h4>
                 </div>
                 <ul class="nav nav-tabs card-header-tabs d-none" role="tablist" id="receivedBtn">
                     <li class="nav-item" role="presentation">
@@ -77,7 +75,6 @@
                         </button>
                     </li>
                 </ul>
-
             </div>
             <div class="card-body">
                 <div class="tab-content p-0">
@@ -95,6 +92,9 @@
                                     <th class="wd-25p">Actions</th>
                                 </tr>
                                 </thead>
+                                @if(isset($noData) AND $noData == 0)
+                                    <h3><b> No Data Found </b></h3>
+                                @endif
                                 <tbody id="allDataBody">
                                 @if(!empty($filtered))
                                     @foreach($filtered as $data)
@@ -127,7 +127,7 @@
                                         </tr>
                                       @endforeach
                                     @endforeach
-                                @else
+                                @elseif($unreadDocs)
                                     @foreach($unreadDocs as $unreadDoc)
                                         @php
                                             $doc = \App\Models\Document::dashboardDocumentTitle($unreadDoc->id);
@@ -160,6 +160,7 @@
                                         </tr>
                                     @endforeach
                                 @endif
+
                                 </tbody>
                             </table>
                         </div>
@@ -296,7 +297,6 @@
                     filterData: filterData,
                 },
                 success: function (data) {
-
                     if (filterData === 'received' || filterData === 'read' || filterData === 'unread') {
                         var isConditionTrue = true;
                         if (isConditionTrue) {
@@ -314,8 +314,8 @@
                         location.reload();
                     }
                     else {
+                        $('#allDataBody tr').hide();
                         if (data.filtered !== '') {
-                            $('#allDataBody tr').hide();
                             data.filtered.forEach(function (value) {
                                 value.forEach(function (v){
                                     var createdDate = new Date(v.document_created_at);
@@ -327,7 +327,6 @@
                                     var link;
 
                                     if (filterData === 'notApproved') {
-                                        // Customize the link structure for notApproved
                                         link = '<a href="{{ route('docShowNotApprove','') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>';
@@ -337,7 +336,6 @@
                                             '</a>';
                                     }
                                     else {
-                                        // Default link structure
                                         link = '<a href="{{ route('docShow', '') }}/' + v.docuID + '" class="text-primary text-decoration-none" onclick="updateStatus('+v.recpID+')">' +
                                             v.subject + ' - ' + v.docCode + '/' + v.fileCode + '/' + v.uniqueID + '/' + v.depName + ' dated ' + formattedDate +
                                             '</a>';
@@ -384,6 +382,9 @@
                                 });
                             });
                             $('#allDataBody').append(strHTML);
+                        }
+                        else{
+                            $('#allDataBody').append('<tr><td></td><td>No data available</td><td></td></tr>');
                         }
                     }
                 },

@@ -41,11 +41,18 @@
                         </div>
                     </dl>
                     <dl class="row">
-                        <div class="col-6 text-left mt-2">
+                        <div class="text-center mt-2">
                             <b> <h4> {{\App\Models\Document::documentTitle($document->id)}} </h4></b>
                         </div>
                     </dl>
-                    <dl class="row mt-3">
+
+                    <dl class="row">
+                        <div class="text-left mt-2"> <!-- Use text-center class to center the text -->
+                          <dd><h4>Signing Authority : {{ \App\Models\User::where('userID', $document->signing_authority_id)->pluck('name')->first() }}</h4></dd>
+                        </div>
+                    </dl>
+
+                    <dl class="row mt-2">
                         @php $is_info=0; @endphp
                         <div class="col-md-12">
                             @php $is_info=0; @endphp

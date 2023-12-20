@@ -20,10 +20,10 @@ class  HomeController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $departments = Department::all();
         $authID = Auth::id();
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
+        $departments = Department::where('id', '!=', $userDepID)->get();
         $unreadDocs = DB::select("
                     SELECT
                         *,
@@ -112,7 +112,31 @@ class  HomeController extends Controller
                                         ");
         $sent = count($sent);
 
-        $draft = Document::where('department_id','=',$userDepID)->where('is_draft',1)->where('created_by',Auth::id())->get();
+        $draft = DB::select("
+                                SELECT
+                                    *,
+                                    documents.created_at as document_created_at,
+                                    files.code as fileCode,
+                                    departments.name as depName,
+                                    documents.document_unique_identifier as uniqueID,
+                                    documents.created_at as created_at,
+                                    document_types.code as docCode,
+                                    documents.id as docuID
+                                FROM documents
+                                    INNER JOIN files on documents.file_id = files.id
+                                    INNER JOIN departments on documents.department_id = departments.id
+                                    INNER JOIN document_types on documents.document_type_id= document_types.id
+                                    LEFT JOIN archives ON documents.id = archives.document_id
+                                WHERE
+                                    documents.out_dept IS NULL
+                                    AND documents.department_id = '$userDepID'
+                                    AND documents.is_draft = '1'
+                                    AND archives.document_id IS NULL
+                                    AND documents.created_by = $authID
+                                    AND documents.deleted_at IS NULL
+                                ORDER BY documents.id DESC");
+
+//            Document::where('department_id','=',$userDepID)->where('is_draft',1)->where('created_by',Auth::id())->get();
         $draft = count($draft);
 
         $dirRemarks = DB::select("
@@ -157,10 +181,11 @@ class  HomeController extends Controller
     public function widgetFilter(Request $request){
 
         abort_if(Gate::denies('dashboard_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $authID = Auth::id();
         $userDepName = Auth::user()->department?->name;
         $userDepID = Auth::user()->department_id;
-        $notApproved = $unread = $read = $received = $draft = $sent = 0;
+        $notApproved = $unread = $read = $dirRemarks = $received = $draft = $sent = 0;
 
         $filtered = [];
         if($request['filterData']){
@@ -169,28 +194,62 @@ class  HomeController extends Controller
 
             switch ($filterData){
                 case('unread'):
+                    $query = "
+                            SELECT
+                                *,
+                                documents.created_at AS document_created_at,
+                                files.CODE AS fileCode,
+                                departments.NAME AS depName,
+                                documents.document_unique_identifier AS uniqueID,
+                                document_types.CODE AS docCode,
+                                documents.id AS docuID,
+                                recipients.id AS recipientID,
+                                recipients.STATUS AS STATUS
+                            FROM recipients
+                                INNER JOIN documents ON recipients.document_id = documents.id
+                                INNER JOIN files ON documents.file_id = files.id
+                                INNER JOIN departments ON documents.department_id = departments.id
+                                INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                LEFT JOIN archives ON documents.id = archives.document_id
+                            WHERE
+                                recipients.NAME = 'ICT DTE'
+                                AND recipients.STATUS IS NULL
+                                AND archives.document_id IS NULL
+                                AND recipients.deleted_at IS NULL
+                            ";
+                    if($searchDirectorate) {
+                        $query .= "AND departments.name = '$searchDirectorate'";
+                    }
+                    $query .= 'ORDER BY documents.id DESC';
+                    $filtered[] = DB::select($query);
+                    $unread = count($filtered[0]);
 
-                    $filtered[] = DB::select("
-                                     SELECT
-                                        *,
-                                        documents.created_at as document_created_at,
-                                        files.CODE AS fileCode,
-                                        departments.NAME AS depName,
-                                        documents.document_unique_identifier AS uniqueID,
-                                        document_types.CODE AS docCode,
-                                        documents.id AS docuID
-                                    FROM
-                                        recipients
-                                        INNER JOIN documents ON recipients.document_id = documents.id
-                                        INNER JOIN files ON documents.file_id = files.id
-                                        INNER JOIN departments ON documents.department_id = departments.id
-                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
-                                        LEFT JOIN archives ON documents.id = archives.document_id
-                                    WHERE
-                                        recipients.NAME = '$userDepName'
-                                        AND recipients.STATUS IS NULL
-                                        AND archives.document_id IS NULL
-                                        AND recipients.deleted_at IS NULL");
+
+
+
+//                    $filtered[] = DB::select("
+//                                     SELECT
+//                                        *,
+//                                        documents.created_at as document_created_at,
+//                                        files.CODE AS fileCode,
+//                                        departments.NAME AS depName,
+//                                        documents.document_unique_identifier AS uniqueID,
+//                                        document_types.CODE AS docCode,
+//                                        documents.id AS docuID
+//                                    FROM
+//                                        recipients
+//                                        INNER JOIN documents ON recipients.document_id = documents.id
+//                                        INNER JOIN files ON documents.file_id = files.id
+//                                        INNER JOIN departments ON documents.department_id = departments.id
+//                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+//                                        LEFT JOIN archives ON documents.id = archives.document_id
+//                                    WHERE
+//                                        recipients.NAME = '$userDepName'
+//                                        AND recipients.STATUS IS NULL
+//                                        AND archives.document_id IS NULL
+//                                        AND recipients.deleted_at IS NULL
+//                                    ORDER BY documents.id DESC
+//                                    ");
                     $readQuery[] = DB::select("
                                     SELECT
                                         *,
@@ -213,9 +272,14 @@ class  HomeController extends Controller
                                         AND archives.document_id IS NULL
                                         AND documents.deleted_at IS NULL
                                     ");
+
                     $read = count($readQuery[0]);
-                    $unread = count($filtered);
                     break;
+//                    $unread = count($filtered);
+//                    $read = count($readQuery[0]);
+//                    $read = count($filtered[0]);
+//                    $unread = count($filtered);
+//                    break;
 
                 case('read'):
                     $query = "
@@ -240,12 +304,15 @@ class  HomeController extends Controller
                                 recipients.name = '$userDepName'
                                 AND recipients.status IS NOT NULL
                                 AND archives.document_id IS NULL
-                                AND documents.deleted_at IS NULL";
+                                AND documents.deleted_at IS NULL
+                            ";
 
                     if ($searchDirectorate) {
                         $query .= " AND departments.name = '$searchDirectorate'";
+                        $query .= 'ORDER BY documents.id DESC';
                         $filtered[] = DB::select($query);
                     } else {
+                        $query .= 'ORDER BY documents.id DESC';
                         $filtered[] = DB::select($query);
                     }
                     $read = count($filtered[0]);
@@ -280,7 +347,6 @@ class  HomeController extends Controller
 //                    dd($filtered);
 //                    break;
 
-
                 case('notApproved'):
                     $filtered[] = DB::select("
                                     SELECT
@@ -306,34 +372,69 @@ class  HomeController extends Controller
                                           AND documents.is_draft != '1'
                                           AND archives.document_id IS NULL
                                           AND documents.deleted_at IS NULL
+                                         ORDER BY documents.id DESC
                                         ");
                     $notApproved = count($filtered);
                     break;
 
                 case('received'):
-                    $filtered[] = DB::select("
-                                    SELECT
-                                        *,
-                                        documents.created_at as document_created_at,
-                                        files.CODE AS fileCode,
-                                        departments.NAME AS depName,
-                                        documents.document_unique_identifier AS uniqueID,
-                                        document_types.CODE AS docCode,
-                                        documents.id AS docuID,
-                                        recipients.id AS recipientID
-                                    FROM
-                                        recipients
-                                        INNER JOIN documents ON recipients.document_id = documents.id
-                                        INNER JOIN files ON documents.file_id = files.id
-                                        INNER JOIN departments ON documents.department_id = departments.id
-                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
-                                    	LEFT JOIN archives ON documents.id = archives.document_id
-                                    WHERE
-                                        recipients.NAME = '$userDepName'
-                                        AND recipients.STATUS IS NULL
-                                        AND archives.document_id IS NULL
-                                        AND recipients.deleted_at IS NULL
-                                    ");
+                    $query = "
+                            SELECT
+                                *,
+                                documents.created_at as document_created_at,
+                                files.CODE AS fileCode,
+                                departments.NAME AS depName,
+                                documents.document_unique_identifier AS uniqueID,
+                                document_types.CODE AS docCode,
+                                documents.id AS docuID,
+                                recipients.id AS recipientID
+                            FROM
+                                recipients
+                                INNER JOIN documents ON recipients.document_id = documents.id
+                                INNER JOIN files ON documents.file_id = files.id
+                                INNER JOIN departments ON documents.department_id = departments.id
+                                INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                LEFT JOIN archives ON documents.id = archives.document_id
+                            WHERE
+                                recipients.NAME = '$userDepName'
+                                AND recipients.STATUS IS NULL
+                                AND archives.document_id IS NULL
+                                AND recipients.deleted_at IS NULL
+                            ";
+
+                    if ($searchDirectorate) {
+                        $query .= " AND departments.name = '$searchDirectorate'";
+                        $query .= 'ORDER BY documents.id DESC';
+                        $filtered[] = DB::select($query);
+                    } else {
+                        $query .= 'ORDER BY documents.id DESC';
+                        $filtered[] = DB::select($query);
+                    }
+//                    $received = count($filtered);
+//                    $filtered[] = DB::select("
+//                                    SELECT
+//                                        *,
+//                                        documents.created_at as document_created_at,
+//                                        files.CODE AS fileCode,
+//                                        departments.NAME AS depName,
+//                                        documents.document_unique_identifier AS uniqueID,
+//                                        document_types.CODE AS docCode,
+//                                        documents.id AS docuID,
+//                                        recipients.id AS recipientID
+//                                    FROM
+//                                        recipients
+//                                        INNER JOIN documents ON recipients.document_id = documents.id
+//                                        INNER JOIN files ON documents.file_id = files.id
+//                                        INNER JOIN departments ON documents.department_id = departments.id
+//                                        INNER JOIN document_types ON documents.document_type_id = document_types.id
+//                                    	LEFT JOIN archives ON documents.id = archives.document_id
+//                                    WHERE
+//                                        recipients.NAME = '$userDepName'
+//                                        AND recipients.STATUS IS NULL
+//                                        AND archives.document_id IS NULL
+//                                        AND recipients.deleted_at IS NULL
+//                                     ORDER BY documents.id DESC
+//                                    ");
                     $readQuery[] = DB::select("
                                     SELECT
                                         *,
@@ -353,8 +454,9 @@ class  HomeController extends Controller
                                     WHERE
                                         recipients.name = '$userDepName'
                                         AND recipients.status IS NOT NULL
-                                      AND archives.document_id IS NULL
-                                      AND documents.deleted_at IS NULL
+                                        AND archives.document_id IS NULL
+                                        AND documents.deleted_at IS NULL
+                                    ORDER BY documents.id DESC
                                     ");
                     $read = count($readQuery[0]);
                     $received = count($filtered);
@@ -382,7 +484,9 @@ class  HomeController extends Controller
                                           AND documents.out_dept != ''
                                           AND archives.document_id IS NULL
                                           AND documents.deleted_at IS NULL
+                                        ORDER BY documents.id DESC
                                         ");
+
                     $sent = count($filtered);
                     break;
 
@@ -409,7 +513,9 @@ class  HomeController extends Controller
                                       AND documents.is_draft = '1'
                                       AND archives.document_id IS NULL
                                       AND documents.created_by = $authID
-                                      AND documents.deleted_at IS NULL");
+                                      AND documents.deleted_at IS NULL
+                                    ORDER BY documents.id DESC
+                                      ");
                     $draft = count($filtered);
                     break;
 
@@ -424,20 +530,19 @@ class  HomeController extends Controller
                                             documents.created_at AS created_at,
                                             document_types.CODE AS docCode,
                                             documents.id AS docuID
-                                            FROM
-                                            documents
-                                            INNER JOIN files ON documents.file_id = files.id
-                                            INNER JOIN departments ON documents.department_id = departments.id
-                                            INNER JOIN document_types ON documents.document_type_id = document_types.id
-                                            LEFT JOIN archives ON documents.id = archives.document_id
-                                            WHERE
-                                            documents.in_dept = '$authID'
-                                            AND documents.out_dept IS NULL
-                                            AND documents.department_id = '$userDepID'
-                                            AND documents.is_draft != '1'
-                                            AND archives.document_id IS NULL
-                                            AND documents.signing_authority_id != '$authID'
-                                            AND documents.deleted_at IS NULL
+                                            FROM documents
+                                                INNER JOIN files ON documents.file_id = files.id
+                                                INNER JOIN departments ON documents.department_id = departments.id
+                                                INNER JOIN document_types ON documents.document_type_id = document_types.id
+                                                LEFT JOIN archives ON documents.id = archives.document_id
+                                            WHERE documents.in_dept = '$authID'
+                                                AND documents.out_dept IS NULL
+                                                AND documents.department_id = '$userDepID'
+                                                AND documents.is_draft != '1'
+                                                AND archives.document_id IS NULL
+                                                AND documents.signing_authority_id != '$authID'
+                                                AND documents.deleted_at IS NULL
+                                            ORDER BY documents.id DESC
                                       ");
                     $draft = count($filtered);
                     break;
@@ -459,7 +564,12 @@ class  HomeController extends Controller
                                         AND documents.out_dept != ''
                                         AND documents.deleted_at IS NULL");
             $unread = count($unreadDocs);
-            return view('home', compact('unread','notApproved', 'received','read', 'sent', 'draft', 'filtered', 'departments', 'unreadDocs'));
+            if (count($filtered) > 0){
+                $noData = 1;
+            }else{
+                $noData = 0;
+            }
+            return view('home', compact('unread','notApproved', 'received','read', 'sent', 'draft', 'filtered', 'departments', 'unreadDocs', 'dirRemarks','noData' ));
         }else {
             return response()->json(
                 [
