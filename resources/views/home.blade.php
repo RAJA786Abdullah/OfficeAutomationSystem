@@ -44,7 +44,7 @@
             <div class="col-md-3 col-sm-3 me-5">
                 <form method="POST" action="{{ route('home.widgetFilter') }}" id="searchForm">
                     @csrf
-                    <label for="">Directorate</label>
+                    <label for="filter">Directorate</label>
                     <input type="hidden" name="filterData" id="filterData" value="">
                     <select name="searchDirectorate" class="form-select" style="width: 100%">
                         <option value="">Select Department</option>

@@ -357,9 +357,9 @@
 @endsection
 @section('js')
     <script>
-        // $(document).ready(function() {
-        //     CKEDITOR.replace('body');
-        // });
+        $(document).ready(function() {
+            CKEDITOR.replace('body');
+        });
 
             $(document).ready(function() {
                 $('form').submit(function(event) {
